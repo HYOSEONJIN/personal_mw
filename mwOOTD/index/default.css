@@ -1,0 +1,70 @@
+/*
+
+기본 파란색 : #64c2eb
+진한 파란색 : #30b0e7
+기본 회색 : #757575
+진한 회색 : #424242
+바탕 아주 옅은 회색 : #f5f5f5
+강조 컬러 빨강 : #ee7f7b
+강조 컬러 노랑 : #ffd74e
+
+*/
+
+/*한글*/
+/*font-family: 'Nanum Gothic', sans-serif;*/
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+
+
+/*영문*/
+@font-face {
+    font-family: 'Bebas Neue Book';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Bebas Neue Book'), url('BebasNeue Book.woff') format('woff');
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    background-color: red;
+}
+
+header {
+    background-color: #64c2eb;
+    height: 70px;
+    float: left;
+    width: 100%;
+
+}
+
+footer {
+    background-color: white;
+    height: 90px;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+}
+
+.logoimage {
+    margin-top: 8px;
+    margin-left: 20px;
+
+}
+
+
+.mypage_table {
+    padding: 0px;
+    float: right;
+    margin-right: 15px;
+    margin-top: 20px;
+    text-align: center;
+    color: #f5f5f5;
+    font-family: 'Bebas Neue Book';
+    font-size: 14px;
+    font-weight: 500;
+}
