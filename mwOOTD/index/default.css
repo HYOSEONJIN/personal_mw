@@ -26,45 +26,59 @@
 * {
     padding: 0;
     margin: 0;
+    background-color: #f5f5f5;
+    color: #757575;
+    font-family: 'Nanum Gothic', sans-serif;
 }
 
 body {
     padding: 0;
     margin: 0;
-    background-color: red;
 }
 
 header {
     background-color: #64c2eb;
-    height: 70px;
+    height: 75px;
     float: left;
     width: 100%;
 
 }
 
 footer {
-    background-color: white;
-    height: 90px;
+    background-color: #ffffff;
+    height: 60px;
     position: absolute;
     bottom: 0px;
     width: 100%;
+    
 }
+
+
 
 .logoimage {
-    margin-top: 8px;
+    margin-top: 10px;
     margin-left: 20px;
-
+    background-color: #64c2eb;
 }
 
+.contents{
+    width: 100%;
+    height: 50%;    
+}
 
-.mypage_table {
-    padding: 0px;
-    float: right;
-    margin-right: 15px;
-    margin-top: 20px;
-    text-align: center;
-    color: #f5f5f5;
-    font-family: 'Bebas Neue Book';
-    font-size: 14px;
-    font-weight: 500;
+.footer_menu_table{
+    text-align: center;    
+    margin: 10px auto;
+    background-color: #ffffff;
+    font-weight: bold;
+    
+}
+.footer_menu_table tr td{
+    width: 60px;
+    padding : 0 10px ;
+    background-color: #ffffff;font-size : 10px;
+}
+
+.menuicons{
+    background-color: #ffffff;
 }
