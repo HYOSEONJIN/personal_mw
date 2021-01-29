@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>+WEATHER WEAR+</title>
 
-    <!--부트스트랩-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 
+
+    
+    
     <!--CSS 불러오기-->
     <link rel="stylesheet" href="default.css">
 
@@ -42,11 +43,11 @@
     <div class="content" id="content" name="content">
 
         <h1>리스트출력 페이지 테스트</h1>
-        <button type="button" class="btn btn-primary" class="regFormButton" data-toggle="modal" data-target="#exampleModal" data-what="hello">글쓰기버튼</button>
+        <button type="button" class="btn btn-primary" class="regFormButton" data-toggle="modal" data-target="#ootdRegModal" data-what="hello">글쓰기버튼</button>
 
 
         <!-- 모달팝업 -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="ootdRegModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -84,7 +85,7 @@
 
                             </form>
                         </div>
-                        <div class="modal-footer"> <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button> <button type="button" class="btn btn-primary"  onclick="reg()">등록</button> </div>
+                        <div class="modal-footer"> <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button> <button type="button" class="btn btn-primary" id="close_modal">등록</button> </div>
                     </div>
                 </div>
             </div>
@@ -124,5 +125,18 @@
         </table>
 
     </footer>
+    
+    
+    <script>
+    
+        
+$(document).ready(function () {
+    $("#close_modal").click(function () {
+        $("#ootdRegModal").modal("hide");
+
+    });
+});
+
+    </script>
 
 </body></html>

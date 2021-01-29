@@ -16,11 +16,7 @@ function ootdMain() {
 
 function reg(){
     
-     
 
-$('#exampleModal').on('hidden.bs.modal', function () {
-  // something
-})
 /*    var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
   keyboard: false
 });
