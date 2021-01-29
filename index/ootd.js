@@ -15,9 +15,15 @@ function ootdMain() {
 }
 
 function reg(){
-    var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+    
+     
+
+$('#exampleModal').on('hidden.bs.modal', function () {
+  // something
+})
+/*    var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
   keyboard: false
 });
     myModal.hide();
-    console.log('왜안돼');
+    console.log('왜안돼');*/
 }
