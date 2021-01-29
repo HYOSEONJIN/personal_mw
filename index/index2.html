@@ -8,8 +8,8 @@
 
 
 
-    
-    
+
+
     <!--CSS 불러오기-->
     <link rel="stylesheet" href="default.css">
 
@@ -85,7 +85,7 @@
 
                             </form>
                         </div>
-                        <div class="modal-footer"> <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button> <button type="button" class="btn btn-primary" id="close_modal">등록</button> </div>
+                        <div class="modal-footer"> <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button> <button type="button" class="btn btn-primary" id="close_modal" onclick="reg()">등록</button> </div>
                     </div>
                 </div>
             </div>
@@ -94,18 +94,8 @@
 
 
     </div>
-    
-        <script>
-    
-        
-$(document).ready(function () {
-    $("#close_modal").click(function () {
-        $("#ootdRegModal").modal("hide");
 
-    });
-});
 
-    </script>
 
     <footer>
 
@@ -137,8 +127,20 @@ $(document).ready(function () {
         </table>
 
     </footer>
-    
-    
 
+
+
+<!--
+    <script>
+
+
+
+                    $(document).ready(function() {
+                        $(".modal-footer").on('click', '#close_modal', function() {
+                            $("#ootdRegModal").modal("hide");
+
+                        });
+                    });
+    </script>-->
 
 </body></html>
