@@ -17,7 +17,8 @@ function ootdMain() {
 
 
 function reg() {
-    $(".modal-footer").on('click', '#close_modal', function () {
-                $("#ootdRegModal").modal("hide");
-});
+    //모달창끄기
+    $(".modal-footer").on('click', '#close_modal',function() {
+        $("#ootdRegModal").modal("hide");
+    });
 }
