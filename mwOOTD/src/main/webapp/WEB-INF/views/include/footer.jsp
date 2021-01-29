@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 	
+	
+	<c:url value="/list" var="ootd_list"/>
     <footer>
 
 		<table border="0" class="footer_menu_table">
@@ -18,7 +20,7 @@
 			</tr>
 			<tr>
 				<td>HOME</td>
-				<td>OOTD</td>
+				<td><a href="${ootd_list}">OOTD</a></td>
 				<td>CLOSET</td>
 				<td>MARKET</td>
 				<td>MY</td>
