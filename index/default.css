@@ -72,7 +72,7 @@ footer {
     margin: 5px auto;
     background-color: #ffffff;
     font-weight: bold;
-    
+    x
 }
 .footer_menu_table tr td{
     width: 70px;
@@ -82,4 +82,26 @@ footer {
 
 .menuicons{
     background-color: #ffffff;
+}
+
+.ootd_hashtag{
+    width: 33%;
+    overflow: hidden;
+    color : #ffffff;
+    float: left;
+    background-color: #64c2eb;
+    border: 2px solid #ffffff;
+    padding : 10px 10px;
+    text-align: center;
+}
+
+.ootd_hs{
+    padding-left: 5px;
+    overflow: hidden;
+}
+
+#ootd_text{
+    border: 1px solid #757575;
+    width: 100%;
+    height: 100px;
 }
