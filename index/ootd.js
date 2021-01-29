@@ -13,4 +13,11 @@ function ootdMain() {
     content.innerHTML = mainhtml;
 
 }
-// 모달 팝업 띄울 시 발생하는 이벤트 (이벤트명 : show.bs.modal)
+
+function reg(){
+    var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+  keyboard: false
+});
+    myModal.hide();
+    console.log('왜안돼');
+}
