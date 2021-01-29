@@ -21,12 +21,9 @@ public class ootdMainController {
 
 	
 	
+	/* 전체 게시글 리스트 형식으로 보내주기 */
 	@GetMapping
 	public List<ootdBoard> oodtMain() {
-		
-		ootdBoard ootd = new ootdBoard();
-		
-		
 		return listService.getootdList();	
 	}
 

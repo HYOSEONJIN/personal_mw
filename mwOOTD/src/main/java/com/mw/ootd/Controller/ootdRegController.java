@@ -7,10 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/reg")
 public class ootdRegController {
-	/*
-	 * @GetMapping public String{
-	 * 
-	 * }
-	 */
+
+
+	public int ootdReg() {
+		int result = 1;
+		
+		
+		
+		return result;
+	}
 
 }
