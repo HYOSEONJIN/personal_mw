@@ -7,7 +7,7 @@
 			<tr>
 				<td><img src="image/icon/home2.png" width="30"
 					class="menuicons"></td>
-				<td><img src="image/icon/ootd.png" width="30" class="menuicons">
+				<td><img src="image/icon/ootd.png" width="30" class="menuicons" onclick="ootdMain()">
 				</td>
 				<td><img src="image/icon/closet.png" width="23"
 					class="menuicons"></td>

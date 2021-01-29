@@ -13,6 +13,7 @@
 <link rel="styleSheet" href="<c:url value="/css/default.css"/>">
 
 <%@ include file="/WEB-INF/views/include/basicset.jsp"%>
+ <script src="<c:url value="/js/ootd.js"/>"></script>
 
 </head>
 
@@ -20,7 +21,7 @@
 
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 
-	<div>
+	<div class="content" id="content" name="content">
        여기는 콘텐츠 영역입니다 각 페이지 별로 자유롭게 사용하세요~! 
 	</div>
 	
