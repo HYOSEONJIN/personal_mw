@@ -28,6 +28,7 @@ public class ootdRegController {
 			Model model			
 			) {
 		
+		System.out.println(ootd);
 		// 성공은0 만약에 사진이없다면 1, 글 내용이 없다면 2를 반환하고 알려줄 것.	
 		return 0;
 				//regService.ootdWrite(ootd, request);

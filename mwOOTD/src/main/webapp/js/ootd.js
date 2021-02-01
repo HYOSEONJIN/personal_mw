@@ -18,8 +18,12 @@ function ootdMain() {
     // 해시태그 리스트 불러오기
 
     mainhtml += hashtagName;
-
-    console.log(hashtagName)
+	
+    ///////가짜로넣어주는값 나중에 지우고 ootdMain()안에 넣어서 넘겨줘야함///////
+    mainhtml += '<input type="hidden" id="memidx" value="1"><input type="hidden" id="ootdnic" value="메이웨더TEST">';
+    console.log('ootdMain()안에 임시값있음 추후 삭제해야함');
+    /////////////////////////////////
+    
 
 
     mainhtml += '</div></div></form></div><div class="modal-footer"> <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button> <button type="button" class="btn btn-primary" id="close_modal" onclick="reg()">등록</button> </div></div></div></div></div></div>';
@@ -60,6 +64,12 @@ function reg() {
         var photoFile = $('#ootdphoto');
         var file1 = photoFile[0].files[0];
         console.log(file1);
+        console.log(file1.type);
+        console.log(typeof(file1.type));
+        
+        if(file1.type=='image/jpeg' || (file1.type=='image/png')){
+       
+
 
         var text = $('#ootdtext').val();
         console.log(text);
@@ -67,6 +77,10 @@ function reg() {
         var formData = new FormData();
         formData.append('ootdtext', $('#ootdtext').val());
         formData.append("ootdphoto", file1);
+        formData.append("memidx", $('#memidx').val());
+        formData.append("ootdnic", $('#ootdnic').val());
+        
+      
 
         $.ajax({
 
@@ -84,7 +98,7 @@ function reg() {
                     $("#ootdRegModal").modal("hide");
                     /////////// 원래 저장값 날려주는 처리 할 부분/////////////////
                 } else if (data == 1) {
-                    alert("사진은 필수항목입니다");
+                    alert("사진은 필수항목입니다. 정상적인 업로드를 부탁드립니다.");
                 } else if (data == 2) {
                     alert("내용을 입력해주세요");
                 } else {
@@ -97,7 +111,9 @@ function reg() {
 
         })
 
-
+	} else {
+		alert('JPG와 PNG파일만 첨부가능합니다');
+	}
 
     });
 }

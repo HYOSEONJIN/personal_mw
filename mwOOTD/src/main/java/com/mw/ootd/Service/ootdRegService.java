@@ -1,5 +1,7 @@
 package com.mw.ootd.Service;
 
+import java.io.File;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -21,6 +23,26 @@ public class ootdRegService {
 	public int ootdWrite(ootdBoard ootd, HttpServletRequest request) {
 		int result = 0;
 		// 성공은0 만약에 사진이없다면 1, 글 내용이 없다면 2를 반환하고 알려줄 것.
+		
+		
+		File newFile = null;;
+		String ootdphotoname = null;
+		
+		if(ootd.getOotdphoto() != null & !ootd.getOotdphoto().isEmpty()) {
+			
+			String uploadPath = "/fileupload/ootdimage";
+			String saveDirPath = request.getSession().getServletContext().getRealPath(uploadPath);
+			//새로운 파일이름 만들어주기
+			
+			
+		} else {
+			//정상적인 사진이 없을 경우
+			result = 1;
+		}
+		
+		
+		
+		
 		
 		
 		return result;
