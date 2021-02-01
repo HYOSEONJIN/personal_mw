@@ -37,10 +37,9 @@ function hashtagList() {
         url: 'http://localhost:8080/ootd/hashlist',
         type: 'GET',
         success: function (data) {
-            console.log(data);
-
-            for (var i = 1; i < 10; i++) {
-                hashtagName += '<div class="ootd_hashtag" id="ootd_hashtag' + i + '">' + data.hashtag + i + '</div>';
+                      for (var i = 1; i < 10; i++) {
+            	var tag=data[i-1];
+                hashtagName += '<div class="ootd_hashtag" id="ootd_hashtag' + i + '">' + tag.hash + '</div>';
 
             }
 

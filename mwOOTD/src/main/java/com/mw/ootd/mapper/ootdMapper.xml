@@ -15,7 +15,7 @@ select * from ootd order by ootd_date desc;
 <!-- 해시태그 네임 불러오기 -->
 <select id="selectHashName"
 resultType="com.mw.ootd.Domain.hashtag">
-select * from ootdlikelist;
+select * from ootdhashtag;
 
 </select>
 
