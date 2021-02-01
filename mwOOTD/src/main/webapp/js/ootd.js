@@ -5,8 +5,6 @@ window.onload = function () {
 
 function ootdMain(){
     
-
-
     
     var mainhtml = '';
     mainhtml += '<h1>리스트출력 페이지</h1>';
