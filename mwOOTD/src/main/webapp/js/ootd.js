@@ -95,6 +95,8 @@ function reg() {
                 
                 if (data == 0) {
                     alert("등록완료");
+                        $('#ootdtext').val('');
+                        $('#ootdphoto').val('');    
                     $("#ootdRegModal").modal("hide");
                     /////////// 원래 저장값 날려주는 처리 할 부분/////////////////
                 } else if (data == 1) {

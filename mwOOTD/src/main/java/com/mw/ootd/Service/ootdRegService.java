@@ -28,17 +28,27 @@ public class ootdRegService {
 		File newFile = null;;
 		String ootdphotoname = null;
 		
+		
+		
+		// 사진이 정상적인 파일인지 확인하기
 		if(ootd.getOotdphoto() != null & !ootd.getOotdphoto().isEmpty()) {
 			
 			String uploadPath = "/fileupload/ootdimage";
 			String saveDirPath = request.getSession().getServletContext().getRealPath(uploadPath);
 			//새로운 파일이름 만들어주기
+			ootdphotoname = ootd.getOotdnic() + System.currentTimeMillis();
+			newFile = new File(saveDirPath, ootdphotoname);
+			
 			
 			
 		} else {
 			//정상적인 사진이 없을 경우
 			result = 1;
 		}
+		
+		
+		ootd.getOotdphoto();
+		
 		
 		
 		
