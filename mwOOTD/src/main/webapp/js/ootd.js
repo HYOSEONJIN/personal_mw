@@ -4,7 +4,7 @@ window.onload = function () {
 };
 
 
-var hastagName = '';
+var hashtagName = '';
 
 
 // 메인 출력
@@ -38,10 +38,10 @@ function hashtagList() {
             console.log(data);
 
             for (var i = 1; i < 10; i++) {
-                hastagName += '<div class="ootd_hashtag" id="ootd_hashtag' + i + '">' + data.hashtag + i + '</div>'
+                hashtagName += '<div class="ootd_hashtag" id="ootd_hashtag' + i + '">' + data.hashtag + i + '</div>';
 
             }
-            console.log(hastagName)
+            console.log(hashtagName)
 
         },
         error: function (e) {

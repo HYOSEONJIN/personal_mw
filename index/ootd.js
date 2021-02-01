@@ -38,7 +38,7 @@ function hashtagList() {
             console.log(data);
 
             for (var i = 1; i < 10; i++) {
-                hashtagName += '<div class="ootd_hashtag" id="ootd_hashtag' + i + '">' + data.hashtag + i + '</div>'
+                hashtagName += '<div class="ootd_hashtag" id="ootd_hashtag' + i + '">' + data.hashtag + i + '</div>';
 
             }
             console.log(hashtagName)
