@@ -12,5 +12,11 @@ resultType="com.mw.ootd.Domain.ootdBoard">
 select * from ootd order by ootd_date desc;
 </select>
 
+<!-- 해시태그 네임 불러오기 -->
+<select id="selectHashName"
+resultType="com.mw.ootd.Domain.hashtag">
+select * from ootdlikelist;
+
+</select>
 
 </mapper>

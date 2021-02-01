@@ -1,22 +1,25 @@
 package com.mw.ootd.Domain;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 @Data
 public class ootdBoard {
 
-	int ootd_idx;
-	int mem_idx;
-	String ootd_nic;
-	String ootd_loc;
-	String ootd_weather;
-	String ootd_photo;
-	String ootd_thumnail;
-	String ootd_text;
-	int ootd_likecnt;
-	int ootd_bookcnt;
-	int ootd_cmtcnt;
-	int ootd_viewcnt;
-	String ootd_ip;
+	int ootdidx;
+	int memidx;
+	String ootdnic;
+	String ootdloc;
+	String ootdweather;
+	MultipartFile ootdphoto;
+	String ootdphotoname;
+	String ootdthumnail;
+	String ootdtext;
+	int ootdlikecnt;
+	int ootdbookcnt;
+	int ootdcmtcnt;
+	int ootdviewcnt;
+	String ootdip;
 	
 }
