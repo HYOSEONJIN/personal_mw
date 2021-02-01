@@ -1,5 +1,5 @@
 window.onload = function () {
-
+   hashtagList();
 
 };
 
@@ -16,8 +16,10 @@ function ootdMain() {
     mainhtml += '<div class="modal fade" id="ootdRegModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="exampleModalLabel">WEATHER WEAR - OOTD</h5><div class="modal-body"><form><div class="form-group"> <label for="recipient-name" class="col-form-label">TODAY OOTD</label> <input type="file" id="ootdphoto" name="ootdphoto"></div><div class="form-group"><input type="text" id="ootdtext" name="ootdtext"> </div><div class="form-group"><div class="ootd_hs">';
 
     // 해시태그 리스트 불러오기
-    hashtagList();
-    mainhtml += hastagName;
+ 
+    mainhtml += hashtagName;
+    
+            console.log(hashtagName)
 
 
     mainhtml += '</div></div></form></div><div class="modal-footer"> <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button> <button type="button" class="btn btn-primary" id="close_modal" onclick="reg()">등록</button> </div></div></div></div></div></div>';
@@ -41,7 +43,6 @@ function hashtagList() {
                 hashtagName += '<div class="ootd_hashtag" id="ootd_hashtag' + i + '">' + data.hashtag + i + '</div>';
 
             }
-            console.log(hashtagName)
 
         },
         error: function (e) {
