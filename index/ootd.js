@@ -1,5 +1,5 @@
 window.onload = function () {
-   hashtagList();
+    hashtagList();
 
 };
 
@@ -16,10 +16,10 @@ function ootdMain() {
     mainhtml += '<div class="modal fade" id="ootdRegModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="exampleModalLabel">WEATHER WEAR - OOTD</h5><div class="modal-body"><form><div class="form-group"> <label for="recipient-name" class="col-form-label">TODAY OOTD</label> <input type="file" id="ootdphoto" name="ootdphoto"></div><div class="form-group"><input type="text" id="ootdtext" name="ootdtext"> </div><div class="form-group"><div class="ootd_hs">';
 
     // 해시태그 리스트 불러오기
- 
+
     mainhtml += hashtagName;
-    
-            console.log(hashtagName)
+
+    console.log(hashtagName)
 
 
     mainhtml += '</div></div></form></div><div class="modal-footer"> <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button> <button type="button" class="btn btn-primary" id="close_modal" onclick="reg()">등록</button> </div></div></div></div></div></div>';
@@ -37,10 +37,9 @@ function hashtagList() {
         url: 'http://localhost:8080/ootd/hashlist',
         type: 'GET',
         success: function (data) {
-            console.log(data);
-
             for (var i = 1; i < 10; i++) {
-                hashtagName += '<div class="ootd_hashtag" id="ootd_hashtag' + i + '">' + data.hashtag + i + '</div>';
+                var tag = data[i - 1];
+                hashtagName += '<div class="ootd_hashtag" id="ootd_hashtag' + i + '">' + tag.hash + '</div>';
 
             }
 
@@ -56,7 +55,7 @@ function hashtagList() {
 function reg() {
     //모달창끄기
     $(".modal-footer").on('click', '#close_modal', function () {
-        $("#ootdRegModal").modal("hide");
+       
 
         var photoFile = $('#ootdphoto');
         var file1 = photoFile[0].files[0];
@@ -70,7 +69,7 @@ function reg() {
         formData.append("ootdphoto", file1);
 
         $.ajax({
-            
+
             url: 'http://localhost:8080/ootd/reg',
             type: 'POST',
             data: formData,
@@ -79,7 +78,21 @@ function reg() {
             contentType: false,
             cache: false,
             success: function (data) {
-                console.log(data);
+                
+                if (data == 0) {
+                    alert("등록완료");
+                     $("#ootdRegModal").modal("hide");
+                    /////////// 원래 저장값 날려주는 처리 할 부분/////////////////
+                } else if (data == 1) {
+                    alert("사진은 필수항목입니다");
+                } else if (data == 2) {
+                    alert("내용을 입력해주세요");
+                } else {
+                    alert("알수없는 에러가 발생했습니다. 다시시도해주세요");
+                    
+                }
+
+
             }
 
         })

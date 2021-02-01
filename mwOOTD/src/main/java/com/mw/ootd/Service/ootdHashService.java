@@ -11,6 +11,7 @@ import com.mw.ootd.dao.ootdInterfaceDao;
 
 @Service
 public class ootdHashService {
+	// 해시태그 관련 서비스
 	
 	private ootdInterfaceDao dao;
 	

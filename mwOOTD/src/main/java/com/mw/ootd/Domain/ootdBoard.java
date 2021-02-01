@@ -7,7 +7,6 @@ import lombok.Data;
 @Data
 public class ootdBoard {
 
-	int ootdidx;
 	int memidx;
 	String ootdnic;
 	String ootdloc;
