@@ -38,7 +38,7 @@ function hashtagList() {
             console.log(data);
 
             for (var i = 1; i < 10; i++) {
-                hastagName += '<div class="ootd_hashtag" id="ootd_hashtag' + i + '>' + data.hastag + i + '</div>'
+                hastagName += '<div class="ootd_hashtag" id="ootd_hashtag' + i + '">' + data.hashtag + i + '</div>'
 
             }
             console.log(hastagName)
@@ -55,7 +55,7 @@ function hashtagList() {
 function reg() {
     //모달창끄기
     $(".modal-footer").on('click', '#close_modal', function () {
-        
+        $("#ootdRegModal").modal("hide");
 
         var photoFile = $('#ootdphoto');
         var file1 = photoFile[0].files[0];
@@ -67,7 +67,7 @@ function reg() {
         var formData = new FormData();
         formData.append('ootdtext', $('#ootdtext').val());
         formData.append("ootdphoto", file1);
- 
+
         $.ajax({
             
             url: 'http://localhost:8080/ootd/reg',
@@ -84,6 +84,6 @@ function reg() {
         })
 
 
-$("#ootdRegModal").modal("hide");
+
     });
 }
