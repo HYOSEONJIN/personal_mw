@@ -7,12 +7,11 @@ window.onload = function () {
 };
 
 
-var hashtagName = '';
 
-
-var hashCheck = [];
-var hashJSON = '';
-var ajax_last_num = 0;
+var hashtagName = ''; // 해시태그 div 생성해주는 for문에 사용
+var hashCheck = []; // hash태그 체크 여부 저장해주는 배열
+var hashJSON = ''; // hash태그를 JSON형식의 String으로 저장
+var ajax_last_num = 0; 
 
 
 
@@ -108,7 +107,7 @@ function imageDetection() {
 
 
 
-
+// kakao API 상품검출 좌표값 얻기
 function kakaoCall() {
 
     var beforeKey = "KakaoAK ";
@@ -280,6 +279,7 @@ function hashtag(idx) {
 
 }
 
+// 모달창 끌때 데이터 리셋 해주는 기능들어있는 함수
 function dataReset() {
     hashCheck.length = 0;
     $('#ootdtext').val(null);
@@ -290,7 +290,7 @@ function dataReset() {
     hashFalse();
 }
 
-
+// hash태그를 JSON형식의 String으로 만들어기
 function hashtagJSON() {
 
     hashJSON += '[{'
@@ -307,3 +307,5 @@ function hashtagJSON() {
 
 
 }
+
+
