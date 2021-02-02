@@ -13,4 +13,7 @@ public interface ootdInterfaceDao {
 	
 	// 해시태그의 이름 반환 ex) 귀여운, 섹시한
 	List<hashtag> selectHashName();
+	
+	// 글등록
+	int ootdDocInsert(ootdBoard ootd);
 }

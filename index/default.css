@@ -117,3 +117,11 @@ footer {
     width: 100%;
     height: 100px;
 }
+
+.ootd_hasktag_true{
+    background-color : #30b0e7;
+}
+
+.ootd_hashtag_false{    
+    background-color: #64c2eb;
+}

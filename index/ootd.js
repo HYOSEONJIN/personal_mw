@@ -1,11 +1,18 @@
 window.onload = function () {
 
     hashtagList();
+    hashFalse();
+
 
 };
 
 
 var hashtagName = '';
+
+
+var hashCheck = [];
+var hashJSON = '';
+
 
 
 // 메인 출력
@@ -14,7 +21,7 @@ function ootdMain() {
     var mainhtml = '';
     mainhtml += '<h1>리스트출력 페이지</h1>';
     mainhtml += '<button type="button" class="btn btn-primary" class="regFormButton" data-toggle="modal" data-target="#ootdRegModal" data-what="hello">글쓰기버튼</button>';
-    mainhtml += '<div class="modal fade" id="ootdRegModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="exampleModalLabel">WEATHER WEAR - OOTD</h5><div class="modal-body"><form><div class="form-group"> <label for="recipient-name" class="col-form-label">TODAY OOTD</label><form id="photoform" method="POST" enctype="multipart/form-data"> <input type="file" id="ootdphoto" name="ootdphoto"></form></div><div class="form-group"><input type="text" id="ootdtext" name="ootdtext"> </div><div class="form-group"><div class="ootd_hs">';
+    mainhtml += '<div class="modal fade" id="ootdRegModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="exampleModalLabel">WEATHER WEAR - OOTD</h5><div class="modal-body"><form><div class="form-group"> <label for="recipient-name" class="col-form-label">TODAY OOTD</label><form id="photoform" method="POST" enctype="multipart/form-data"> <input type="file" id="ootdphoto" name="ootdphoto"></form></div><div class="form-group"><input type="text" id="ootdtext" name="ootdtext" required> </div><div class="form-group"><div class="ootd_hs">';
 
     // 해시태그 리스트 불러오기
 
@@ -44,7 +51,7 @@ function hashtagList() {
         success: function (data) {
             for (var i = 1; i < 10; i++) {
                 var tag = data[i - 1];
-                hashtagName += '<div class="ootd_hashtag" id="ootd_hashtag' + i + '">' + tag.hash + '</div>';
+                hashtagName += '<div class="ootd_hashtag" onclick="hashtag(' + i + ')" id="ootd_hashtag' + i + '">' + tag.hash + '</div>';
 
             }
 
@@ -93,6 +100,7 @@ function imageDetection() {
 
 
 
+
 function kakaoCall() {
     var beforeKey = "KakaoAK ";
     var key = "0e5bc43cde12fc5035c512eca57aa8be";
@@ -117,14 +125,14 @@ function kakaoCall() {
     var file1 = photoFile[0].files[0];
     //console.log("file",file1);
     var fd = new FormData();
-    fd.append("attribute","1");
+    fd.append("attribute", "1");
     fd.append("image", file1);
-    
+
 
     $.ajax({
         type: "POST",
         beforeSend: function (request) {
-            
+
             request.setRequestHeader("Authorization", (beforeKey + key));
             //request.setRequestHeader("Content-Type", "multipart/form-data");
 
@@ -164,6 +172,7 @@ function reg() {
         if (file1.type == 'image/jpeg' || (file1.type == 'image/png')) {
 
 
+            hashtagJSON();
 
             var text = $('#ootdtext').val();
             console.log(text);
@@ -171,6 +180,11 @@ function reg() {
             var formData = new FormData();
             formData.append('ootdtext', $('#ootdtext').val());
             formData.append("ootdphoto", file1);
+            formData.append('ootdhashtag', hashJSON);
+
+            //임시값
+            formData.append('ootdnic', $('#ootdnic').val());
+            formData.append('memidx', $('#memidx').val());
 
 
 
@@ -185,13 +199,16 @@ function reg() {
                 cache: false,
                 success: function (data) {
 
-                    if (data == 0) {
+                    if (data == 1) {
                         alert("등록완료");
                         $('#ootdtext').val('');
                         $('#ootdphoto').val('');
+                        var hashCheck = [];
+                        $('.ootd_hashtag').removeClass('ootd_hasktag_true');
+                        $('.ootd_hashtag').addClass('ootd_hashtag_false');
                         /////////// 원래 저장값 날려주는 처리 할 부분/////////////////
                         $("#ootdRegModal").modal("hide");
-                    } else if (data == 1) {
+                    } else if (data == 0) {
                         alert("사진은 필수항목입니다");
                     } else if (data == 2) {
                         alert("내용을 입력해주세요");
@@ -208,4 +225,61 @@ function reg() {
         }
 
     });
+}
+
+
+// 해시태그 배열 안에 false값 넣어주기
+function hashFalse() {
+
+    for (i = 0; i < 10; i++) {
+        hashCheck[i] = false;
+
+    }
+    console.log(hashCheck);
+
+}
+
+// 해시태그 값 체크하기
+function hashtag(idx) {
+    // true=선택 , false=선택안함
+
+    if (hashCheck[idx]) {
+        // 선택되어있을 때 다시 눌러서 선택을 해제함
+        $('#ootd_hashtag' + idx).removeClass('ootd_hasktag_true');
+        $('#ootd_hashtag' + idx).addClass('ootd_hashtag_false');
+        hashCheck[idx] = false;
+
+    } else {
+        // 선택함
+        $('#ootd_hashtag' + idx).removeClass('ootd_hashtag_false');
+        $('#ootd_hashtag' + idx).addClass('ootd_hasktag_true');
+        hashCheck[idx] = true;
+
+
+    }
+
+}
+
+
+function hashtagJSON() {
+
+    /*
+    [
+    {"memidx":1,
+    "ootdnic":"뽀선",
+    "ootdloc": "서울 용산구",
+    "ootdweather":"맑음"}]
+    */
+    hashJSON += '[{'
+
+    for (i = 1; i < 9; i++) {
+        hashJSON += '"hashtag' + i + '":';
+        hashJSON += hashCheck[i] + ',';
+    }
+
+    hashJSON += '"hashtag9":' + hashCheck[9];
+    hashJSON += '}]';
+
+    console.log(hashJSON);
+
 }

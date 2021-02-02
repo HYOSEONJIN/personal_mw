@@ -7,18 +7,19 @@ import lombok.Data;
 @Data
 public class ootdBoard {
 
-	int memidx;
-	String ootdnic;
-	String ootdloc;
-	String ootdweather;
-	MultipartFile ootdphoto;
-	String ootdphotoname;
-	String ootdthumnail;
-	String ootdtext;
-	int ootdlikecnt;
-	int ootdbookcnt;
-	int ootdcmtcnt;
-	int ootdviewcnt;
-	String ootdip;
-	
+   int ootdidx;
+   int memidx;
+   String ootdnic;
+   String ootdloc;
+   String ootdweather;
+   MultipartFile ootdphoto;
+   String ootdphotoname;
+   String ootdthumnail;
+   String ootdtext;
+   int ootdlikecnt;
+   int ootdbookcnt;
+   int ootdcmtcnt;
+   int ootdviewcnt;
+   String ootdip;
+   String ootdhashtag;
 }
