@@ -25,8 +25,8 @@ function ootdMain() {
 
     var regModalHtml = '';
     regModalHtml += '<h1>리스트출력 페이지</h1>';
-	
-    regModalHtml += '<button type="button" class="test" onclick="pageView(1)">페이지테스트</button>'
+    regModalHtml += '<button type="button" class="test" onclick="pageView(1)">ㅇㅇ</button>'
+
 
     regModalHtml += '<button type="button" class="btn btn-primary" class="regFormButton" data-toggle="modal" data-target="#ootdRegModal" data-what="hello">글쓰기버튼</button>';
     regModalHtml += '<div class="modal fade" id="ootdRegModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
@@ -51,7 +51,7 @@ function ootdMain() {
 
     regModalHtml += '</div></div></form></div><div class="modal-footer">';
     regModalHtml += '<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>'
-    regModalHtml += '<button type="button" class="btn btn-primary" id="close_modal" onclick="reg();  this.onclick=null";>등록</button>'
+    regModalHtml += '<button type="button" class="btn btn-primary" id="close_modal" onclick="reg()">등록</button>'
     regModalHtml += '<button type="button" class="btn btn-primary" id="imagedetection" onclick="kakaoCall()">사진조회</button><img src="" id="imageTest" width="40"></div></div></div></div></div></div>';
 
 
@@ -317,25 +317,44 @@ function hashtagJSON() {
 
 }
 
+
 // 리스트 출력 함수
-function pageView(idx){
-    
-    
-    	$.ajax({
-				url : 'http://localhost:8080/ootd/list/paging',
-				type : 'get',
-				data : {
-					pageNum : idx
-				},
-                success : function(data){
-                 console.log(data);
-                },
-                error : function(e){
-                    console.log('페이징 ajax 에러',e)
-                }
+function pageView(idx) {
+
+
+    $.ajax({
+        url: 'http://localhost:8080/ootd/list/paging',
+        type: 'get',
+        data: {
+            pageNum: idx
+        },
+        success: function (data) {
+            console.log(data);
+
+            var listhtml = '<form><div class="ootdlistarea"><div class="ootdlistline">';
+
+
+            for (i = 0; i < data.length; i++) {
+                listhtml += '<table class="ootdposttable">';
+                listhtml += '<tr><td><img src="https://media.allure.com/photos/58657e62327f28075707a5ca/1:1/w_354%2Cc_limit/slack-imgs.com.jpeg" class="postthumnail"></td></tr>';
+                listhtml += '<tr><td><a1 class="ootdwriter">' + data[i].ootdnic + '</a1></td></tr>';
+                listhtml += '<tr><td><a1 class="ootdlocation">' + data[i].ootdloc + '</a1></td></tr>';
+                listhtml += '<tr><td><a1 class="ootdlistlike">♥ ' + data[i].ootdlikecnt + '</a1></td></tr></table>';
+
+            }
+
+            listhtml += '</div></div></form>';
+
+            var content = document.querySelector('.content');
+            content.innerHTML = listhtml;
             
-        });
-            
-            
-    
+        },
+        error: function (e) {
+            console.log('페이징 ajax 에러', e)
+        }
+
+    });
+
+
+
 }

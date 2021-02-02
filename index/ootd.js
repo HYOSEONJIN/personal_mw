@@ -25,7 +25,7 @@ function ootdMain() {
 
     var regModalHtml = '';
     regModalHtml += '<h1>리스트출력 페이지</h1>';
-    regModalHtml += '<button type="button" class="test" onclick="pageView(1))">'
+    regModalHtml += '<button type="button" class="test" onclick="pageView(1)">ㅇㅇ</button>'
 
 
     regModalHtml += '<button type="button" class="btn btn-primary" class="regFormButton" data-toggle="modal" data-target="#ootdRegModal" data-what="hello">글쓰기버튼</button>';
@@ -317,32 +317,33 @@ function hashtagJSON() {
 
 }
 
+
 // 리스트 출력 함수
 function pageView(idx) {
 
 
     $.ajax({
         url: 'http://localhost:8080/ootd/list/paging',
-        type: 'post',
+        type: 'get',
         data: {
             pageNum: idx
         },
         success: function (data) {
             console.log(data);
 
-            var listhtml = '<form><div class="ootdlistarea"><div class="ootdlistline">'
+            var listhtml = '<form><div class="ootdlistarea"><div class="ootdlistline">';
 
 
-            for (i = 0, i < data.length; i++) {
-                listhtml += '<table class="ootdposttable">'
-                listhtml += '<tr><td><img src="https://media.allure.com/photos/58657e62327f28075707a5ca/1:1/w_354%2Cc_limit/slack-imgs.com.jpeg" class="postthumnail"></td></tr>'
-                listhtml += '<tr><td><a1 class="ootdwriter">' + data.ootdnic + '</a1></td></tr>'
-                listhtml += '<tr><td><a1 class="ootdlocation">' + data.ootdloc + '</a1></td></tr>'
-                listhtml += '<tr><td><a1 class="ootdlistlike">♥ ' + data.ootdlikecnt + '</a1></td></tr></table>'
+            for (i = 0; i < data.length; i++) {
+                listhtml += '<table class="ootdposttable">';
+                listhtml += '<tr><td><img src="https://media.allure.com/photos/58657e62327f28075707a5ca/1:1/w_354%2Cc_limit/slack-imgs.com.jpeg" class="postthumnail"></td></tr>';
+                listhtml += '<tr><td><a1 class="ootdwriter">' + data[i].ootdnic + '</a1></td></tr>';
+                listhtml += '<tr><td><a1 class="ootdlocation">' + data[i].ootdloc + '</a1></td></tr>';
+                listhtml += '<tr><td><a1 class="ootdlistlike">♥ ' + data[i].ootdlikecnt + '</a1></td></tr></table>';
 
             }
 
-            listhtml += '</div></div></form>'
+            listhtml += '</div></div></form>';
 
             var content = document.querySelector('.content');
             content.innerHTML = listhtml;

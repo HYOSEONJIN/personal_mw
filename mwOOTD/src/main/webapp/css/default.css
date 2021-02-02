@@ -49,8 +49,7 @@ header {
 footer {
     background-color: #ffffff;
     height: 60px;
-    position: absolute;
-    bottom: 0px;
+    clear:both;
     width: 100%;
     
 }
@@ -65,6 +64,7 @@ footer {
 
 .content{
     margin-top: 100px;
+    height: max;
 }
 
 .footer_menu_table{
@@ -114,4 +114,56 @@ footer {
 
 .ootd_hashtag_false{    
     background-color: #64c2eb;
+}
+
+
+/*ootd리스트 출력 CSS*/
+
+.ootdlistarea{
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+
+.ootdposttable {
+    margin-top: 20px;
+    width: 30%;
+    float: left;
+    margin-left: 2.5%;
+    border-spacing: -3px;
+    line-height: 14px;
+    
+}
+
+
+.postthumnail {
+    width: 100%;
+    height: width;
+    border-radius: 3px;
+    margin-bottom: 6px;
+}
+
+.ootdwriter {
+    color: #424242;
+    font-weight: bold;
+    font-size: 12px;
+    
+}
+
+.ootdlocation {
+    color: #757575;
+    font-size: 12px;
+}
+
+.ootdlistlike {
+    color: #ee7f7b;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+a1 {
+    letter-spacing: -1px;
+
+    
 }
