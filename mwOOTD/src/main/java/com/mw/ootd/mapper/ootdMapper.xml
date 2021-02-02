@@ -35,4 +35,22 @@ select * from ootdhashtag order by hash;
 
 </insert>
 
+<!-- 전체 회원수 -->
+<!-- <select id="selectMemberCount"
+		resultType="int">
+		
+select count(*) from ootd
+
+</select>
+ -->
+
+<!-- 페이지 별 리스트 -->
+
+<select id="PagingView"
+	resultType="com.mw.ootd.Domain.ootdBoard">
+	select * from ootd order by ootddate desc;
+<!-- select * from ootd limit #{startrow}, #{cntPerPage} -->
+</select>
+
+
 </mapper>

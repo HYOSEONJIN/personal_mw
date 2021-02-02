@@ -25,7 +25,8 @@ function ootdMain() {
 
     var regModalHtml = '';
     regModalHtml += '<h1>리스트출력 페이지</h1>';
-
+	
+    regModalHtml += '<button type="button" class="test" onclick="pageView(1)">페이지테스트</button>'
 
     regModalHtml += '<button type="button" class="btn btn-primary" class="regFormButton" data-toggle="modal" data-target="#ootdRegModal" data-what="hello">글쓰기버튼</button>';
     regModalHtml += '<div class="modal fade" id="ootdRegModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
@@ -317,3 +318,24 @@ function hashtagJSON() {
 }
 
 // 리스트 출력 함수
+function pageView(idx){
+    
+    
+    	$.ajax({
+				url : 'http://localhost:8080/ootd/list/paging',
+				type : 'get',
+				data : {
+					pageNum : idx
+				},
+                success : function(data){
+                 console.log(data);
+                },
+                error : function(e){
+                    console.log('페이징 ajax 에러',e)
+                }
+            
+        });
+            
+            
+    
+}

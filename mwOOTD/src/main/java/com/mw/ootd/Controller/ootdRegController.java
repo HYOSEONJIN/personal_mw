@@ -24,8 +24,7 @@ public class ootdRegController {
 	@PostMapping
 	public int ootdReg(
 			@ModelAttribute("regData") ootdBoard ootd,
-			HttpServletRequest request,
-			Model model			
+			HttpServletRequest request		
 			) {
 		
 		

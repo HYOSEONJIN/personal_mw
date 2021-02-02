@@ -16,7 +16,6 @@
 		p:mapperLocations="classpath:com/mw/ootd/mapper/*.xml" />
 
 
-
 	<bean id="sqlSessionTemplate"
 		class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlSessionFactory" />
