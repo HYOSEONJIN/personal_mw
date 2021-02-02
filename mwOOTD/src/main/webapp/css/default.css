@@ -1,5 +1,4 @@
 /*
-
 기본 파란색 : #64c2eb
 진한 파란색 : #30b0e7
 기본 회색 : #757575
@@ -7,7 +6,6 @@
 바탕 아주 옅은 회색 : #f5f5f5
 강조 컬러 빨강 : #ee7f7b
 강조 컬러 노랑 : #ffd74e
-
 */
 
 /*한글*/
@@ -31,6 +29,12 @@
     font-family: 'Nanum Gothic', sans-serif;
 }
 
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+
 body {
     padding: 0;
     margin: 0;
@@ -51,6 +55,11 @@ footer {
     height: 60px;
     clear:both;
     width: 100%;
+     position: fixed;
+
+ bottom: 0;
+
+ left: 0;
     
 }
 
@@ -165,5 +174,4 @@ footer {
 a1 {
     letter-spacing: -1px;
 
-    
 }

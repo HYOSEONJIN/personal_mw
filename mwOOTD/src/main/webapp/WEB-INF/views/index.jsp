@@ -21,6 +21,7 @@
 
 <body bgcolor="#f5f5f5">
 
+<div id="container">
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 
 	<div class="content" id="content" name="content">
@@ -28,6 +29,6 @@
 	</div>
 	
 	<%@ include file="/WEB-INF/views/include/footer.jsp" %>
-
+</div>
 </body>
 </html>
