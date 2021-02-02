@@ -12,11 +12,19 @@ var hashtagName = '';
 
 var hashCheck = [];
 var hashJSON = '';
+var ajax_last_num = 0;
+
 
 
 
 // 메인 출력
 function ootdMain() {
+
+
+
+    hashJSON = '';
+    console.log('삭제해시태그>>>>>>', hashJSON);
+
 
     var mainhtml = '';
     mainhtml += '<h1>리스트출력 페이지</h1>';
@@ -34,7 +42,7 @@ function ootdMain() {
 
 
 
-    mainhtml += '</div></div></form></div><div class="modal-footer"> <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button> <button type="button" class="btn btn-primary" id="close_modal" onclick="reg()">등록</button><button type="button" class="btn btn-primary" id="imagedetection" onclick="kakaoCall()">사진조회</button><img src="" id="imageTest" width="40"></div></div></div></div></div></div>';
+    mainhtml += '</div></div></form></div><div class="modal-footer"> <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button> <button type="button" class="btn btn-primary" id="close_modal" onclick="reg();  this.onclick=null";>등록</button><button type="button" class="btn btn-primary" id="imagedetection" onclick="kakaoCall()">사진조회</button><img src="" id="imageTest" width="40"></div></div></div></div></div></div>';
 
 
     var content = document.querySelector('.content');
@@ -102,6 +110,7 @@ function imageDetection() {
 
 
 function kakaoCall() {
+
     var beforeKey = "KakaoAK ";
     var key = "0e5bc43cde12fc5035c512eca57aa8be";
     var apiUri = "https://dapi.kakao.com/v2/vision/product/detect"
@@ -157,11 +166,15 @@ function kakaoCall() {
 
 
 
+
 // 모달창 닫는버튼 (데이터 전송)
 function reg() {
     //모달창끄기
     $(".modal-footer").on('click', '#close_modal', function () {
 
+
+
+        var current_ajax_num = ajax_last_num;
 
         var photoFile = $('#ootdphoto');
         var file1 = photoFile[0].files[0];
@@ -197,27 +210,59 @@ function reg() {
                 processData: false,
                 contentType: false,
                 cache: false,
+                beforeSend: function (request) {
+                    ajax_last_num = ajax_last_num + 1;
+                },
                 success: function (data) {
+                    if (current_ajax_num == ajax_last_num - 1) {
 
-                    if (data == 1) {
-                        alert("등록완료");
-                        $('#ootdtext').val('');
-                        $('#ootdphoto').val('');
-                        var hashCheck = [];
-                        $('.ootd_hashtag').removeClass('ootd_hasktag_true');
-                        $('.ootd_hashtag').addClass('ootd_hashtag_false');
-                        /////////// 원래 저장값 날려주는 처리 할 부분/////////////////
-                        $("#ootdRegModal").modal("hide");
-                    } else if (data == 0) {
-                        alert("사진은 필수항목입니다");
-                    } else if (data == 2) {
-                        alert("내용을 입력해주세요");
-                    } else {
-                        alert("알수없는 에러가 발생했습니다. 다시시도해주세요");
+
+
+                        if (data == 1) {
+                            hashCheck.length = 0;
+                            $('#ootdtext').val(null);
+                            $('#ootdphoto').val(null);
+                            $('.ootd_hashtag').removeClass('ootd_hasktag_true');
+                            $('.ootd_hashtag').addClass('ootd_hashtag_false');
+                            hashJSON = '';
+                            alert("등록완료");
+                            ootdMain();
+                            hashFalse();
+                            /////////// 원래 저장값 날려주는 처리 할 부분/////////////////
+                            $("#ootdRegModal").modal("hide");
+                        } else if (data == 0) {
+                            console.log(file1);
+                            hashCheck.length = 0;
+                            $('#ootdtext').val(null);
+                            $('#ootdphoto').val(null);
+                            $('.ootd_hashtag').removeClass('ootd_hasktag_true');
+                            $('.ootd_hashtag').addClass('ootd_hashtag_false');
+                            hashJSON = '';
+                            hashFalse();
+                            alert("사진은 필수항목입니다");
+                        } else if (data == 2) {
+                            hashJSON = '';
+                            hashCheck.length = 0;
+                            $('#ootdtext').val(null);
+                            $('#ootdphoto').val(null);
+                            $('.ootd_hashtag').removeClass('ootd_hasktag_true');
+                            $('.ootd_hashtag').addClass('ootd_hashtag_false');
+                            hashJSON = '';
+                            hashFalse();
+                        } else {
+                            hashJSON = '';
+                            hashCheck.length = 0;
+                            $('#ootdtext').val(null);
+                            $('#ootdphoto').val(null);
+                            $('.ootd_hashtag').removeClass('ootd_hasktag_true');
+                            $('.ootd_hashtag').addClass('ootd_hashtag_false');
+                            hashJSON = '';
+                            hashFalse();
+                            alert("알수없는 에러가 발생했습니다. 다시시도해주세요");
+
+                        }
 
                     }
-
-
                 }
 
             })
@@ -263,13 +308,6 @@ function hashtag(idx) {
 
 function hashtagJSON() {
 
-    /*
-    [
-    {"memidx":1,
-    "ootdnic":"뽀선",
-    "ootdloc": "서울 용산구",
-    "ootdweather":"맑음"}]
-    */
     hashJSON += '[{'
 
     for (i = 1; i < 9; i++) {
@@ -281,5 +319,6 @@ function hashtagJSON() {
     hashJSON += '}]';
 
     console.log(hashJSON);
+
 
 }

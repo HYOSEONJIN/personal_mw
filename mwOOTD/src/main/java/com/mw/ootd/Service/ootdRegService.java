@@ -23,7 +23,7 @@ public class ootdRegService {
    private SqlSessionTemplate template;
    
    public int ootdWrite(ootdBoard ootd, HttpServletRequest request) {
-      int result = 0;
+      int result = 5;
       // 성공은1 만약에 사진이없다면 0, 글 내용이 없다면 2를 반환하고 알려줄 것.	
       
 
