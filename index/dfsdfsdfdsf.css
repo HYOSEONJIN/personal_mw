@@ -1,0 +1,805 @@
+/*
+
+한솥 주황색 : #e67600
+한솥 빨강색 : #cf1126
+한솥 노란색 : #f2c000
+배경색 : antiquewhite
+
+*/
+
+/*폰트로드 1) 기본폰트 natosans */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap');
+
+/*폰트로드 2) 버튼용 폰트 */
+@font-face {
+    font-family: 'TmoneyRoundWindExtraBold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindExtraBold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+}
+
+
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    -ms-overflow-style: none;
+
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+
+.header {
+    width: 100%;
+    height: 80px;
+    background-color: antiquewhite;
+    top: 0px;
+    position: absolute;
+
+}
+
+#menu_table {
+    margin-left: 100px;
+}
+
+.main_wrap {
+    margin-top: 80px;
+    width: 100%;
+    height: 100%;
+    background: #c7161e;
+}
+
+
+
+.main_body {
+    width: 969px;
+    height: 565px;
+    margin: 0 auto;
+    background: #c7161e;
+}
+
+.orderbutton {
+    width: 100%;
+    height: 100px;
+    background: #c7161e;
+}
+
+.orderbutton > input {
+    float: right;
+    padding: 15px 40px;
+    font-size: 2em;
+    font-weight: bold;
+    color: white;
+    font-family: 'TmoneyRoundWindExtraBold';
+}
+
+
+.bottomcontent {
+    background-color: antiquewhite;
+    padding-top: 20px;
+    position: relative;
+    height: 430px;
+
+}
+
+.bottomwrap {
+    width: 969px;
+    height: 400px;
+    background-color: antiquewhite;
+    margin: 0 auto;
+}
+
+.bc {
+    float: left;
+    width: 400px;
+    height: 370px;
+    background-color: white;
+    margin: 0 auto;
+    border-radius: 10px;
+    box-shadow: 1px 1px 1px dimgrey;
+
+}
+
+.bc:nth-child(1) {
+    margin-left: 8%;
+    margin-right: 19px;
+
+}
+
+.bc img {
+    margin-bottom: 20px;
+    border-radius: 10px 10px 0px 0px;
+}
+
+.bc h2 {
+    font-size: 23px;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+
+.orderbackground {
+    background-color: antiquewhite;
+    width: 100%;
+    height: 100%;
+}
+
+
+.orderbody {
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 35px;
+    width: 1200px;
+    height: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.menuselect {
+    border-radius: 20px 20px 0 0;
+    width: 930px;
+    height: 100px;
+    float: left;
+    background-color: #FFFFFF;
+    padding: 30px;
+    font-size: 20px;
+}
+
+
+.menulist {
+    margin-top: 100px;
+    width: 930px;
+    height: 650px;
+    background-color: #FFFFFF;
+    border-radius: 0 0 20px 20px;
+    overflow: scroll;
+    padding-left: 40px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+}
+
+
+.menuselect table {
+    width: 500px;
+    height: 50px;
+    margin-left: 40px;
+    margin-top: 50px;
+    padding: 30px;
+    text-align: center;
+}
+
+
+
+
+.footer {
+    position: absolute;
+    bottom: 0px;
+    width: 100vw;
+    height: 84px;
+    background: #f2c000;
+    position: relative;
+    bottom: 0;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.footer2 {
+    position: absolute;
+    bottom: 0px;
+    width: 100vw;
+    height: 84px;
+    background: #f2c000;
+    bottom: 0;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.menu {
+    width: 200px;
+    margin-right: 15px;
+    float: left;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.menu img {
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.menu a1 {
+    padding-left: 10px;
+    color: #cf1126;
+    font-weight: bold;
+    margin-top: 10px;
+
+}
+
+.menu a2 {
+    padding-left: 10px;
+}
+
+
+
+
+#bowl {
+    display: none;
+}
+
+#side {
+    display: none;
+}
+
+#beverage {
+    display: none;
+}
+
+#menuinfo {
+    position: absolute;
+    top: 120px;
+    left: 35%;
+    width: 400px;
+    height: 500px;
+    background-color: #fffcf8;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px;
+    padding: 30px;
+    display: none;
+}
+
+.menuinfo h1 {
+    font-size: 25px;
+    font-weight: bold;
+    color: dimgrey;
+    margin-left: 10px;
+}
+
+.menuinfo h2 {
+    font-size: 20px;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+.addmenu {
+    width: 100px;
+    height: 50px;
+    background-color: white;
+    text-align: center;
+    float: left;
+    vertical-align: middle;
+    /*border : 1px solid black;*/
+    margin-left: 10px;
+    padding-top: 5px;
+    margin-bottom: 20px;
+
+}
+
+.addselectmenu {
+    overflow: hideen;
+    width: 100%;
+    height: 200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.addselectmenu table {
+    margin-left: 50px;
+}
+
+.addselectmenu input {
+    width: 30px;
+    height: 30px;
+    text-align: right;
+}
+
+.addselectmenu input[type=text] {
+    margin: 10px 0px;
+    background-color: transparent;
+    border: 0px;
+    font-weight: bold;
+}
+
+.addselectmenu input[type=button] {
+    background-color: transparent;
+    border: 0px;
+    font-weight: bold;
+}
+
+.addselectmenu a,
+    {}
+
+.addmenu a1 {
+    font-weight: bold;
+}
+
+.addmenu a2 {
+    font-size: 0.8em;
+    color: #cf1126;
+}
+
+.addmenubutton {
+    margin: 0 auto;
+    text-align: center;
+
+}
+
+.addmenubutton input {
+    width: 100px;
+    height: 50px;
+    margin: 10px;
+}
+
+
+
+.cart {
+    border-radius: 20px;
+    width: 250px;
+    height: 750px;
+    float: right;
+    padding: 20px;
+
+    background-color: #FFFFFF;
+
+}
+
+.cartlist {
+    width: 100%;
+    height: 480px;
+    overflow: scroll;
+}
+
+.cart h1 {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'TmoneyRoundWindExtraBold';
+    margin-top: 20px;
+}
+
+.cart_line_deco {
+    border: 4px solid #f2c000;
+    border-radius: 100px;
+    color: #f2c000;
+}
+
+.cart img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    float: right;
+    border-radius: 5px;
+}
+
+.cart a1 {
+    color: #cf1126;
+    font-weight: bold;
+    
+}
+
+.cart a2 {
+    margin-left: 10px;
+}
+
+.cancel {
+    margin-left: 20px;
+
+}
+
+.cart table {
+    margin-bottom: 20px;
+}
+
+.sidemenu_show{
+    padding-top : 15px;
+}
+
+
+.sum {
+    width: 100%;
+    height: 70px;
+    font-size: 3em;
+    text-align: right;
+    font-weight: bold;
+
+}
+
+.paybutton input[type=button],
+.cart input[type=submit] {
+    float: left;
+    background-color: #f2c000;
+    font-family: 'TmoneyRoundWindExtraBold';
+    font-size: 30px;
+    width: 100px;
+    border: 0px;
+    padding: 10px;
+    color: white;
+    border-radius: 5px;
+
+}
+
+
+.cart input[type=submit] {
+    margin-right: 10px;
+}
+
+
+
+
+.takeout {
+    position: absolute;
+    top: 250px;
+    left: 37%;
+    width: 400px;
+    height: 380px;
+    background-color: #fffcf8;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px;
+    padding: 30px 0px;
+    display: block;
+}
+
+.takeout input[type=button] {
+    background-color: #f2c000;
+    font-family: 'TmoneyRoundWindExtraBold';
+    font-size: 40px;
+    border: 0px;
+    padding: 20px;
+    color: white;
+    border-radius: 5px;
+    margin: 30px 103px;
+}
+
+.footer p {
+    font-weight: bold;
+    margin: 0px;
+
+}
+
+.footer2 p {
+    font-weight: bold;
+    margin: 0px;
+
+}
+
+button {
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    position: relative;
+    height: 45px;
+    font-size: 1.6em;
+    padding: 0 2em;
+    cursor: pointer;
+    transition: 800ms ease all;
+    outline: none;
+}
+
+button:hover {
+    background: #fff;
+}
+
+button:before,
+
+button:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 5px;
+    width: 0;
+    background: #f2c000;
+    transition: 400ms ease all;
+}
+
+button:after {
+    right: inherit;
+    top: inherit;
+    left: 0;
+    bottom: 0;
+}
+
+button:hover:before,
+button:hover:after {
+    width: 100%;
+    transition: 800ms ease all;
+}
+
+.block_click {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 1920px;
+    height: 2000px;
+    background-color: aquamarine;
+    z-index: 1;
+}
+
+.view_img {
+    margin-bottom: 10px;
+    border-radius: 5px;
+    width: 150px;
+    height: 150px;
+}
+
+#menu_name {
+    padding-left: 10px;
+    color: #cf1126;
+    font-weight: bold;
+    margin-top: 10px;
+
+}
+
+
+.clicknone {
+    pointer-events: none;
+}
+
+
+
+#minus {
+    width: 21px;
+    height: 21px;
+    text-align: center;
+
+    font font-size: 15px;
+
+    border-radius: 5px 0 0 5px;
+
+    background-color: #f2c000;
+    color: black;
+
+    line-height: 13px;
+    
+    border: 0px;
+
+}
+
+#plus {
+    width: 21px;
+    height: 21px;
+    text-align: center;
+    font-size: 15px;
+    border-radius: 0 5px 5px 0;
+
+    line-height: 15px;
+
+    background-color: #f2c000;
+    color: black;
+
+    border: 0px;
+
+}
+
+input[name="cartCnt"] {
+    width: 20px;
+    height: 20px;
+    margin-bottom: -10px;
+
+    border-color: white;
+
+
+}
+
+#delete {
+
+    font-weight: bold;
+    
+    padding: 5px 6px;
+
+}
+
+.tdcol3 {
+    text-align: right;
+    padding-right:20px;
+
+}
+
+.tg {
+    margin-left: 5px;
+    width: 100%;
+}
+
+
+.tdcol3 input[type=text] {
+    border-style: none;
+    margin: 0 5px;
+}
+
+.sidemenu_show li{
+    list-style: none;
+}
+
+
+/*결제쪽 css*/
+/*메인결제 css*/
+
+#paystart {
+    position: absolute;
+    top: 180px;
+    left: 28%;
+    margin: 120x;
+    width: 370px;
+    height: 550px;
+    background-color: #fffcf8;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px;
+    border-top: 3px solid #cf1126;
+    border-bottom: 3px solid #cf1126;
+    display: none;
+}
+
+
+.payment {
+    position: absolute;
+    top: 180px;
+    left: 28%;
+    margin: 10px;
+    display: block;
+    width: 370px;
+    height: 550px;
+    background-color: #fffcf8;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px;
+    border-top: 3px solid #cf1126;
+    border-bottom: 3px solid #cf1126;
+    display: none;
+}
+
+
+.payment table{
+    margin: auto;
+    margin-top : 10px;
+}
+
+.title {
+    font-family: 'TmoneyRoundWindExtraBold';
+    text-align: center;
+    font-weight: bold;
+    margin: 10px;
+    padding: 20px;
+    color: #cf1126;
+}
+
+hr
+{
+    border-top: 1px double #cf1126;
+    width: 90%;
+}
+
+
+.tab td {
+    margin: 10px;
+    padding: 10px;
+    align-content: center;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: bolder;
+
+}
+
+/*세부결제 css*/
+.ptab2 {
+    margin: 10px auto;
+}
+
+
+.tab2 {
+    margin: 10px auto;
+}
+
+.ptab2 td {
+    margin: 10px;
+    padding: 10px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: bolder;
+    font-size: 20px;
+    display: inline-block;
+}
+
+
+.tab2 img{
+    margin-left: 30px;
+}
+
+.receipt {
+    
+    width: 420px;
+    height: auto;
+    max-height: 700px;
+    padding: 10px;
+    background-color: white;
+    overflow: scroll;    
+    position: absolute;
+    top: 180px;
+    left: 28%;
+    display : none;
+    border: 10px solid #f2c000;
+}
+
+
+.receipt table {
+    width: 100%;
+    
+}
+
+.receipt hr {
+    border-style: dashed;
+    border-color : black;
+    margin : 10px auto;
+    width: 100%;
+}
+
+.receipt a1 {
+    font-size: 0.7em;
+    margin-top: -10px;
+}
+
+.receipt h1 {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin: 0px;
+    font-family: 'TmoneyRoundWindExtraBold';
+}
+
+.receipt_t {
+    text-align: right;
+    padding-right: 15px;
+    width: 25%;
+}
+
+.receipt_name{
+    width : 50%;
+    
+}
+
+.receipt_price{
+    width: 15%;
+}
+
+receipt_cnt{
+    width : 10%
+}
+
+.receipt h3,
+.receipt h2 {
+    font-size: 20px;
+    font-weight: bold; 
+    margin-top : 0px;
+    margin-bottom : 0px;
+    margin-left: 20px;
+}
+
+.receipt_total {
+    text-align: right;
+    padding-right: 15px;
+}
+
+
+.receipt p {
+    font-size : 15px;
+}
+
+.hansot{
+    text-align: center;
+}
+
+.receipt img{
+    margin-left: 110px;
+}
+
+.ptab input[type=button]{
+    float:right;
+    border : 0px;
+}
