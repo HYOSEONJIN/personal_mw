@@ -31,7 +31,7 @@ public class ootdRegController {
 		
 		
 		System.out.println(ootd);
-//		성공은1 만약에 사진이없다면 0, 글 내용이 없다면 2를 반환하고 알려줄 것.
+//		성공은1 만약에 사진이없다면 0, 글 내용이 없다면 2를 반환하고 알려줄 것. 그 외의 에러는 5를 반환
 		return regService.ootdWrite(ootd, request);
 	}
 	

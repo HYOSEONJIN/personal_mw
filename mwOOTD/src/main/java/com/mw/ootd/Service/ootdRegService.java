@@ -77,7 +77,6 @@ public class ootdRegService {
       try {
       dao=template.getMapper(ootdInterfaceDao.class);
       result= dao.ootdDocInsert(ootd);
-      System.out.println(dao.ootdDocInsert(ootd));
       } catch(Exception e) {
          e.printStackTrace();
          if(newFile!=null && newFile.exists()) {
