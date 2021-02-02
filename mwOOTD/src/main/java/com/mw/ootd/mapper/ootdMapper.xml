@@ -48,8 +48,7 @@ select count(*) from ootd
 
 <select id="PagingView"
 	resultType="com.mw.ootd.Domain.ootdBoard">
-	select * from ootd order by ootddate desc;
-<!-- select * from ootd limit #{startrow}, #{cntPerPage} -->
+select * from ootd limit #{param1}, #{param2}
 </select>
 
 
