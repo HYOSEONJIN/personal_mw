@@ -40,8 +40,8 @@ public class ootdListService {
 			System.out.println("starrow"+ startRow);
 			
 			dao = template.getMapper(ootdInterfaceDao.class);
-			System.out.println(dao.PagingView(startRow, cntPerPage));
-			//ootdpaging = dao.PagingView(startRow, cntPerPage);
+			
+			ootdpaging = dao.PagingView(startRow, cntPerPage);
 			
 		}catch (Exception e) {
 			e.printStackTrace();
