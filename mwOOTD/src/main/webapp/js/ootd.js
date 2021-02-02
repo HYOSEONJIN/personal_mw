@@ -219,45 +219,20 @@ function reg() {
 
 
                         if (data == 1) {
-                            hashCheck.length = 0;
-                            $('#ootdtext').val(null);
-                            $('#ootdphoto').val(null);
-                            $('.ootd_hashtag').removeClass('ootd_hasktag_true');
-                            $('.ootd_hashtag').addClass('ootd_hashtag_false');
-                            hashJSON = '';
+                            dataReset();
                             alert("등록완료");
                             ootdMain();
-                            hashFalse();
+                            
                             /////////// 원래 저장값 날려주는 처리 할 부분/////////////////
                             $("#ootdRegModal").modal("hide");
                         } else if (data == 0) {
-                            console.log(file1);
-                            hashCheck.length = 0;
-                            $('#ootdtext').val(null);
-                            $('#ootdphoto').val(null);
-                            $('.ootd_hashtag').removeClass('ootd_hasktag_true');
-                            $('.ootd_hashtag').addClass('ootd_hashtag_false');
-                            hashJSON = '';
-                            hashFalse();
+                            dataReset();
                             alert("사진은 필수항목입니다");
                         } else if (data == 2) {
-                            hashJSON = '';
-                            hashCheck.length = 0;
-                            $('#ootdtext').val(null);
-                            $('#ootdphoto').val(null);
-                            $('.ootd_hashtag').removeClass('ootd_hasktag_true');
-                            $('.ootd_hashtag').addClass('ootd_hashtag_false');
-                            hashJSON = '';
-                            hashFalse();
+                            dataReset();
+                            alert('내용을 입력하세요');
                         } else {
-                            hashJSON = '';
-                            hashCheck.length = 0;
-                            $('#ootdtext').val(null);
-                            $('#ootdphoto').val(null);
-                            $('.ootd_hashtag').removeClass('ootd_hasktag_true');
-                            $('.ootd_hashtag').addClass('ootd_hashtag_false');
-                            hashJSON = '';
-                            hashFalse();
+                           dataReset();
                             alert("알수없는 에러가 발생했습니다. 다시시도해주세요");
 
                         }
@@ -303,6 +278,16 @@ function hashtag(idx) {
 
     }
 
+}
+
+function dataReset() {
+    hashCheck.length = 0;
+    $('#ootdtext').val(null);
+    $('#ootdphoto').val(null);
+    $('.ootd_hashtag').removeClass('ootd_hasktag_true');
+    $('.ootd_hashtag').addClass('ootd_hashtag_false');
+    hashJSON = '';
+    hashFalse();
 }
 
 
