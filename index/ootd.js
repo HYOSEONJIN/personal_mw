@@ -11,7 +11,7 @@ window.onload = function () {
 var hashtagName = ''; // 해시태그 div 생성해주는 for문에 사용
 var hashCheck = []; // hash태그 체크 여부 저장해주는 배열
 var hashJSON = ''; // hash태그를 JSON형식의 String으로 저장
-var ajax_last_num = 0; 
+var ajax_last_num = 0;
 
 
 
@@ -19,33 +19,43 @@ var ajax_last_num = 0;
 // 메인 출력
 function ootdMain() {
 
-
-
     hashJSON = '';
-    console.log('삭제해시태그>>>>>>', hashJSON);
 
 
-    var mainhtml = '';
-    mainhtml += '<h1>리스트출력 페이지</h1>';
-    mainhtml += '<button type="button" class="btn btn-primary" class="regFormButton" data-toggle="modal" data-target="#ootdRegModal" data-what="hello">글쓰기버튼</button>';
-    mainhtml += '<div class="modal fade" id="ootdRegModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="exampleModalLabel">WEATHER WEAR - OOTD</h5><div class="modal-body"><form><div class="form-group"> <label for="recipient-name" class="col-form-label">TODAY OOTD</label><form id="photoform" method="POST" enctype="multipart/form-data"> <input type="file" id="ootdphoto" name="ootdphoto"></form></div><div class="form-group"><input type="text" id="ootdtext" name="ootdtext" required> </div><div class="form-group"><div class="ootd_hs">';
+
+    var regModalHtml = '';
+    regModalHtml += '<h1>리스트출력 페이지</h1>';
+
+
+    regModalHtml += '<button type="button" class="btn btn-primary" class="regFormButton" data-toggle="modal" data-target="#ootdRegModal" data-what="hello">글쓰기버튼</button>';
+    regModalHtml += '<div class="modal fade" id="ootdRegModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+    regModalHtml += '<div class="modal-dialog" role="document"><div class="modal-content">'
+    regModalHtml += '<div class="modal-header"><h5 class="modal-title" id="exampleModalLabel">WEATHER WEAR - OOTD</h5>';
+    regModalHtml += '<div class="modal-body"><form><div class="form-group">'
+    regModalHtml += '<label for="recipient-name" class="col-form-label">TODAY OOTD</label>'
+    regModalHtml += '<form id="photoform" method="POST" enctype="multipart/form-data">'
+    regModalHtml += '<input type="file" id="ootdphoto" name="ootdphoto"></form></div><div class="form-group">'
+    regModalHtml += '<input type="text" id="ootdtext" name="ootdtext" required> </div><div class="form-group">'
+    regModalHtml += '<div class="ootd_hs">';
 
     // 해시태그 리스트 불러오기
-
-    mainhtml += hashtagName;
+    regModalHtml += hashtagName;
 
     ///////가짜로넣어주는값 나중에 지우고 ootdMain()안에 넣어서 넘겨줘야함///////
-    mainhtml += '<input type="hidden" id="memidx" value="1"><input type="hidden" id="ootdnic" value="메이웨더TEST">';
+    regModalHtml += '<input type="hidden" id="memidx" value="1"><input type="hidden" id="ootdnic" value="메이웨더TEST">';
     console.log('ootdMain()안에 임시값있음 추후 삭제해야함')
     /////////////////////////////////
 
 
 
-    mainhtml += '</div></div></form></div><div class="modal-footer"> <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button> <button type="button" class="btn btn-primary" id="close_modal" onclick="reg();  this.onclick=null";>등록</button><button type="button" class="btn btn-primary" id="imagedetection" onclick="kakaoCall()">사진조회</button><img src="" id="imageTest" width="40"></div></div></div></div></div></div>';
+    regModalHtml += '</div></div></form></div><div class="modal-footer">';
+    regModalHtml += '<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>'
+    regModalHtml += '<button type="button" class="btn btn-primary" id="close_modal" onclick="reg()">등록</button>'
+    regModalHtml += '<button type="button" class="btn btn-primary" id="imagedetection" onclick="kakaoCall()">사진조회</button><img src="" id="imageTest" width="40"></div></div></div></div></div></div>';
 
 
     var content = document.querySelector('.content');
-    content.innerHTML = mainhtml;
+    content.innerHTML = regModalHtml;
 
 }
 
@@ -69,7 +79,6 @@ function hashtagList() {
     })
 
 }
-
 
 function imageDetection() {
     //var file = document.querySelector('#ootdphoto');
@@ -104,8 +113,6 @@ function imageDetection() {
     }
 
 }
-
-
 
 // kakao API 상품검출 좌표값 얻기
 function kakaoCall() {
@@ -163,9 +170,6 @@ function kakaoCall() {
     });
 }
 
-
-
-
 // 모달창 닫는버튼 (데이터 전송)
 function reg() {
     //모달창끄기
@@ -177,11 +181,8 @@ function reg() {
 
         var photoFile = $('#ootdphoto');
         var file1 = photoFile[0].files[0];
-        console.log(file1);
-        console.log(file1.type);
-        console.log(typeof (file1.type));
 
-        if (file1.type == 'image/jpeg' || (file1.type == 'image/png')) {
+        if (file1.type == 'image/jpeg' || (file1.type == 'image/png') || file1.type == "") {
 
 
             hashtagJSON();
@@ -221,17 +222,24 @@ function reg() {
                             dataReset();
                             alert("등록완료");
                             ootdMain();
-                            
+
                             /////////// 원래 저장값 날려주는 처리 할 부분/////////////////
                             $("#ootdRegModal").modal("hide");
                         } else if (data == 0) {
+                            hashJSON = '';
+
+                            console.log(hashJSON);
                             dataReset();
                             alert("사진은 필수항목입니다");
                         } else if (data == 2) {
+                            hashJSON = '';
+                            console.log(hashJSON);
                             dataReset();
                             alert('내용을 입력하세요');
                         } else {
-                           dataReset();
+                            hashJSON = '';
+                            console.log(hashJSON);
+                            dataReset();
                             alert("알수없는 에러가 발생했습니다. 다시시도해주세요");
 
                         }
@@ -308,4 +316,4 @@ function hashtagJSON() {
 
 }
 
-
+// 리스트 출력 함수
