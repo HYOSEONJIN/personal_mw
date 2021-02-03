@@ -2,6 +2,7 @@ window.onload = function () {
 
     hashtagList();
     hashFalse();
+   	
 
 
 };
@@ -12,20 +13,28 @@ var hashtagName = ''; // 해시태그 div 생성해주는 for문에 사용
 var hashCheck = []; // hash태그 체크 여부 저장해주는 배열
 var hashJSON = ''; // hash태그를 JSON형식의 String으로 저장
 var ajax_last_num = 0;
-
+var pageNum=1;
 
 
 
 // 메인 출력
 function ootdMain() {
 
-    hashJSON = '';
+    var content = document.querySelector('.content');
+    content.innerHTML = '';
 
+    hashJSON = '';
+    pageView(pageNum);
+    addregButton();
+
+
+}
+
+function addregButton() {
 
 
     var regModalHtml = '';
-    regModalHtml += '<h1>리스트출력 페이지</h1>';
-    regModalHtml += '<button type="button" class="test" onclick="pageView(1)">ㅇㅇ</button>';
+    regModalHtml += '<button type="button" class="test" onclick="pageView(pageNum)">ㅇㅇ</button>'
 
 
     regModalHtml += '<button type="button" class="btn btn-primary" class="regFormButton" data-toggle="modal" data-target="#ootdRegModal" data-what="hello">글쓰기버튼</button>';
@@ -51,12 +60,11 @@ function ootdMain() {
 
     regModalHtml += '</div></div></form></div><div class="modal-footer">';
     regModalHtml += '<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>'
-    regModalHtml += '<button type="button" class="btn btn-primary" id="close_modal" onclick="reg()">등록</button>'
+    regModalHtml += '<button type="button" class="btn btn-primary" id="close_modal" onclick="reg(); this.onclick=null;">등록</button>'
     regModalHtml += '<button type="button" class="btn btn-primary" id="imagedetection" onclick="kakaoCall()">사진조회</button><img src="" id="imageTest" width="40"></div></div></div></div></div></div>';
 
 
-    var content = document.querySelector('.content');
-    content.innerHTML = regModalHtml;
+    $(".content").append(regModalHtml);
 
 }
 
@@ -133,7 +141,6 @@ function kakaoCall() {
       var form = $('#photoform')[0];
         
         var formData = new FormData(form);
-
     */
 
 
@@ -183,7 +190,7 @@ function reg() {
         var photoFile = $('#ootdphoto');
         var file1 = photoFile[0].files[0];
 
-        if (file1.type == 'image/jpeg' || (file1.type == 'image/png') || file1.type == "") {
+        if (file1.type == 'image/jpeg' || (file1.type == 'image/png') || file1.type == "undefined") {
 
 
             hashtagJSON();
@@ -250,6 +257,11 @@ function reg() {
 
             })
 
+        } else {
+            hashJSON = '';
+            console.log(hashJSON);
+            dataReset();
+            alert('JPG 또는 PNG 형식의 파일만 첨부해주세요 ');
         }
 
     });
@@ -302,6 +314,7 @@ function dataReset() {
 // hash태그를 JSON형식의 String으로 만들어기
 function hashtagJSON() {
 
+	hashJSON = '';
     hashJSON += '[{'
 
     for (i = 1; i < 9; i++) {
@@ -321,7 +334,8 @@ function hashtagJSON() {
 // 리스트 출력 함수
 function pageView(idx) {
 
-
+	$(".bottomArea").remove();
+	console.log('들어온페이지번호', idx)
     $.ajax({
         url: 'http://localhost:8080/ootd/list/paging',
         type: 'get',
@@ -344,10 +358,13 @@ function pageView(idx) {
             }
 
             listhtml += '</div></div></form>';
-
-            var content = document.querySelector('.content');
-            content.innerHTML = listhtml;
             
+            listhtml += '<div class="bottomArea"><img src="/ootd/image/background.PNG" width="90"></div>';
+
+            $(".content").append(listhtml);
+            pageNum++;
+            console.log(pageNum);
+
         },
         error: function (e) {
             console.log('페이징 ajax 에러', e)

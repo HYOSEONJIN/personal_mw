@@ -16,7 +16,6 @@
  <script src="<c:url value="/js/ootd.js"/>"></script>
 
 
-
 </head>
 
 <body bgcolor="#f5f5f5">

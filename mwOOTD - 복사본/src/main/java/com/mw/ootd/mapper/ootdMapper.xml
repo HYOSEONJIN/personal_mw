@@ -48,7 +48,7 @@ select count(*) from ootd
 
 <select id="PagingView"
 	resultType="com.mw.ootd.Domain.ootdBoard">
-select * from ootd limit #{param1}, #{param2}
+select * from ootd order by ootdidx desc limit #{param1}, #{param2} 
 </select>
 
 
