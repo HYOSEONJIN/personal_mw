@@ -33,10 +33,7 @@ function addregButton() {
 
 
     var regModalHtml = '';
-    regModalHtml += '<button type="button" class="test" onclick="pageView(1)">ㅇㅇ</button>'
-
-
-    regModalHtml += '<button type="button" class="btn btn-primary" class="regFormButton" data-toggle="modal" data-target="#ootdRegModal" data-what="hello">글쓰기버튼</button>';
+    regModalHtml += '<button type="button" class="regFormButton" data-toggle="modal" data-target="#ootdRegModal" data-what="hello">1</button>';
     regModalHtml += '<div class="modal fade" id="ootdRegModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
     regModalHtml += '<div class="modal-dialog" role="document"><div class="modal-content">'
     regModalHtml += '<div class="modal-header"><h5 class="modal-title" id="exampleModalLabel">WEATHER WEAR - OOTD</h5>';
@@ -59,7 +56,7 @@ function addregButton() {
 
     regModalHtml += '</div></div></form></div><div class="modal-footer">';
     regModalHtml += '<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>'
-    regModalHtml += '<button type="button" class="btn btn-primary" id="close_modal" onclick="reg()">등록</button>'
+    regModalHtml += '<button type="button" class="btn btn-primary" id="close_modal" onclick="reg(); this.onclick=null;">등록</button>'
     regModalHtml += '<button type="button" class="btn btn-primary" id="imagedetection" onclick="kakaoCall()">사진조회</button><img src="" id="imageTest" width="40"></div></div></div></div></div></div>';
 
 
@@ -258,6 +255,7 @@ function reg() {
             })
 
         } else {
+            hashJSON = '';
             console.log(hashJSON);
             dataReset();
             alert('JPG 또는 PNG 형식의 파일만 첨부해주세요 ');
@@ -313,7 +311,6 @@ function dataReset() {
 // hash태그를 JSON형식의 String으로 만들어기
 function hashtagJSON() {
 
-    hashJSON = '';
     hashJSON += '[{'
 
     for (i = 1; i < 9; i++) {

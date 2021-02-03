@@ -35,7 +35,7 @@ public class ootdMainController {
 
 	@GetMapping("/paging")
 	public List<ootdBoard> ootdPageList(
-			@RequestParam(value = "p", defaultValue = "1") int pageNum){
+			@RequestParam("pageNum") int pageNum){
 		
 		System.out.println(pageNum);
 	

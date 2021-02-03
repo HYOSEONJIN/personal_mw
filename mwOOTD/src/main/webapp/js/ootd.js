@@ -2,6 +2,7 @@ window.onload = function () {
 
     hashtagList();
     hashFalse();
+   	
 
 
 };
@@ -12,7 +13,7 @@ var hashtagName = ''; // 해시태그 div 생성해주는 for문에 사용
 var hashCheck = []; // hash태그 체크 여부 저장해주는 배열
 var hashJSON = ''; // hash태그를 JSON형식의 String으로 저장
 var ajax_last_num = 0;
-
+var pageNum=1;
 
 
 
@@ -23,7 +24,7 @@ function ootdMain() {
     content.innerHTML = '';
 
     hashJSON = '';
-    pageView(1);
+    pageView(pageNum);
     addregButton();
 
 
@@ -33,7 +34,7 @@ function addregButton() {
 
 
     var regModalHtml = '';
-    regModalHtml += '<button type="button" class="test" onclick="pageView(1)">ㅇㅇ</button>'
+    regModalHtml += '<button type="button" class="test" onclick="pageView(pageNum)">ㅇㅇ</button>'
 
 
     regModalHtml += '<button type="button" class="btn btn-primary" class="regFormButton" data-toggle="modal" data-target="#ootdRegModal" data-what="hello">글쓰기버튼</button>';
@@ -140,7 +141,6 @@ function kakaoCall() {
       var form = $('#photoform')[0];
         
         var formData = new FormData(form);
-
     */
 
 
@@ -314,6 +314,7 @@ function dataReset() {
 // hash태그를 JSON형식의 String으로 만들어기
 function hashtagJSON() {
 
+	hashJSON = '';
     hashJSON += '[{'
 
     for (i = 1; i < 9; i++) {
@@ -334,6 +335,7 @@ function hashtagJSON() {
 function pageView(idx) {
 
 
+	console.log('들어온페이지번호', idx)
     $.ajax({
         url: 'http://localhost:8080/ootd/list/paging',
         type: 'get',
@@ -358,6 +360,8 @@ function pageView(idx) {
             listhtml += '</div></div></form>';
 
             $(".content").append(listhtml);
+            pageNum++;
+            console.log(pageNum);
 
         },
         error: function (e) {
