@@ -349,8 +349,8 @@ function pageView(idx) {
 
 
             for (i = 0; i < data.length; i++) {
-                /*나중에멤버 현재 로그인된 idx받아줘야함*/
-                listhtml += '<div onclick="viewPost('+data[i].ootdidx+'); this.onclick=null;">';
+                /*나중에멤버 현재 로그인된 idx받아줘야함, 현재 헤더안에 있는 값으로 하고 있음*/
+                listhtml += '<div onclick="viewPost('+data[i].ootdidx+','+$('#memidxsession').val()+'); this.onclick=null;">';
                 listhtml += '<table class="ootdposttable">';
                 listhtml += '<tr><td><img src="https://media.allure.com/photos/58657e62327f28075707a5ca/1:1/w_354%2Cc_limit/slack-imgs.com.jpeg" class="postthumnail"></td></tr>';
                 listhtml += '<tr><td><a1 class="ootdwriter">' + data[i].ootdnic + '</a1></td></tr>';
@@ -365,7 +365,7 @@ function pageView(idx) {
 
             $(".content").append(listhtml);
             pageNum++;
-            console.log(pageNum);
+            console.log('삭제할 값 있음 function pageView');
 
         },
         error: function (e) {
@@ -379,8 +379,20 @@ function pageView(idx) {
 }
 
 /*게시물 출력*/
-function viewPost(data){
-    alert(data);
+function viewPost(data, idx){
+    
+    $(".bottomArea").remove();
+	console.log('들어온페이지번호', idx)
+    $.ajax({
+        url: 'http://localhost:8080/ootd/postview',
+        type: 'get',
+        data: {
+            ootdidx : data
+        },
+        success: function (data) {
+            console.log(data);
+        }
+
     
     
 }
