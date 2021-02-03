@@ -334,7 +334,7 @@ function hashtagJSON() {
 // 리스트 출력 함수
 function pageView(idx) {
 
-
+	$(".bottomArea").remove();
 	console.log('들어온페이지번호', idx)
     $.ajax({
         url: 'http://localhost:8080/ootd/list/paging',
@@ -358,6 +358,8 @@ function pageView(idx) {
             }
 
             listhtml += '</div></div></form>';
+            
+            listhtml += '<div class="bottomArea"><img src="/ootd/image/background.PNG" width="90"></div>';
 
             $(".content").append(listhtml);
             pageNum++;
