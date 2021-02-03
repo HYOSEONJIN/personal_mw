@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mw.ootd.Domain.listPaging;
+
 import com.mw.ootd.Domain.ootdBoard;
 import com.mw.ootd.Service.ootdListService;
 

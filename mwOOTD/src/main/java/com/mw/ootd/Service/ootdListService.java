@@ -6,7 +6,6 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mw.ootd.Domain.listPaging;
 import com.mw.ootd.Domain.ootdBoard;
 import com.mw.ootd.dao.ootdInterfaceDao;
 
