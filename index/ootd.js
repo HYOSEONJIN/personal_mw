@@ -2,6 +2,7 @@ window.onload = function () {
 
     hashtagList();
     hashFalse();
+   	
 
 
 };
@@ -12,7 +13,7 @@ var hashtagName = ''; // 해시태그 div 생성해주는 for문에 사용
 var hashCheck = []; // hash태그 체크 여부 저장해주는 배열
 var hashJSON = ''; // hash태그를 JSON형식의 String으로 저장
 var ajax_last_num = 0;
-
+var pageNum=1;
 
 
 
@@ -23,7 +24,7 @@ function ootdMain() {
     content.innerHTML = '';
 
     hashJSON = '';
-    pageView(1);
+    pageView(pageNum);
     addregButton();
 
 
@@ -33,7 +34,10 @@ function addregButton() {
 
 
     var regModalHtml = '';
-    regModalHtml += '<button type="button" class="regFormButton" data-toggle="modal" data-target="#ootdRegModal" data-what="hello">1</button>';
+    regModalHtml += '<button type="button" class="test" onclick="pageView(pageNum)">ㅇㅇ</button>'
+
+
+    regModalHtml += '<button type="button" class="regFormButton" data-toggle="modal" data-target="#ootdRegModal" data-what="hello"/>';
     regModalHtml += '<div class="modal fade" id="ootdRegModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
     regModalHtml += '<div class="modal-dialog" role="document"><div class="modal-content">'
     regModalHtml += '<div class="modal-header"><h5 class="modal-title" id="exampleModalLabel">WEATHER WEAR - OOTD</h5>';
@@ -137,7 +141,6 @@ function kakaoCall() {
       var form = $('#photoform')[0];
         
         var formData = new FormData(form);
-
     */
 
 
@@ -311,6 +314,7 @@ function dataReset() {
 // hash태그를 JSON형식의 String으로 만들어기
 function hashtagJSON() {
 
+	hashJSON = '';
     hashJSON += '[{'
 
     for (i = 1; i < 9; i++) {
@@ -330,7 +334,8 @@ function hashtagJSON() {
 // 리스트 출력 함수
 function pageView(idx) {
 
-
+	$(".bottomArea").remove();
+	console.log('들어온페이지번호', idx)
     $.ajax({
         url: 'http://localhost:8080/ootd/list/paging',
         type: 'get',
@@ -344,17 +349,23 @@ function pageView(idx) {
 
 
             for (i = 0; i < data.length; i++) {
+                /*나중에멤버 현재 로그인된 idx받아줘야함*/
+                listhtml += '<div onclick="viewPost('+data[i]+'); this.onclick=null;">';
                 listhtml += '<table class="ootdposttable">';
                 listhtml += '<tr><td><img src="https://media.allure.com/photos/58657e62327f28075707a5ca/1:1/w_354%2Cc_limit/slack-imgs.com.jpeg" class="postthumnail"></td></tr>';
                 listhtml += '<tr><td><a1 class="ootdwriter">' + data[i].ootdnic + '</a1></td></tr>';
                 listhtml += '<tr><td><a1 class="ootdlocation">' + data[i].ootdloc + '</a1></td></tr>';
-                listhtml += '<tr><td><a1 class="ootdlistlike">♥ ' + data[i].ootdlikecnt + '</a1></td></tr></table>';
+                listhtml += '<tr><td><a1 class="ootdlistlike">♥ ' + data[i].ootdlikecnt + '</a1></td></tr></table></div>';
 
             }
 
             listhtml += '</div></div></form>';
+            
+            listhtml += '<div class="bottomArea"><img src="/ootd/image/background.PNG" width="90"></div>';
 
             $(".content").append(listhtml);
+            pageNum++;
+            console.log(pageNum);
 
         },
         error: function (e) {
@@ -365,4 +376,11 @@ function pageView(idx) {
 
 
 
+}
+
+/*게시물 출력*/
+function viewPost(data){
+    alert(data.ootdidx);
+    
+    
 }

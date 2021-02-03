@@ -37,7 +37,7 @@ function addregButton() {
     regModalHtml += '<button type="button" class="test" onclick="pageView(pageNum)">ㅇㅇ</button>'
 
 
-    regModalHtml += '<button type="button" class="btn btn-primary" class="regFormButton" data-toggle="modal" data-target="#ootdRegModal" data-what="hello">글쓰기버튼</button>';
+    regModalHtml += '<button type="button" class="regFormButton" data-toggle="modal" data-target="#ootdRegModal" data-what="hello"/>';
     regModalHtml += '<div class="modal fade" id="ootdRegModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
     regModalHtml += '<div class="modal-dialog" role="document"><div class="modal-content">'
     regModalHtml += '<div class="modal-header"><h5 class="modal-title" id="exampleModalLabel">WEATHER WEAR - OOTD</h5>';
