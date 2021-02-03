@@ -349,11 +349,13 @@ function pageView(idx) {
 
 
             for (i = 0; i < data.length; i++) {
+                /*나중에멤버 현재 로그인된 idx받아줘야함*/
+                listhtml += '<div onclick="viewPost('+data[i].ootdidx+'); this.onclick=null;">';
                 listhtml += '<table class="ootdposttable">';
                 listhtml += '<tr><td><img src="https://media.allure.com/photos/58657e62327f28075707a5ca/1:1/w_354%2Cc_limit/slack-imgs.com.jpeg" class="postthumnail"></td></tr>';
                 listhtml += '<tr><td><a1 class="ootdwriter">' + data[i].ootdnic + '</a1></td></tr>';
                 listhtml += '<tr><td><a1 class="ootdlocation">' + data[i].ootdloc + '</a1></td></tr>';
-                listhtml += '<tr><td><a1 class="ootdlistlike">♥ ' + data[i].ootdlikecnt + '</a1></td></tr></table>';
+                listhtml += '<tr><td><a1 class="ootdlistlike">♥ ' + data[i].ootdlikecnt + '</a1></td></tr></table></div>';
 
             }
 
@@ -374,4 +376,11 @@ function pageView(idx) {
 
 
 
+}
+
+/*게시물 출력*/
+function viewPost(data){
+    alert(data);
+    
+    
 }
