@@ -19,12 +19,20 @@ var ajax_last_num = 0;
 // 메인 출력
 function ootdMain() {
 
-    hashJSON = '';
+    var content = document.querySelector('.content');
+    content.innerHTML = '';
 
+    hashJSON = '';
+    pageView(1);
+    addregButton();
+
+
+}
+
+function addregButton() {
 
 
     var regModalHtml = '';
-    regModalHtml += '<h1>리스트출력 페이지</h1>';
     regModalHtml += '<button type="button" class="test" onclick="pageView(1)">ㅇㅇ</button>'
 
 
@@ -51,12 +59,11 @@ function ootdMain() {
 
     regModalHtml += '</div></div></form></div><div class="modal-footer">';
     regModalHtml += '<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>'
-    regModalHtml += '<button type="button" class="btn btn-primary" id="close_modal" onclick="reg()">등록</button>'
+    regModalHtml += '<button type="button" class="btn btn-primary" id="close_modal" onclick="reg(); this.onclick=null;">등록</button>'
     regModalHtml += '<button type="button" class="btn btn-primary" id="imagedetection" onclick="kakaoCall()">사진조회</button><img src="" id="imageTest" width="40"></div></div></div></div></div></div>';
 
 
-    var content = document.querySelector('.content');
-    content.innerHTML = regModalHtml;
+    $(".content").append(regModalHtml);
 
 }
 
@@ -183,7 +190,7 @@ function reg() {
         var photoFile = $('#ootdphoto');
         var file1 = photoFile[0].files[0];
 
-        if (file1.type == 'image/jpeg' || (file1.type == 'image/png') || file1.type == "") {
+        if (file1.type == 'image/jpeg' || (file1.type == 'image/png') || file1.type == "undefined") {
 
 
             hashtagJSON();
@@ -250,6 +257,11 @@ function reg() {
 
             })
 
+        } else {
+            hashJSON = '';
+            console.log(hashJSON);
+            dataReset();
+            alert('JPG 또는 PNG 형식의 파일만 첨부해주세요 ');
         }
 
     });
@@ -345,9 +357,8 @@ function pageView(idx) {
 
             listhtml += '</div></div></form>';
 
-            var content = document.querySelector('.content');
-            content.innerHTML = listhtml;
-            
+            $(".content").append(listhtml);
+
         },
         error: function (e) {
             console.log('페이징 ajax 에러', e)

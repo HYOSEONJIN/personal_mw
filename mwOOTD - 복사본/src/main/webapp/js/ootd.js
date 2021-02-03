@@ -19,21 +19,13 @@ var ajax_last_num = 0;
 // 메인 출력
 function ootdMain() {
 
-    var content = document.querySelector('.content');
-    content.innerHTML = '';
-
     hashJSON = '';
-    pageView(1);
-    addregButton();
 
-
-}
-
-function addregButton() {
 
 
     var regModalHtml = '';
-    regModalHtml += '<button type="button" class="test" onclick="pageView(1)">ㅇㅇ</button>'
+    regModalHtml += '<h1>리스트출력 페이지</h1>';
+    regModalHtml += '<button type="button" class="test" onclick="pageView(1)">ㅇㅇ</button>';
 
 
     regModalHtml += '<button type="button" class="btn btn-primary" class="regFormButton" data-toggle="modal" data-target="#ootdRegModal" data-what="hello">글쓰기버튼</button>';
@@ -63,7 +55,8 @@ function addregButton() {
     regModalHtml += '<button type="button" class="btn btn-primary" id="imagedetection" onclick="kakaoCall()">사진조회</button><img src="" id="imageTest" width="40"></div></div></div></div></div></div>';
 
 
-    $(".content").append(regModalHtml);
+    var content = document.querySelector('.content');
+    content.innerHTML = regModalHtml;
 
 }
 
@@ -190,7 +183,7 @@ function reg() {
         var photoFile = $('#ootdphoto');
         var file1 = photoFile[0].files[0];
 
-        if (file1.type == 'image/jpeg' || (file1.type == 'image/png') || file1.type == "undefined") {
+        if (file1.type == 'image/jpeg' || (file1.type == 'image/png') || file1.type == "") {
 
 
             hashtagJSON();
@@ -257,10 +250,6 @@ function reg() {
 
             })
 
-        } else {
-            console.log(hashJSON);
-            dataReset();
-            alert('JPG 또는 PNG 형식의 파일만 첨부해주세요 ');
         }
 
     });
@@ -313,7 +302,6 @@ function dataReset() {
 // hash태그를 JSON형식의 String으로 만들어기
 function hashtagJSON() {
 
-    hashJSON = '';
     hashJSON += '[{'
 
     for (i = 1; i < 9; i++) {
@@ -357,8 +345,9 @@ function pageView(idx) {
 
             listhtml += '</div></div></form>';
 
-            $(".content").append(listhtml);
-
+            var content = document.querySelector('.content');
+            content.innerHTML = listhtml;
+            
         },
         error: function (e) {
             console.log('페이징 ajax 에러', e)
