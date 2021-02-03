@@ -2,7 +2,7 @@ window.onload = function () {
 
     hashtagList();
     hashFalse();
-   	
+
 
 
 };
@@ -13,7 +13,7 @@ var hashtagName = ''; // 해시태그 div 생성해주는 for문에 사용
 var hashCheck = []; // hash태그 체크 여부 저장해주는 배열
 var hashJSON = ''; // hash태그를 JSON형식의 String으로 저장
 var ajax_last_num = 0;
-var pageNum=1;
+var pageNum = 1;
 
 
 
@@ -22,7 +22,7 @@ function ootdMain() {
 
     var content = document.querySelector('.content');
     content.innerHTML = '';
-
+	pageNum=1;
     hashJSON = '';
     pageView(pageNum);
     addregButton();
@@ -314,7 +314,7 @@ function dataReset() {
 // hash태그를 JSON형식의 String으로 만들어기
 function hashtagJSON() {
 
-	hashJSON = '';
+    hashJSON = '';
     hashJSON += '[{'
 
     for (i = 1; i < 9; i++) {
@@ -334,8 +334,8 @@ function hashtagJSON() {
 // 리스트 출력 함수
 function pageView(idx) {
 
-	$(".bottomArea").remove();
-	console.log('들어온페이지번호', idx)
+    $(".bottomArea").remove();
+    console.log('들어온페이지번호', idx)
     $.ajax({
         url: 'http://localhost:8080/ootd/list/paging',
         type: 'get',
@@ -350,7 +350,7 @@ function pageView(idx) {
 
             for (i = 0; i < data.length; i++) {
                 /*나중에멤버 현재 로그인된 idx받아줘야함, 현재 헤더안에 있는 값으로 하고 있음*/
-                listhtml += '<div onclick="viewPost('+data[i].ootdidx+','+$('#memidxsession').val()+'); this.onclick=null;">';
+                listhtml += '<div onclick="viewPost(' + data[i].ootdidx + ',' + $('#memidxsession').val() + '); this.onclick=null;">';
                 listhtml += '<table class="ootdposttable">';
                 listhtml += '<tr><td><img src="https://media.allure.com/photos/58657e62327f28075707a5ca/1:1/w_354%2Cc_limit/slack-imgs.com.jpeg" class="postthumnail"></td></tr>';
                 listhtml += '<tr><td><a1 class="ootdwriter">' + data[i].ootdnic + '</a1></td></tr>';
@@ -360,7 +360,7 @@ function pageView(idx) {
             }
 
             listhtml += '</div></div></form>';
-            
+
             listhtml += '<div class="bottomArea"><img src="/ootd/image/background.PNG" width="90"></div>';
 
             $(".content").append(listhtml);
@@ -379,20 +379,58 @@ function pageView(idx) {
 }
 
 /*게시물 출력*/
-function viewPost(data, idx){
-    
+function viewPost(data, idx) {
+
+    var postviewhtml = '';
     $(".bottomArea").remove();
     $.ajax({
         url: 'http://localhost:8080/ootd/postview',
         type: 'get',
         data: {
-            ootdidx : data
+            ootdidx: data
         },
         success: function (data) {
             console.log(data);
-        }
-        });
+            console.log(data[0]);
 
-    
-    
+            var rs = data[0];
+
+
+            postviewhtml += '<div class="postviewarea" id="postviewarea" name="postviewarea">';
+            postviewhtml += '<table class="ootdpostviewtable"  width="100%">';
+            postviewhtml += '<tr><td class="ootdposttable_side"> </td>';
+            postviewhtml += ' <td colspan="2"><img src="https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_location_on_48px-512.png" width="25">';
+            postviewhtml += rs.ootdloc
+            postviewhtml += '</td><td></td><td></td><td colspan="2" class="ootdbmk">';
+            postviewhtml += '<img src="image/icon/bookmarkon.png" width="30"></td>';
+            postviewhtml += '</tr><tr><td colspan="7">';
+            postviewhtml += '<img class="ootdpostphoto" src="http://localhost:8080/ootd/fileupload/ootdimage/';
+            postviewhtml += rs.ootdphotoname
+            postviewhtml += '" width="100%"></td></tr><tr class="ootdpostviewlinethree"><td></td><td colspan="2"><pv1>';
+            postviewhtml += rs.ootdnic
+            postviewhtml += '</pv1></td><td colspan="2"><pv2>';
+            postviewhtml += rs.ootdlikecnt
+            postviewhtml += '명이 좋아합니다&nbsp&nbsp</pv2></td><td><img src="image/icon/heart.png" width="20"></td><td></td></tr><tr><td></td>';
+            postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
+            postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
+            postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
+            postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
+            postviewhtml += '<td></td><td class="ootdposttable_side"></td></tr>';
+            postviewhtml += '<tr class="ootdpostviewtext"><td></td><td class="needborder" colspan="5"><pv3>';
+            postviewhtml += rs.ootdtext
+            postviewhtml += '</pv3></td><td ></td></tr><tr><td></td><td class="ootdcommenttd" colspan="4"><img src="image/icon/comment.png" width="20">&nbsp&nbsp';
+            postviewhtml += rs.ootdcmtcnt
+            postviewhtml += '</td><td>수정</td><td></td></tr></table>';
+            postviewhtml += '<div class="bottomArea"><img src="/ootd/image/background.PNG" width="90"></div>';
+
+
+            var content = document.querySelector('.content');
+            content.innerHTML = postviewhtml;
+
+
+        }
+    });
+
+
+
 }
