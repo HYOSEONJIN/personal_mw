@@ -50,13 +50,15 @@ function ootdMain() {
 
         image1 = document.createElement('img');
         var vm = this;
-
+        
         return function (e) {
             /* base64 인코딩 된 스트링 데이터 */
             image1base64 = e.target.result
             vm.image1.src = e.target.result
             //console.log(vm);
             // console.log(image1base64);
+            alert('돌아가고있음')
+            kakaoCall();
         }
     })()
 
