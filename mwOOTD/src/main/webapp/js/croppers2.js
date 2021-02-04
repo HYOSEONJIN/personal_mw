@@ -1,4 +1,8 @@
+
+
 /**
+ * 
+ *//**
  * @file Allows uploading, cropping (with automatic resizing) and exporting
  * of images.
  * @author Billy Brown
@@ -29,9 +33,7 @@ class Uploader {
     if (!options.input) {
       throw '[Uploader] Missing input file element.';
     }
-    
     this.fileInput = options.input;
-    console.log(options);
     this.types = options.types || [ 'gif', 'jpg', 'jpeg', 'png' ];
   }
 
@@ -49,7 +51,6 @@ class Uploader {
       }
 
       let file = this.fileInput.files[0];
-        console.log(file);
       let reader = new FileReader();
       // Make sure the file is of the correct type
       if (!this.validFileType(file.type)) {
@@ -137,8 +138,6 @@ class Cropper {
       size: { x: x, y: y },
       pos: { x: w, y: h },
       handleSize: 10
-        
-    
     };
     // Set the crop area draw function
     this.drawCropWindow = options.drawCrop || this.defaultDrawCropWindow;
@@ -160,14 +159,12 @@ class Cropper {
   setImageSource(source) {
     this.image = new Image();
     this.image.src = source;
-    console.log(source);
     this.image.onload = (e) => {
       // Perform an initial render
       this.render();
       // Listen for events on the canvas when the image is ready
       this.imageCanvas.onmousedown = this.clickStart.bind(this);
-        //img.setAttribute('src', this.previewCanvas.toDataURL());
-        console.log(this.previewCanvas.toDataURL());
+        img.setAttribute('src', this.previewCanvas.toDataURL());
     };
   }
 
