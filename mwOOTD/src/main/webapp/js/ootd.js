@@ -94,7 +94,6 @@ function ootdMain() {
             types: ['gif', 'jpg', 'jpeg', 'png']
 
         });
-        kakaoCall();
         // alert('try2');
         var editor = new Cropper({
             size: dimensions,
@@ -558,6 +557,3 @@ function ootdPostDelete(idx) {
         });
     }
 }
-
-
-

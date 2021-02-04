@@ -557,6 +557,3 @@ function ootdPostDelete(idx) {
         });
     }
 }
-
-
-
