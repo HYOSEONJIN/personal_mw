@@ -15,6 +15,9 @@ var hashJSON = ''; // hash태그를 JSON형식의 String으로 저장
 var ajax_last_num = 0;
 var pageNum = 1;
 var filebase64 = ''; // file의 사진값 저장할 base64
+var image1 = '';
+var image1base64 = '';
+
 
 
 // 메인 출력
@@ -27,41 +30,43 @@ function ootdMain() {
     pageView(pageNum);
     addregButton();
 
-    
-    
-    /*이미지를 베이스 64로 바꿔주는 메서드*/
 
-var ootdphoto = document.getElementById('ootdphoto')
-var preview = document.querySelector('#preview')
 
-/* FileReader 객체 생성 */
-var reader = new FileReader();
+    /*이미지를 베이스 64로 바꾸고 저장하지 않아도 썸네일로 보여줌*/
 
-/* reader 시작시 함수 구현 */
-reader.onload = (function () {
+    var ootdphoto = document.getElementById('ootdphoto')
+    var preview = document.querySelector('#preview')
 
-    this.image = document.createElement('img');
-    var vm = this;
+    /* FileReader 객체 생성 */
+    var reader = new FileReader();
 
-    return function (e) {
-        /* base64 인코딩 된 스트링 데이터 */
-        vm.image.src = e.target.result
-        console.log(vm);
-    }
-})()
+    /* reader 시작시 함수 구현 */
+    reader.onload = (function () {
 
-ootdphoto.addEventListener('change', function (e) {
-    var get_file = e.target.files;
+        image1 = document.createElement('img');
+        var vm = this;
 
-    if (get_file) {
-        reader.readAsDataURL(get_file[0]);
-    }
+        return function (e) {
+            /* base64 인코딩 된 스트링 데이터 */
+            image1base64 = e.target.result
+            vm.image1.src = e.target.result
+            //console.log(vm);
+            // console.log(image1base64);
+        }
+    })()
 
-    preview.appendChild(image);
-})
+    ootdphoto.addEventListener('change', function (e) {
+        var get_file = e.target.files;
 
-    
-    
+        if (get_file) {
+            reader.readAsDataURL(get_file[0]);
+        }
+
+        //preview.appendChild(image1);
+    })
+
+    /*이미지를 베이스 64로 바꾸고 저장하지 않아도 썸네일로 보여줌 여기까지*/
+
 
 }
 
@@ -164,7 +169,7 @@ function kakaoCall() {
         beforeSend: function (request) {
 
             request.setRequestHeader("Authorization", (beforeKey + key));
-            //request.setRequestHeader("Content-Type", "multipart/form-data");
+            
 
         },
         url: apiUri,
@@ -173,8 +178,11 @@ function kakaoCall() {
         processData: false,
         timeout: 1e4,
         enctype: 'multipart/form-data',
-        success: function (msg) {
-            console.log('카카오메세지', msg);
+        success: function (data) {
+            console.log('카카오메세지', data);
+            console.log(data.isObject[0]);
+            
+            
 
 
         },
@@ -484,4 +492,17 @@ function ootdPostDelete(idx) {
 
         });
     }
+}
+
+
+//이미지 정보를 넣으면 크롭해서 이미지값을 리턴해주는 메서드
+function cropImage(image, croppingCoords) {
+    var cc = croppingCoords;
+    var workCan = document.createElement("canvas"); // create a canvas
+    workCan.width = Math.floor(cc.width); // set the canvas resolution to the cropped image size
+    workCan.height = Math.floor(cc.height);
+    var ctx = workCan.getContext("2d"); // get a 2D rendering interface
+    ctx.drawImage(image, -Math.floor(cc.x), -Math.floor(cc.y)); // draw the image offset to place it correctly on the cropped region
+    image.src = workCan.toDataURL(); // set the image source to the canvas as a data URL
+    return image;
 }
