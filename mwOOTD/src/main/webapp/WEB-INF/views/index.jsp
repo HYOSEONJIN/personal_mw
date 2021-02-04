@@ -15,7 +15,7 @@
 
 <link rel="styleSheet" href="<c:url value="/css/default.css"/>">
 <script src="<c:url value="/js/ootd.js"/>"></script>
-
+<script src="<c:url value="/js/croppers.js"/>"></script>
 
 </head>
 

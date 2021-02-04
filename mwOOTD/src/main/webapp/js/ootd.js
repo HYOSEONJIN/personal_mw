@@ -85,7 +85,7 @@ function addregButton() {
     regModalHtml += '<div class="modal-body"><form><div class="form-group">'
     regModalHtml += '<label for="recipient-name" class="col-form-label">TODAY OOTD</label>'
     regModalHtml += '<form id="photoform" method="POST" enctype="multipart/form-data">'
-    regModalHtml += '<input type="file" id="ootdphoto" name="ootdphoto"></form></div><div class="form-group">'
+    regModalHtml += '<input type="file" class="ootdphoto img-upload" accept="image/jpeg,image/png,image/gif" id="ootdphoto" name="ootdphoto"></form></div><div class="form-group">'
     regModalHtml += '<input type="text" id="ootdtext" name="ootdtext" required> </div><div class="form-group">'
     regModalHtml += '<div class="ootd_hs">';
 
@@ -103,6 +103,8 @@ function addregButton() {
     regModalHtml += '<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>'
     regModalHtml += '<button type="button" class="btn btn-primary" id="close_modal" onclick="reg(); this.onclick=null;">등록</button>'
     regModalHtml += '<button type="button" class="btn btn-primary" id="imagedetection" onclick="kakaoCall()">사진조회</button><div name="preview" id="preview"></div></div></div></div></div></div></div>';
+    regModalHtml += '<canvas class="js-editorcanvas" style="display: none"></canvas>';
+    regModalHtml += '<canvas class="js-previewcanvas" style="display: none"></canvas>';
 
 
     $(".content").append(regModalHtml);
@@ -131,25 +133,14 @@ function hashtagList() {
 }
 
 
-function setThumbnail(event) {
-    var reader = new FileReader();
-
-    reader.onload = function (event) {
-        var img = document.createElement("img");
-        img.setAttribute("src", event.target.result);
-        document.querySelector("div#image_container").appendChild(img);
-    };
-    reader.readAsDataURL(event.target.files[0]);
-}
-
-
-
-
+var x = 90;
+var y = 300;
+var w = 30;
+var h = 30;
 
 
 // kakao API 상품검출 좌표값 얻기
 function kakaoCall() {
-
 
 
     var beforeKey = "KakaoAK ";
@@ -169,7 +160,7 @@ function kakaoCall() {
         beforeSend: function (request) {
 
             request.setRequestHeader("Authorization", (beforeKey + key));
-            
+
 
         },
         url: apiUri,
@@ -178,11 +169,82 @@ function kakaoCall() {
         processData: false,
         timeout: 1e4,
         enctype: 'multipart/form-data',
-        success: function (data) {
-            console.log('카카오메세지', data);
-            console.log(data.isObject[0]);
-            
-            
+        success: function (apidata) {
+            console.log('카카오메세지', apidata);
+            var data = apidata.result.objects;
+            var dataheight = apidata.result.height;
+            var datawidth = apidata.result.width;
+
+
+            for (i = 0; i < 4; i++) {
+                if (data[i].score > 0.95) {
+                    
+                    
+
+                    console.log(data[i])
+                    /*시작점*/
+                    x = Math.floor(data[i].x1 * datawidth)
+                    y = Math.floor(data[i].y1 * dataheight)
+
+                    var w1 = (data[i].x2 - data[i].x1);
+
+                    w = Math.floor(datawidth * w1);
+                    h = Math.floor(dataheight * w1);
+                    console.log(w,y,w,h)
+
+
+                    function exceptionHandler(message) {
+                        alert('에러메세지', message);
+                    }
+
+                    // Auto-resize the cropped image
+                    var dimensions = {
+                        width: 128,
+                        height: 128
+                    };
+
+                    try {
+                       // alert('try1');
+                        var www = document.querySelector('.ootdphoto');
+                        console.log(www);
+                        var uploader = new Uploader({
+                            input: document.querySelector('.ootdphoto'),
+                            types: ['gif', 'jpg', 'jpeg', 'png']
+
+                        });
+                       // alert('try2');
+                        var editor = new Cropper({
+                            size: dimensions,
+                            canvas: document.querySelector('.js-editorcanvas'),
+                            preview: document.querySelector('.js-previewcanvas')
+                        });
+
+                        // Make sure both were initialised correctly
+                        if (uploader && editor) {
+                            //alert('try3');
+                            // Start the uploader, which will launch the editor
+                            uploader.listen(editor.setImageSource.bind(editor), (error) => {
+                                throw error;
+                            });
+                        }
+                        // Allow the result to be exported as an actual image
+                        var img = document.createElement('img');
+                        //            document.body.appendChild(img);
+
+                        //document.querySelector('.js-export').onclick = (e) => editor.export(img);
+                        console.log("img:", img);
+
+                    } catch (error) {
+                        console.log("에러", error);
+                        exceptionHandler(error.message);
+                    }
+
+                }
+
+            }
+
+
+
 
 
         },
@@ -492,17 +554,4 @@ function ootdPostDelete(idx) {
 
         });
     }
-}
-
-
-//이미지 정보를 넣으면 크롭해서 이미지값을 리턴해주는 메서드
-function cropImage(image, croppingCoords) {
-    var cc = croppingCoords;
-    var workCan = document.createElement("canvas"); // create a canvas
-    workCan.width = Math.floor(cc.width); // set the canvas resolution to the cropped image size
-    workCan.height = Math.floor(cc.height);
-    var ctx = workCan.getContext("2d"); // get a 2D rendering interface
-    ctx.drawImage(image, -Math.floor(cc.x), -Math.floor(cc.y)); // draw the image offset to place it correctly on the cropped region
-    image.src = workCan.toDataURL(); // set the image source to the canvas as a data URL
-    return image;
 }
