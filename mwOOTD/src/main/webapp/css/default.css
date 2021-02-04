@@ -254,4 +254,16 @@ pv2 {
 .ootdcommenttd{
     padding-top: 10px;
 }
+
+.ootddrop{
+    width: 50px;
+    display: none;
+    position: absolute;
+    background-color: aquamarine;    
+}
+
+.ootddropcontent{
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+}
 /* ---------------------- OOTD CSS 끝 --------------------- */

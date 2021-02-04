@@ -20,7 +20,7 @@ import com.mw.ootd.Service.ootdListService;
 
 @RestController
 @RequestMapping("/list")
-public class ootdMainController {
+public class ootdListController {
 	
 	@Autowired
 	ootdListService listService;
@@ -33,8 +33,21 @@ public class ootdMainController {
 		return listService.getootdList();	
 	}
 
+	/* 페이징 */
 	@GetMapping("/paging")
 	public List<ootdBoard> ootdPageList(
+			@RequestParam("pageNum") int pageNum){
+		
+		System.out.println(pageNum);
+	
+		
+		return listService.Listpage(pageNum);
+		
+	}
+	
+	/* 삭제 */	
+	@GetMapping("/delete")
+	public List<ootdBoard> ootdPostDel(
 			@RequestParam("pageNum") int pageNum){
 		
 		System.out.println(pageNum);

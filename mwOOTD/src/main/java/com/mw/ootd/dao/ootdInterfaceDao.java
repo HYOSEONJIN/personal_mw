@@ -27,4 +27,7 @@ public interface ootdInterfaceDao {
 
 	// ootdidx값에 따른 글 정보
 	List<ootdBoard> postByIdx(int ootdidx);
+
+	// ootdidx값에 따른 글 삭제
+	int deletPost(int ootdidx);
 }

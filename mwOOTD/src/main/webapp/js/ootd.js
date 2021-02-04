@@ -22,7 +22,7 @@ function ootdMain() {
 
     var content = document.querySelector('.content');
     content.innerHTML = '';
-	pageNum=1;
+    pageNum = 1;
     hashJSON = '';
     pageView(pageNum);
     addregButton();
@@ -357,6 +357,7 @@ function pageView(idx) {
                 listhtml += '<tr><td><a1 class="ootdlocation">' + data[i].ootdloc + '</a1></td></tr>';
                 listhtml += '<tr><td><a1 class="ootdlistlike">♥ ' + data[i].ootdlikecnt + '</a1></td></tr></table></div>';
 
+
             }
 
             listhtml += '</div></div></form>';
@@ -395,6 +396,9 @@ function viewPost(data, idx) {
 
             var rs = data[0];
 
+            postviewhtml += '<div class="ootddrop" id="ootddrop" name="ootddrop">';
+            postviewhtml += '<div class="ootddropcontent">수정</div>';
+            postviewhtml += '<div class="ootddropcontent" onclick="ootdPostDelete('+rs.ootdidx+')">삭제</div></div>';
 
             postviewhtml += '<div class="postviewarea" id="postviewarea" name="postviewarea">';
             postviewhtml += '<table class="ootdpostviewtable"  width="100%">';
@@ -402,7 +406,7 @@ function viewPost(data, idx) {
             postviewhtml += ' <td colspan="2"><img src="image/icon/location.png" width="10">&nbsp&nbsp';
             postviewhtml += rs.ootdloc
             postviewhtml += '</td><td></td><td></td><td colspan="2" class="ootdbmk">';
-            postviewhtml += '<img src="image/icon/usefulbutton.png"></td>';
+            postviewhtml += '<img src="image/icon/usefulbutton.png" onclick="itemClick(event);" ></td>';
             postviewhtml += '</tr><tr><td colspan="7">';
             postviewhtml += '<img class="ootdpostphoto" src="http://localhost:8080/ootd/fileupload/ootdimage/';
             postviewhtml += rs.ootdphotoname
@@ -433,4 +437,46 @@ function viewPost(data, idx) {
 
 
 
+}
+
+
+/*수정 삭제 창 팝업*/
+function itemClick(event) {
+    var ootddrop = document.getElementById('ootddrop');
+
+
+    x = event.pageX;
+    y = event.pageY;
+
+    if (ootddrop.style.display == 'block') {
+        ootddrop.style.display = 'none';
+    } else {
+        ootddrop.style.display = 'block';
+        ootddrop.style.left = (x - 54) + "px";
+        ootddrop.style.top = y + "px";
+    }
+}
+
+function ootdPostDelete(idx) {
+
+    if (confirm('정말로 삭제하시겠습니까?')) {
+
+        $.ajax({
+            url: 'http://localhost:8080/ootd/postview/delete',
+            type: 'get',
+            data: {
+                ootdidx : idx
+            },
+            success: function (data) {
+            	if(data=1){
+            		alert('삭제되었습니다')
+            		ootdMain();
+            	}else{
+            		alert('삭제실패')
+            		ootdMain();            		
+            	}
+            }
+
+        });
+    }
 }
