@@ -14,7 +14,7 @@ var hashCheck = []; // hash태그 체크 여부 저장해주는 배열
 var hashJSON = ''; // hash태그를 JSON형식의 String으로 저장
 var ajax_last_num = 0;
 var pageNum = 1;
-
+var filebase64 = ''; // file의 사진값 저장할 base64
 
 
 // 메인 출력
@@ -27,9 +27,45 @@ function ootdMain() {
     pageView(pageNum);
     addregButton();
 
+    
+    
+    /*이미지를 베이스 64로 바꿔주는 메서드*/
+
+var ootdphoto = document.getElementById('ootdphoto')
+var preview = document.querySelector('#preview')
+
+/* FileReader 객체 생성 */
+var reader = new FileReader();
+
+/* reader 시작시 함수 구현 */
+reader.onload = (function () {
+
+    this.image = document.createElement('img');
+    var vm = this;
+
+    return function (e) {
+        /* base64 인코딩 된 스트링 데이터 */
+        vm.image.src = e.target.result
+        console.log(vm);
+    }
+})()
+
+ootdphoto.addEventListener('change', function (e) {
+    var get_file = e.target.files;
+
+    if (get_file) {
+        reader.readAsDataURL(get_file[0]);
+    }
+
+    preview.appendChild(image);
+})
+
+    
+    
 
 }
 
+/*글쓰기*/
 function addregButton() {
 
 
@@ -61,7 +97,7 @@ function addregButton() {
     regModalHtml += '</div></div></form></div><div class="modal-footer">';
     regModalHtml += '<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>'
     regModalHtml += '<button type="button" class="btn btn-primary" id="close_modal" onclick="reg(); this.onclick=null;">등록</button>'
-    regModalHtml += '<button type="button" class="btn btn-primary" id="imagedetection" onclick="kakaoCall()">사진조회</button><img src="" id="imageTest" width="40"></div></div></div></div></div></div>';
+    regModalHtml += '<button type="button" class="btn btn-primary" id="imagedetection" onclick="kakaoCall()">사진조회</button><div name="preview" id="preview"></div></div></div></div></div></div></div>';
 
 
     $(".content").append(regModalHtml);
@@ -89,60 +125,31 @@ function hashtagList() {
 
 }
 
-function imageDetection() {
-    //var file = document.querySelector('#ootdphoto');
-    var base64First = 'data:image/gif;base64,';
 
-    // Check for the File API support.
-    if (window.File && window.FileReader && window.FileList && window.Blob) {
-        document.getElementById('ootdphoto').addEventListener('change', handleFileSelect, false);
-    } else {
-        alert('The File APIs are not fully supported in this browser.');
-    }
+function setThumbnail(event) {
+    var reader = new FileReader();
 
-
-    function handleFileSelect(evt) {
-        var f = evt.target.files[0]; // FileList object
-        var reader = new FileReader();
-        // Closure to capture the file information.
-        reader.onload = (function (theFile) {
-            return function (e) {
-                var binaryData = e.target.result;
-                //Converting Binary Data to base 64
-                var base64String = window.btoa(binaryData);
-                //showing file converted to base64
-                //document.getElementById('ootdtext').value = base64String;
-                console.log('베이스64', base64String);
-                $('#imageTest').attr('src', (base64First + base64String));
-                alert('File converted to base64 successfuly!\nCheck in Textarea');
-            };
-        })(f);
-        // Read in the image file as a data URL.
-        reader.readAsBinaryString(f);
-    }
-
+    reader.onload = function (event) {
+        var img = document.createElement("img");
+        img.setAttribute("src", event.target.result);
+        document.querySelector("div#image_container").appendChild(img);
+    };
+    reader.readAsDataURL(event.target.files[0]);
 }
+
+
+
+
+
 
 // kakao API 상품검출 좌표값 얻기
 function kakaoCall() {
 
+
+
     var beforeKey = "KakaoAK ";
     var key = "0e5bc43cde12fc5035c512eca57aa8be";
     var apiUri = "https://dapi.kakao.com/v2/vision/product/detect"
-    //+ "?image_url=https://t1.daumcdn.net/alvolo/_vision/openapi/r2/images/06.jpg";
-    /*    
-    var form = $('#photoform');
-    				var formData = new FormData(form[0]);
-    	console.log(typeof(formData));
-    	console.log(formData);*/
-
-
-    /*
-      var form = $('#photoform')[0];
-        
-        var formData = new FormData(form);
-    */
-
 
     var photoFile = $('#ootdphoto');
     var file1 = photoFile[0].files[0];
@@ -168,6 +175,8 @@ function kakaoCall() {
         enctype: 'multipart/form-data',
         success: function (msg) {
             console.log('카카오메세지', msg);
+
+
         },
         error: function (e) {
             console.log(formData);
@@ -398,7 +407,7 @@ function viewPost(data, idx) {
 
             postviewhtml += '<div class="ootddrop" id="ootddrop" name="ootddrop">';
             postviewhtml += '<div class="ootddropcontent">수정</div>';
-            postviewhtml += '<div class="ootddropcontent" onclick="ootdPostDelete('+rs.ootdidx+')">삭제</div></div>';
+            postviewhtml += '<div class="ootddropcontent" onclick="ootdPostDelete(' + rs.ootdidx + ')">삭제</div></div>';
 
             postviewhtml += '<div class="postviewarea" id="postviewarea" name="postviewarea">';
             postviewhtml += '<table class="ootdpostviewtable"  width="100%">';
@@ -457,6 +466,7 @@ function itemClick(event) {
     }
 }
 
+/*게시글 삭제*/
 function ootdPostDelete(idx) {
 
     if (confirm('정말로 삭제하시겠습니까?')) {
@@ -465,10 +475,10 @@ function ootdPostDelete(idx) {
             url: 'http://localhost:8080/ootd/postview',
             type: 'get',
             data: {
-                ootdidx : idx
+                ootdidx: idx
             },
             success: function (data) {
-            	
+
 
             }
 
