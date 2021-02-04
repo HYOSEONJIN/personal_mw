@@ -94,6 +94,7 @@ function ootdMain() {
             types: ['gif', 'jpg', 'jpeg', 'png']
 
         });
+        kakaoCall();
         // alert('try2');
         var editor = new Cropper({
             size: dimensions,
@@ -240,52 +241,6 @@ function kakaoCall() {
                     h = Math.floor(dataheight * w1);
                     console.log(w, y, w, h)
 
-
-                    /*                    function exceptionHandler(message) {
-                                            alert('에러메세지', message);
-                                        }
-
-                                        // Auto-resize the cropped image
-                                        var dimensions = {
-                                            width: 128,
-                                            height: 128
-                                        };
-
-                                        try {
-                                           // alert('try1');
-                                            var www = document.querySelector('.ootdphoto');
-                                            console.log(www);
-                                            var uploader = new Uploader({
-                                                input: document.querySelector('.ootdphoto'),
-                                                types: ['gif', 'jpg', 'jpeg', 'png']
-
-                                            });
-                                           // alert('try2');
-                                            var editor = new Cropper({
-                                                size: dimensions,
-                                                canvas: document.querySelector('.js-editorcanvas'),
-                                                preview: document.querySelector('.js-previewcanvas')
-                                            });
-
-                                            // Make sure both were initialised correctly
-                                            if (uploader && editor) {
-                                                //alert('try3');
-                                                // Start the uploader, which will launch the editor
-                                                uploader.listen(editor.setImageSource.bind(editor), (error) => {
-                                                    throw error;
-                                                });
-                                            }
-                                            // Allow the result to be exported as an actual image
-                                            var img = document.createElement('img');
-                                            //            document.body.appendChild(img);
-
-                                            //document.querySelector('.js-export').onclick = (e) => editor.export(img);
-                                            console.log("img:", img);
-
-                                        } catch (error) {
-                                            console.log("에러", error);
-                                            exceptionHandler(error.message);
-                                        }*/
 
                 }
 
@@ -603,3 +558,6 @@ function ootdPostDelete(idx) {
         });
     }
 }
+
+
+

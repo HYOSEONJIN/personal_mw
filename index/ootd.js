@@ -18,6 +18,11 @@ var filebase64 = ''; // file의 사진값 저장할 base64
 var image1 = '';
 var image1base64 = '';
 
+var x = 90;
+var y = 300;
+var w = 30;
+var h = 30;
+
 
 
 // 메인 출력
@@ -68,6 +73,53 @@ function ootdMain() {
     /*이미지를 베이스 64로 바꾸고 저장하지 않아도 썸네일로 보여줌 여기까지*/
 
 
+
+
+    function exceptionHandler(message) {
+        alert('에러메세지', message);
+    }
+
+    // Auto-resize the cropped image
+    var dimensions = {
+        width: 128,
+        height: 128
+    };
+
+    try {
+        // alert('try1');
+        var www = document.querySelector('.ootdphoto');
+        console.log(www);
+        var uploader = new Uploader({
+            input: document.querySelector('.ootdphoto'),
+            types: ['gif', 'jpg', 'jpeg', 'png']
+
+        });
+        // alert('try2');
+        var editor = new Cropper({
+            size: dimensions,
+            canvas: document.querySelector('.js-editorcanvas'),
+            preview: document.querySelector('.js-previewcanvas')
+        });
+
+        // Make sure both were initialised correctly
+        if (uploader && editor) {
+            //alert('try3');
+            // Start the uploader, which will launch the editor
+            uploader.listen(editor.setImageSource.bind(editor), (error) => {
+                throw error;
+            });
+        }
+        // Allow the result to be exported as an actual image
+        var img = document.createElement('img');
+        //            document.body.appendChild(img);
+
+        //document.querySelector('.js-export').onclick = (e) => editor.export(img);
+        console.log("img:", img);
+
+    } catch (error) {
+        console.log("에러", error);
+        exceptionHandler(error.message);
+    }
 }
 
 /*글쓰기*/
@@ -85,7 +137,7 @@ function addregButton() {
     regModalHtml += '<div class="modal-body"><form><div class="form-group">'
     regModalHtml += '<label for="recipient-name" class="col-form-label">TODAY OOTD</label>'
     regModalHtml += '<form id="photoform" method="POST" enctype="multipart/form-data">'
-    regModalHtml += '<input type="file" class="ootdphoto img-upload" accept="image/jpeg,image/png,image/gif" id="ootdphoto" name="ootdphoto"></form></div><div class="form-group">'
+    regModalHtml += '<label class="img-upload-label"><input type="file" class="ootdphoto img-upload" accept="image/jpeg,image/png,image/gif" id="ootdphoto" name="ootdphoto"></label></form></div><div class="form-group">'
     regModalHtml += '<input type="text" id="ootdtext" name="ootdtext" required> </div><div class="form-group">'
     regModalHtml += '<div class="ootd_hs">';
 
@@ -133,10 +185,6 @@ function hashtagList() {
 }
 
 
-var x = 90;
-var y = 300;
-var w = 30;
-var h = 30;
 
 
 // kakao API 상품검출 좌표값 얻기
@@ -179,62 +227,19 @@ function kakaoCall() {
             for (i = 0; i < 4; i++) {
                 if (data[i].score > 0.95) {
 
+
+
                     console.log(data[i])
                     /*시작점*/
-                    x = (data[i].x1 * datawidth)
-                    y = (data[i].y1 * dataheight)
+                    x = Math.floor(data[i].x1 * datawidth)
+                    y = Math.floor(data[i].y1 * dataheight)
 
                     var w1 = (data[i].x2 - data[i].x1);
 
-                    w = (datawidth * w1);
-                    h = (dataheight * w1);
+                    w = Math.floor(datawidth * w1);
+                    h = Math.floor(dataheight * w1);
+                    console.log(w, y, w, h)
 
-
-                    function exceptionHandler(message) {
-                        alert('에러메세지', message);
-                    }
-
-                    // Auto-resize the cropped image
-                    var dimensions = {
-                        width: 128,
-                        height: 128
-                    };
-
-                    try {
-                        alert('try1');
-                        var www = document.querySelector('.ootdphoto');
-                        console.log(www);
-                        var uploader = new Uploader({
-                            input: document.querySelector('.ootdphoto'),
-                            types: ['gif', 'jpg', 'jpeg', 'png']
-
-                        });
-                        alert('try2');
-                        var editor = new Cropper({
-                            size: dimensions,
-                            canvas: document.querySelector('.js-editorcanvas'),
-                            preview: document.querySelector('.js-previewcanvas')
-                        });
-
-                        // Make sure both were initialised correctly
-                        if (uploader && editor) {
-                            alert('try3');
-                            // Start the uploader, which will launch the editor
-                            uploader.listen(editor.setImageSource.bind(editor), (error) => {
-                                throw error;
-                            });
-                        }
-                        // Allow the result to be exported as an actual image
-                        var img = document.createElement('img');
-                        //            document.body.appendChild(img);
-
-                        //document.querySelector('.js-export').onclick = (e) => editor.export(img);
-                        console.log("img:", img);
-
-                    } catch (error) {
-                        console.log("에러", error);
-                        exceptionHandler(error.message);
-                    }
 
                 }
 
@@ -552,3 +557,6 @@ function ootdPostDelete(idx) {
         });
     }
 }
+
+
+
