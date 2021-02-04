@@ -35,20 +35,16 @@ select * from ootdhashtag order by hash;
 
 </insert>
 
-<!-- 전체 회원수 -->
-<!-- <select id="selectMemberCount"
-		resultType="int">
-		
-select count(*) from ootd
-
-</select>
- -->
-
 <!-- 페이지 별 리스트 -->
 
 <select id="PagingView"
 	resultType="com.mw.ootd.Domain.ootdBoard">
 select * from ootd order by ootdidx desc limit #{param1}, #{param2} 
+</select>
+
+<!-- 글번호에 맞는 게시글 정보 -->
+<select id="postByIdx" resultType="com.mw.ootd.Domain.ootdBoard">
+	select * from ootd where ootdidx = #{ootdidx}
 </select>
 
 

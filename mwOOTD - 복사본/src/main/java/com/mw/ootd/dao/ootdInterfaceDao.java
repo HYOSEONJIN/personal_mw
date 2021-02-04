@@ -24,4 +24,7 @@ public interface ootdInterfaceDao {
 	
 	// 페이징값
 	List<ootdBoard> PagingView(int startRow, int cntPerPage);
+
+	// ootdidx값에 따른 글 정보
+	List<ootdBoard> postByIdx(int ootdidx);
 }

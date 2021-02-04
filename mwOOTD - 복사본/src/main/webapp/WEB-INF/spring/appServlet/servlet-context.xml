@@ -19,6 +19,7 @@
 	<resources mapping="/css/**" location="/css/" />
 	<resources mapping="/image/**" location="/image/" />
 	<resources mapping="/js/**" location="/js/" />
+	<resources mapping="/fileupload/**" location="/fileupload/" />
 
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 

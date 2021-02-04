@@ -22,7 +22,7 @@ function ootdMain() {
 
     var content = document.querySelector('.content');
     content.innerHTML = '';
-    pageNum = 1;
+	pageNum=1;
     hashJSON = '';
     pageView(pageNum);
     addregButton();
@@ -399,13 +399,13 @@ function viewPost(data, idx) {
             postviewhtml += '<div class="postviewarea" id="postviewarea" name="postviewarea">';
             postviewhtml += '<table class="ootdpostviewtable"  width="100%">';
             postviewhtml += '<tr><td class="ootdposttable_side"> </td>';
-            postviewhtml += ' <td colspan="2"><img src="https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_location_on_48px-512.png" width="25">';
+            postviewhtml += ' <td colspan="2"><img src="image/icon/location.png" width="10">&nbsp&nbsp';
             postviewhtml += rs.ootdloc
             postviewhtml += '</td><td></td><td></td><td colspan="2" class="ootdbmk">';
-            postviewhtml += '<img src="/image/icon/bookmarkon.png" width="30"></td>';
+            postviewhtml += '<img src="image/icon/usefulbutton.png"></td>';
             postviewhtml += '</tr><tr><td colspan="7">';
             postviewhtml += '<img class="ootdpostphoto" src="http://localhost:8080/ootd/fileupload/ootdimage/';
-            postviewhtml += rs.ootdphoto
+            postviewhtml += rs.ootdphotoname
             postviewhtml += '" width="100%"></td></tr><tr class="ootdpostviewlinethree"><td></td><td colspan="2"><pv1>';
             postviewhtml += rs.ootdnic
             postviewhtml += '</pv1></td><td colspan="2"><pv2>';
@@ -420,7 +420,7 @@ function viewPost(data, idx) {
             postviewhtml += rs.ootdtext
             postviewhtml += '</pv3></td><td ></td></tr><tr><td></td><td class="ootdcommenttd" colspan="4"><img src="image/icon/comment.png" width="20">&nbsp&nbsp';
             postviewhtml += rs.ootdcmtcnt
-            postviewhtml += '</td><td>수정</td><td></td></tr></table>';
+            postviewhtml += '</td><td><img src="image/icon/bookmarkon.png" width="30"></td><td></td></tr></table>';
             postviewhtml += '<div class="bottomArea"><img src="/ootd/image/background.PNG" width="90"></div>';
 
 
