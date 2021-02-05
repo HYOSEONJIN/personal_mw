@@ -3,7 +3,6 @@ window.onload = function () {
     hashtagList();
     hashFalse();
 
-    var file1
 
 
 };
@@ -19,17 +18,16 @@ var filebase64 = ''; // file의 사진값 저장할 base64
 var image1 = '';
 var image1base64 = '';
 
-var x = 131;
-var y = 131;
-var w = 176;
-var h = 328;
-// Auto-resize the cropped image
+var x = 90;
+var y = 300;
+var w = 30;
+var h = 30;
 
+// Auto-resize the cropped image
 var dimensions = {
     width: 128,
     height: 128
 };
-
 
 // 메인 출력
 function ootdMain() {
@@ -45,83 +43,43 @@ function ootdMain() {
 
     /*이미지를 베이스 64로 바꾸고 저장하지 않아도 썸네일로 보여줌*/
 
-    //    var ootdphoto = document.getElementById('ootdphoto')
-    //    var preview = document.querySelector('#preview')
-    //
-    //    /* FileReader 객체 생성 */
-    //    var reader = new FileReader();
-    //
-    //    /* reader 시작시 함수 구현 */
-    //    reader.onload = (function () {
-    //
-    //        image1 = document.createElement('img');
-    //        var vm = this;
-    //
-    //        return function (e) {
-    //            /* base64 인코딩 된 스트링 데이터 */
-    //            image1base64 = e.target.result
-    //            vm.image1.src = e.target.result
-    //            //console.log(vm);
-    //            // console.log(image1base64);
-    //            //alert('돌아가고있음')
-    //        }
-    //    })()
-    //
-    //    ootdphoto.addEventListener('change', function (e) {
-    //        var get_file = e.target.files;
-    //
-    //        if (get_file) {
-    //            reader.readAsDataURL(get_file[0]);
-    //        }
-    //
-    //        //preview.appendChild(image1);
-    //    })
+    var ootdphoto = document.getElementById('ootdphoto')
+    var preview = document.querySelector('#preview')
+
+    /* FileReader 객체 생성 */
+    var reader = new FileReader();
+
+    /* reader 시작시 함수 구현 */
+    reader.onload = (function () {
+
+        image1 = document.createElement('img');
+        var vm = this;
+
+        return function (e) {
+            /* base64 인코딩 된 스트링 데이터 */
+            image1base64 = e.target.result
+            vm.image1.src = e.target.result
+            //console.log(vm);
+            // console.log(image1base64);
+            alert('돌아가고있음')
+            kakaoCall();
+        }
+    })()
+
+    ootdphoto.addEventListener('change', function (e) {
+        var get_file = e.target.files;
+
+        if (get_file) {
+            reader.readAsDataURL(get_file[0]);
+        }
+
+        //preview.appendChild(image1);
+    })
 
     /*이미지를 베이스 64로 바꾸고 저장하지 않아도 썸네일로 보여줌 여기까지*/
 
 
 
-    /*
-        function exceptionHandler(message) {
-            alert('에러메세지', message);
-        }
-
-
-        try {
-            // alert('try1');
-            var www = document.querySelector('.ootdphoto');
-            console.log(www);
-            var uploader = new Uploader({
-                input: document.querySelector('.ootdphoto'),
-                types: ['gif', 'jpg', 'jpeg', 'png']
-
-            });
-            // alert('try2');
-            var editor = new Cropper({
-                size: dimensions,
-                canvas: document.querySelector('.js-editorcanvas'),
-                preview: document.querySelector('.js-previewcanvas')
-            });
-
-            // Make sure both were initialised correctly
-            if (uploader && editor) {
-                //alert('try3');
-                // Start the uploader, which will launch the editor
-                uploader.listen(editor.setImageSource.bind(editor), (error) => {
-                    throw error;
-                });
-            }
-            // Allow the result to be exported as an actual image
-            var img = document.createElement('img');
-            //            document.body.appendChild(img);
-
-            //document.querySelector('.js-export').onclick = (e) => editor.export(img);
-            console.log("img:", img);
-
-        } catch (error) {
-            console.log("에러", error);
-            exceptionHandler(error.message);
-        }*/
 }
 
 /*글쓰기*/
@@ -198,8 +156,7 @@ function kakaoCall() {
     var apiUri = "https://dapi.kakao.com/v2/vision/product/detect"
 
     var photoFile = $('#ootdphoto');
-    file1 = photoFile[0].files[0];
-
+    var file1 = photoFile[0].files[0];
     //console.log("file",file1);
     var fd = new FormData();
     fd.append("attribute", "1");
@@ -230,91 +187,77 @@ function kakaoCall() {
             for (i = 0; i < 4; i++) {
                 if (data[i].score > 0.95) {
 
-                    // 이미지가 줄어드는 비율처리해줄 변수
-                    var per = 1;
-
-                    // 이미지의 높이가 600보다 크면 600으로 줄어들기 때문에 처리해준다.
-                    if (dataheight > 600) {
-                        per = 600 / dataheight
-                        datawidth = datawidth * per
-                        dataheight = 600;
-                    }
-
 
 
                     console.log(data[i])
+                    /*시작점*/
+                    x = Math.floor(data[i].x1 * datawidth)
+                    y = Math.floor(data[i].y1 * dataheight)
+
                     var w1 = (data[i].x2 - data[i].x1);
-                    var w2 = (data[i].y2 - data[i].y1);
-                    var xy 
-                    
-                    if(w1>w2){
-                        xy=w1                        
-                    }else{
-                        xy=w2
-                    }
-                    
-                    /*/이미지지점/*/
-                    h = Math.floor(data[i].y1 * dataheight) // 위쪽에서얼마나떨어지는지 px
-                    w = Math.floor(data[i].x1 * datawidth) // 왼쪽에서얼마나떨어지는지 px
+
+                    w = Math.floor(datawidth * w1);
+                    h = Math.floor(dataheight * w1);
+                    console.log(w, y, w, h)
 
 
-                    /*크기*/
-                    
-                    x = xy // 정방형으로 맞춰주기 위해 그냥 똑같이했다.
-                    y = xy
-                    console.log('크기', x, y, '시작점', w, h);
-
-                    function exceptionHandler(message) {
-                        alert('에러메세지', message);
-                    }
+                }
 
 
-                    try {
-                        // alert('try1');
-                        var www = document.querySelector('.ootdphoto');
-                        console.log(www);
-                        var uploader = new Uploader({
-                            input: document.querySelector('.ootdphoto'),
-                            types: ['gif', 'jpg', 'jpeg', 'png']
 
+
+                function exceptionHandler(message) {
+                    alert('에러메세지', message);
+                }
+
+
+
+                try {
+                    // alert('try1');
+                    var www = document.querySelector('.ootdphoto');
+                    console.log(www);
+                    var uploader = new Uploader({
+                        input: document.querySelector('.ootdphoto'),
+                        types: ['gif', 'jpg', 'jpeg', 'png']
+
+                    });
+                    // alert('try2');
+                    var editor = new Cropper({
+                        size: dimensions,
+                        canvas: document.querySelector('.js-editorcanvas'),
+                        preview: document.querySelector('.js-previewcanvas')
+                    });
+
+                    // Make sure both were initialised correctly
+                    if (uploader && editor) {
+                        //alert('try3');
+                        // Start the uploader, which will launch the editor
+                        uploader.listen(editor.setImageSource.bind(editor), (error) => {
+                            throw error;
                         });
-                        // alert('try2');
-                        var editor = new Cropper({
-                            size: dimensions,
-                            canvas: document.querySelector('.js-editorcanvas'),
-                            preview: document.querySelector('.js-previewcanvas')
-                        });
-
-                        // Make sure both were initialised correctly
-                        if (uploader && editor) {
-                            //alert('try3');
-                            // Start the uploader, which will launch the editor
-                            uploader.listen(editor.setImageSource.bind(editor), (error) => {
-                                throw error;
-                            });
-                        }
-                        // Allow the result to be exported as an actual image
-                        var img = document.createElement('img');
-                        //            document.body.appendChild(img);
-
-                        //document.querySelector('.js-export').onclick = (e) => editor.export(img);
-                        console.log("img:", img);
-
-                    } catch (error) {
-                        console.log("에러", error);
-                        exceptionHandler(error.message);
                     }
+                    // Allow the result to be exported as an actual image
+                    var img = document.createElement('img');
+                    //            document.body.appendChild(img);
 
-                } else {
-                    console.log('일치가 구린 데이터밖에 없음~')
+                    //document.querySelector('.js-export').onclick = (e) => editor.export(img);
+                    console.log("img:", img);
+
+                } catch (error) {
+                    console.log("에러", error);
+                    exceptionHandler(error.message);
                 }
 
             }
 
+
+
+
+
         },
         error: function (e) {
             console.log(formData);
-            console.log("KAKAO API AJAX 에러발생 : ", e);
+            console.log("에러발생 : ", e);
         }
 
 

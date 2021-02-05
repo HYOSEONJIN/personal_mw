@@ -1,0 +1,273 @@
+/*
+기본 파란색 : #64c2eb
+진한 파란색 : #30b0e7
+기본 회색 : #757575
+진한 회색 : #424242
+바탕 아주 옅은 회색 : #f5f5f5
+강조 컬러 빨강 : #ee7f7b
+강조 컬러 노랑 : #ffd74e
+*/
+
+/*한글*/
+/*font-family: 'Nanum Gothic', sans-serif;*/
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+/*font-family: 'Noto Sans KR', sans-serif;*/
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+
+
+/*영문*/
+@font-face {
+    font-family: 'Bebas Neue Book';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Bebas Neue Book'), url('BebasNeue Book.woff') format('woff');
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    background-color: #f5f5f5;
+    color: #757575;
+}
+
+
+::-webkit-scrollbar {
+    display: none;
+    
+}
+
+
+body {
+    padding: 0;
+    margin: 0;    
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+header {
+    background-color: #64c2eb;
+    height: 90px;
+    float: left;
+    width: 100%;
+    position: fixed;
+    top : 0px;
+
+}
+
+footer {
+    background-color: #ffffff;
+    height: 60px;
+    clear:both;
+    width: 100%;
+     position: fixed;
+    bottom: 0;
+    left: 0;
+    font-family: 'Nanum Gothic', sans-serif;
+    
+}
+
+
+
+.logoimage {
+    margin-top: 10px;
+    margin-left: 20px;
+    background-color: #64c2eb;
+}
+
+.content{
+    margin-top: 100px;
+    height: max;
+}
+
+.footer_menu_table{
+    text-align: center;    
+    margin: 5px auto;
+    background-color: #ffffff;
+    font-weight: bold;
+    
+}
+.footer_menu_table tr td{
+    width: 70px;
+    padding : 0 10px ;
+    background-color: #ffffff;font-size : 10px;
+}
+
+.menuicons{
+    background-color: #ffffff;
+}
+
+.bottomArea{
+	width:max;
+	height : 90px;
+}
+
+
+/* ---------------------- OOTD CSS ---------------------- */
+
+
+.ootd_hashtag{
+    width: 33%;
+    overflow: hidden;
+    color : #ffffff;
+    float: left;
+    background-color: #64c2eb;
+    border: 2px solid #ffffff;
+    padding : 10px 10px;
+    text-align: center;
+}
+
+.ootd_hs{
+    padding-left: 5px;
+    overflow: hidden;
+}
+
+#ootdtext{
+    border: 1px solid #757575;
+    width: 100%;
+    height: 100px;
+}
+
+.ootd_hasktag_true{
+    background-color : #30b0e7;
+}
+
+.ootd_hashtag_false{    
+    background-color: #64c2eb;
+}
+
+
+/*ootd리스트 출력 CSS*/
+
+.ootdlistarea{
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    overflow: hidden;
+    
+}
+
+
+.ootdposttable {
+    margin-top: 20px;
+    width: 30%;
+    float: left;
+    margin-left: 2.5%;
+    border-spacing: -3px;
+    line-height: 14px;
+     
+}
+
+
+.postthumnail {
+    width: 100%;
+    height: width;
+    border-radius: 3px;
+    margin-bottom: 6px;
+}
+
+.ootdwriter {
+    color: #424242;
+    font-weight: bold;
+    font-size: 12px;
+    
+}
+
+.ootdlocation {
+    color: #757575;
+    font-size: 12px;
+}
+
+.ootdlistlike {
+    color: #ee7f7b;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+a1 {
+    letter-spacing: -1px;
+
+}
+
+.regFormButton{
+    background-image: url(http://localhost:8080/ootd/image/icon/write.png);
+    width: 50px;
+    height: 50px;
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 100px;
+    border : 0px;
+    background-color:  #64c2eb;
+    position: absolute;
+    bottom : 80px;
+    right: 15px;
+}
+
+/*POST보여주는 css*/
+.ootdpostviewtable{
+    width: 100%;
+    
+    
+}
+
+.postviewarea{
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    overflow: hidden;
+    
+}
+.ootdpostphoto{
+    margin-top: 10px;
+}
+
+.ootdposttable_side{
+    padding: 0px;
+    width: 20px;
+}
+
+.ootdbmk img{
+    float: right;
+}
+
+.ootdpostviewlinethree td{
+    padding: 15px 0px;
+}
+
+pv1 {
+    color:  #64c2eb;
+    font-weight: 300;
+    font-size: 15px;
+}
+
+pv2 {
+    float: right;
+    font-size: 14px;
+}
+
+.needborder{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid  #757575;      
+    
+}
+
+.ootdcommenttd{
+    padding-top: 10px;
+}
+
+.ootddrop{
+    width: 50px;
+    display: none;
+    position: absolute;
+    background-color: aquamarine;    
+}
+
+.ootddropcontent{
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+}
+
+.preview img{
+    width: 50px;
+}
+/* ---------------------- OOTD CSS 끝 --------------------- */
