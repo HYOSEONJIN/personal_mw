@@ -244,24 +244,15 @@ function kakaoCall() {
 
                     console.log(data[i])
                     var w1 = (data[i].x2 - data[i].x1);
-                    var w2 = (data[i].y2 - data[i].y1);
-                    var xy 
-                    
-                    if(w1>w2){
-                        xy=w1                        
-                    }else{
-                        xy=w2
-                    }
-                    
+
                     /*/이미지지점/*/
                     h = Math.floor(data[i].y1 * dataheight) // 위쪽에서얼마나떨어지는지 px
                     w = Math.floor(data[i].x1 * datawidth) // 왼쪽에서얼마나떨어지는지 px
 
 
                     /*크기*/
-                    
-                    x = xy // 정방형으로 맞춰주기 위해 그냥 똑같이했다.
-                    y = xy
+                    x = Math.floor(datawidth * w1); // 정방형으로 맞춰주기 위해 그냥 똑같이했다.
+                    y = Math.floor(datawidth * w1);
                     console.log('크기', x, y, '시작점', w, h);
 
                     function exceptionHandler(message) {
