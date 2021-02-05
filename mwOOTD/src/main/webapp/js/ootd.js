@@ -243,7 +243,14 @@ function kakaoCall() {
 
 
                     console.log(data[i])
-                    var w1 = (data[i].x2 - data[i].x1);
+                    var w1 = Math.floor(datawidth * (data[i].x2 - data[i].x1));
+                    var w2 =  Math.floor(dataheight * (data[i].y2 - data[i].y1));
+                    var xy = 0
+                    if(w1>w2){
+                        xy = w1
+                    }else{
+                        xy = w2
+                    }
 
                     /*/이미지지점/*/
                     h = Math.floor(data[i].y1 * dataheight) // 위쪽에서얼마나떨어지는지 px
@@ -251,8 +258,8 @@ function kakaoCall() {
 
 
                     /*크기*/
-                    x = Math.floor(datawidth * w1); // 정방형으로 맞춰주기 위해 그냥 똑같이했다.
-                    y = Math.floor(datawidth * w1);
+                    x =xy; // 정방형으로 맞춰주기 위해 그냥 똑같이했다.
+                    y = xy;
                     console.log('크기', x, y, '시작점', w, h);
               
     function exceptionHandler(message) {
