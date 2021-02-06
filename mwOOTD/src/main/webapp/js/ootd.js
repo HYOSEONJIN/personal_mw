@@ -332,11 +332,17 @@ function reg() {
             formData.append("ootdphoto", file1);
             formData.append('ootdhashtag', hashJSON);
             formData.append('xyarr', xyarr.toString());
+            console.log(apiNum,'APINUM!!!!!!!!!!!!!!!!!')
+            for(i=0; i< (apiNum+1); i++){
+                formData.append('productInfo'+i, $('.apitable'+i).val())
+                console.log($('.apitable'+i).val());
+
+            }
 
             //임시값
             formData.append('ootdnic', $('#ootdnic').val());
             formData.append('memidx', $('#memidx').val());
-
+            
 
 
             $.ajax({

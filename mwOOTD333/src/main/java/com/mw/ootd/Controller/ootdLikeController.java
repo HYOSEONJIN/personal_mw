@@ -16,7 +16,6 @@ public class ootdLikeController {
 	private ootdLikeService likeService;
 	
 	@RequestMapping("/istrue")
-	@GetMapping
 	public int likechk(
 			@RequestParam("memidx") int memidx) {
 			
