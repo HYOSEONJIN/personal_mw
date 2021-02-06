@@ -45,83 +45,83 @@ function ootdMain() {
 
     /*이미지를 베이스 64로 바꾸고 저장하지 않아도 썸네일로 보여줌*/
 
-//    var ootdphoto = document.getElementById('ootdphoto')
-//    var preview = document.querySelector('#preview')
-//
-//    /* FileReader 객체 생성 */
-//    var reader = new FileReader();
-//
-//    /* reader 시작시 함수 구현 */
-//    reader.onload = (function () {
-//
-//        image1 = document.createElement('img');
-//        var vm = this;
-//
-//        return function (e) {
-//            /* base64 인코딩 된 스트링 데이터 */
-//            image1base64 = e.target.result
-//            vm.image1.src = e.target.result
-//            //console.log(vm);
-//            // console.log(image1base64);
-//            //alert('돌아가고있음')
-//        }
-//    })()
-//
-//    ootdphoto.addEventListener('change', function (e) {
-//        var get_file = e.target.files;
-//
-//        if (get_file) {
-//            reader.readAsDataURL(get_file[0]);
-//        }
-//
-//        //preview.appendChild(image1);
-//    })
+    //    var ootdphoto = document.getElementById('ootdphoto')
+    //    var preview = document.querySelector('#preview')
+    //
+    //    /* FileReader 객체 생성 */
+    //    var reader = new FileReader();
+    //
+    //    /* reader 시작시 함수 구현 */
+    //    reader.onload = (function () {
+    //
+    //        image1 = document.createElement('img');
+    //        var vm = this;
+    //
+    //        return function (e) {
+    //            /* base64 인코딩 된 스트링 데이터 */
+    //            image1base64 = e.target.result
+    //            vm.image1.src = e.target.result
+    //            //console.log(vm);
+    //            // console.log(image1base64);
+    //            //alert('돌아가고있음')
+    //        }
+    //    })()
+    //
+    //    ootdphoto.addEventListener('change', function (e) {
+    //        var get_file = e.target.files;
+    //
+    //        if (get_file) {
+    //            reader.readAsDataURL(get_file[0]);
+    //        }
+    //
+    //        //preview.appendChild(image1);
+    //    })
 
     /*이미지를 베이스 64로 바꾸고 저장하지 않아도 썸네일로 보여줌 여기까지*/
 
 
 
-/*
-    function exceptionHandler(message) {
-        alert('에러메세지', message);
-    }
-
-
-    try {
-        // alert('try1');
-        var www = document.querySelector('.ootdphoto');
-        console.log(www);
-        var uploader = new Uploader({
-            input: document.querySelector('.ootdphoto'),
-            types: ['gif', 'jpg', 'jpeg', 'png']
-
-        });
-        // alert('try2');
-        var editor = new Cropper({
-            size: dimensions,
-            canvas: document.querySelector('.js-editorcanvas'),
-            preview: document.querySelector('.js-previewcanvas')
-        });
-
-        // Make sure both were initialised correctly
-        if (uploader && editor) {
-            //alert('try3');
-            // Start the uploader, which will launch the editor
-            uploader.listen(editor.setImageSource.bind(editor), (error) => {
-                throw error;
-            });
+    /*
+        function exceptionHandler(message) {
+            alert('에러메세지', message);
         }
-        // Allow the result to be exported as an actual image
-        var img = document.createElement('img');
-        //            document.body.appendChild(img);
 
-        //document.querySelector('.js-export').onclick = (e) => editor.export(img);
-        console.log("img:", img);
 
-    } catch (error) {
-        console.log("에러", error);
-        exceptionHandler(error.message);
-    }*/
+        try {
+            // alert('try1');
+            var www = document.querySelector('.ootdphoto');
+            console.log(www);
+            var uploader = new Uploader({
+                input: document.querySelector('.ootdphoto'),
+                types: ['gif', 'jpg', 'jpeg', 'png']
+
+            });
+            // alert('try2');
+            var editor = new Cropper({
+                size: dimensions,
+                canvas: document.querySelector('.js-editorcanvas'),
+                preview: document.querySelector('.js-previewcanvas')
+            });
+
+            // Make sure both were initialised correctly
+            if (uploader && editor) {
+                //alert('try3');
+                // Start the uploader, which will launch the editor
+                uploader.listen(editor.setImageSource.bind(editor), (error) => {
+                    throw error;
+                });
+            }
+            // Allow the result to be exported as an actual image
+            var img = document.createElement('img');
+            //            document.body.appendChild(img);
+
+            //document.querySelector('.js-export').onclick = (e) => editor.export(img);
+            console.log("img:", img);
+
+        } catch (error) {
+            console.log("에러", error);
+            exceptionHandler(error.message);
+        }*/
 }
 
 /*글쓰기*/
@@ -137,9 +137,9 @@ function addregButton() {
     regModalHtml += '<div class="modal-dialog" role="document"><div class="modal-content">'
     regModalHtml += '<div class="modal-header"><h5 class="modal-title" id="exampleModalLabel">WEATHER WEAR - OOTD</h5>';
     regModalHtml += '<div class="modal-body"><form><div class="form-group">'
-    regModalHtml += '<label for="recipient-name" class="col-form-label">TODAY OOTD</label>'
+    regModalHtml += '<label for="recipient-name" class="col-form-label">TODAY OOTD</label><br>'
     regModalHtml += '<form id="photoform" method="POST" enctype="multipart/form-data">'
-    regModalHtml += '<label class="img-upload-label"><input type="file" class="ootdphoto img-upload" accept="image/jpeg,image/png,image/gif" id="ootdphoto" name="ootdphoto"></label></form></div><div class="form-group">'
+    regModalHtml += ' <div class="ootdfilebox"><label class="img-upload-label"><input type="file" class="ootdphoto img-upload" accept="image/jpeg,image/png,image/gif" id="ootdphoto" name="ootdphoto"></label></div></form></div><div class="form-group">'
     regModalHtml += '<input type="text" id="ootdtext" name="ootdtext" required> </div><div class="form-group">'
     regModalHtml += '<div class="ootd_hs">';
 
@@ -189,6 +189,7 @@ function hashtagList() {
 
 
 
+
 // kakao API 상품검출 좌표값 얻기
 function kakaoCall() {
 
@@ -225,9 +226,10 @@ function kakaoCall() {
             var data = apidata.result.objects;
             var dataheight = apidata.result.height;
             var datawidth = apidata.result.width;
+            
 
 
-            for (i = 0; i < 4; i++) {
+            for (i = 0; i < 3; i++) {
                 if (data[i].score > 0.95) {
 
                     // 이미지가 줄어드는 비율처리해줄 변수
@@ -244,11 +246,11 @@ function kakaoCall() {
 
                     console.log(data[i])
                     var w1 = Math.floor(datawidth * (data[i].x2 - data[i].x1));
-                    var w2 =  Math.floor(dataheight * (data[i].y2 - data[i].y1));
+                    var w2 = Math.floor(dataheight * (data[i].y2 - data[i].y1));
                     var xy = 0
-                    if(w1>w2){
+                    if (w1 > w2) {
                         xy = w1
-                    }else{
+                    } else {
                         xy = w2
                     }
 
@@ -258,50 +260,50 @@ function kakaoCall() {
 
 
                     /*크기*/
-                    x =xy; // 정방형으로 맞춰주기 위해 그냥 똑같이했다.
+                    x = xy; // 정방형으로 맞춰주기 위해 그냥 똑같이했다.
                     y = xy;
                     console.log('크기', x, y, '시작점', w, h);
-              
-    function exceptionHandler(message) {
-        alert('에러메세지', message);
-    }
 
+                    function exceptionHandler(message) {
+                        alert('에러메세지', message);
+                    }
 
-    try {
-        // alert('try1');
-        var www = document.querySelector('.ootdphoto');
-        console.log(www);
-        var uploader = new Uploader({
-            input: document.querySelector('.ootdphoto'),
-            types: ['gif', 'jpg', 'jpeg', 'png']
+                    
+                    try {
+                        // alert('try1');
+                        var www = document.querySelector('.ootdphoto');
+                        console.log(www);
+                        var uploader = new Uploader({
+                            input: document.querySelector('.ootdphoto'),
+                            types: ['gif', 'jpg', 'jpeg', 'png']
 
-        });
-        // alert('try2');
-        var editor = new Cropper({
-            size: dimensions,
-            canvas: document.querySelector('.js-editorcanvas'),
-            preview: document.querySelector('.js-previewcanvas')
-        });
+                        });
+                        // alert('try2');
+                        var editor = new Cropper({
+                            size: dimensions,
+                            canvas: document.querySelector('.js-editorcanvas'),
+                            preview: document.querySelector('.js-previewcanvas')
+                        });
 
-        // Make sure both were initialised correctly
-        if (uploader && editor) {
-            //alert('try3');
-            // Start the uploader, which will launch the editor
-            uploader.listen(editor.setImageSource.bind(editor), (error) => {
-                throw error;
-            });
-        }
-        // Allow the result to be exported as an actual image
-        var img = document.createElement('img');
-        //            document.body.appendChild(img);
+                        // Make sure both were initialised correctly
+                        if (uploader && editor) {
+                            //alert('try3');
+                            // Start the uploader, which will launch the editor
+                            uploader.listen(editor.setImageSource.bind(editor), (error) => {
+                                throw error;
+                            });
+                        }
+                        // Allow the result to be exported as an actual image
+                        var img = document.createElement('img');
+                        //            document.body.appendChild(img);
 
-        //document.querySelector('.js-export').onclick = (e) => editor.export(img);
-        console.log("img:", img);
+                        //document.querySelector('.js-export').onclick = (e) => editor.export(img);
+                        console.log("img:", img);
 
-    } catch (error) {
-        console.log("에러", error);
-        exceptionHandler(error.message);
-    }
+                    } catch (error) {
+                        console.log("에러", error);
+                        exceptionHandler(error.message);
+                    }
 
                 } else {
                     console.log('일치가 구린 데이터밖에 없음~')

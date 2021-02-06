@@ -33,13 +33,13 @@
 
 ::-webkit-scrollbar {
     display: none;
-    
+
 }
 
 
 body {
     padding: 0;
-    margin: 0;    
+    margin: 0;
     font-family: 'Noto Sans KR', sans-serif;
 }
 
@@ -49,20 +49,20 @@ header {
     float: left;
     width: 100%;
     position: fixed;
-    top : 0px;
+    top: 0px;
 
 }
 
 footer {
     background-color: #ffffff;
     height: 60px;
-    clear:both;
+    clear: both;
     width: 100%;
-     position: fixed;
+    position: fixed;
     bottom: 0;
     left: 0;
     font-family: 'Nanum Gothic', sans-serif;
-    
+
 }
 
 
@@ -73,76 +73,78 @@ footer {
     background-color: #64c2eb;
 }
 
-.content{
+.content {
     margin-top: 100px;
     height: max;
 }
 
-.footer_menu_table{
-    text-align: center;    
+.footer_menu_table {
+    text-align: center;
     margin: 5px auto;
     background-color: #ffffff;
     font-weight: bold;
-    
-}
-.footer_menu_table tr td{
-    width: 70px;
-    padding : 0 10px ;
-    background-color: #ffffff;font-size : 10px;
+
 }
 
-.menuicons{
+.footer_menu_table tr td {
+    width: 70px;
+    padding: 0 10px;
+    background-color: #ffffff;
+    font-size: 10px;
+}
+
+.menuicons {
     background-color: #ffffff;
 }
 
-.bottomArea{
-	width:max;
-	height : 90px;
+.bottomArea {
+    width: max;
+    height: 90px;
 }
 
 
 /* ---------------------- OOTD CSS ---------------------- */
 
 
-.ootd_hashtag{
+.ootd_hashtag {
     width: 33%;
     overflow: hidden;
-    color : #ffffff;
+    color: #ffffff;
     float: left;
     background-color: #64c2eb;
     border: 2px solid #ffffff;
-    padding : 10px 10px;
+    padding: 10px 10px;
     text-align: center;
 }
 
-.ootd_hs{
+.ootd_hs {
     padding-left: 5px;
     overflow: hidden;
 }
 
-#ootdtext{
+#ootdtext {
     border: 1px solid #757575;
     width: 100%;
     height: 100px;
 }
 
-.ootd_hasktag_true{
-    background-color : #30b0e7;
+.ootd_hasktag_true {
+    background-color: #30b0e7;
 }
 
-.ootd_hashtag_false{    
+.ootd_hashtag_false {
     background-color: #64c2eb;
 }
 
 
 /*ootd리스트 출력 CSS*/
 
-.ootdlistarea{
+.ootdlistarea {
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
     overflow: hidden;
-    
+
 }
 
 
@@ -153,7 +155,7 @@ footer {
     margin-left: 2.5%;
     border-spacing: -3px;
     line-height: 14px;
-     
+
 }
 
 
@@ -168,7 +170,7 @@ footer {
     color: #424242;
     font-weight: bold;
     font-size: 12px;
-    
+
 }
 
 .ootdlocation {
@@ -187,7 +189,7 @@ a1 {
 
 }
 
-.regFormButton{
+.regFormButton {
     background-image: url(http://localhost:8080/ootd/image/icon/write.png);
     width: 50px;
     height: 50px;
@@ -195,46 +197,47 @@ a1 {
     background-repeat: no-repeat;
     background-position: center;
     border-radius: 100px;
-    border : 0px;
-    background-color:  #64c2eb;
+    border: 0px;
+    background-color: #64c2eb;
     position: absolute;
-    bottom : 80px;
+    bottom: 80px;
     right: 15px;
 }
 
 /*POST보여주는 css*/
-.ootdpostviewtable{
+.ootdpostviewtable {
     width: 100%;
-    
-    
+
+
 }
 
-.postviewarea{
+.postviewarea {
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
     overflow: hidden;
-    
+
 }
-.ootdpostphoto{
+
+.ootdpostphoto {
     margin-top: 10px;
 }
 
-.ootdposttable_side{
+.ootdposttable_side {
     padding: 0px;
     width: 20px;
 }
 
-.ootdbmk img{
+.ootdbmk img {
     float: right;
 }
 
-.ootdpostviewlinethree td{
+.ootdpostviewlinethree td {
     padding: 15px 0px;
 }
 
 pv1 {
-    color:  #64c2eb;
+    color: #64c2eb;
     font-weight: 300;
     font-size: 15px;
 }
@@ -244,30 +247,72 @@ pv2 {
     font-size: 14px;
 }
 
-.needborder{
+.needborder {
     padding-top: 10px;
     padding-bottom: 10px;
-    border-bottom: 1px solid  #757575;      
-    
+    border-bottom: 1px solid #757575;
+
 }
 
-.ootdcommenttd{
+.ootdcommenttd {
     padding-top: 10px;
 }
 
-.ootddrop{
+.ootddrop {
     width: 50px;
     display: none;
     position: absolute;
-    background-color: aquamarine;    
+    background-color: aquamarine;
 }
 
-.ootddropcontent{
+.ootddropcontent {
     padding: 5px 10px;
     border: 1px solid #ddd;
 }
 
-.preview img{
+.preview img {
     width: 50px;
 }
+
 /* ---------------------- OOTD CSS 끝 --------------------- */
+/*
+테스트CSS
+*/
+
+
+
+.ootdfilebox label {
+    display: inline-block;
+    padding: .5em .75em;
+    width: 80px;
+    height: 80px;
+    color: #fff;
+    font-size: inherit;
+    line-height: normal;
+    vertical-align: middle;
+    background-image: url(http://localhost:8080/ootd/image/icon/fileuploadbutton.png);
+    background-size: 80px;
+    cursor: pointer;
+    border-radius: .25em;
+    -webkit-transition: background-color 0.2s;
+    transition: background-color 0.2s;
+}
+
+/*
+.ootdfilebox label:hover {
+  background-color: #6ed36e;
+}
+
+.ootdfilebox label:active {
+  background-color: #367c36;
+}*/
+
+.ootdfilebox input[type="file"] {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+}

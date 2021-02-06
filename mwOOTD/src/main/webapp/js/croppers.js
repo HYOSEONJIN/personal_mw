@@ -176,7 +176,9 @@ class Cropper {
             this.render();
             // Listen for events on the canvas when the image is ready
             this.imageCanvas.onmousedown = this.clickStart.bind(this);
-            console.log(this.previewCanvas.toDataURL());
+            //console.log(this.previewCanvas.toDataURL());
+            var productimage = this.previewCanvas.toDataURL();
+            console.log(productimage);
             //img.setAttribute('src', this.previewCanvas.toDataURL());
         };
     }

@@ -27,6 +27,31 @@ public class listPaging {
 			totalPageCnt++;
 		}
 		
+		
+	}
+
+	public int getPageNum() {
+		return pageNum;
+	}
+
+	public int getTotalPost() {
+		return totalPost;
+	}
+
+	public int getCntPerpage() {
+		return cntPerpage;
+	}
+
+	public int getStartRow() {
+		return startRow;
+	}
+
+	public int getTotalPageCnt() {
+		return totalPageCnt;
+	}
+
+	public List<ootdBoard> getOotdList() {
+		return ootdList;
 	}
 	
 	
