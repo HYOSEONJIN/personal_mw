@@ -180,11 +180,12 @@ class Cropper {
             
             var apihtml = '<table border="0" class="ootdAPItable"><td class="apiresult"><img src="';
             apihtml += this.previewCanvas.toDataURL();
-            apihtml += '"width="60"></td><td><input type="text" class="apitable'+i 
+            apihtml += '"width="60"></td><td><input type="text" class="apitable'+apiNum
             apihtml += '"></td></table>';
             
             $(".kakaoAPI").append(apihtml);
             
+            apiNum++;
             //img.setAttribute('src', this.previewCanvas.toDataURL());
         };
     }

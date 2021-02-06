@@ -199,7 +199,7 @@ a1 {
     border-radius: 100px;
     border: 0px;
     background-color: #64c2eb;
-    position: absolute;
+    position: fixed;
     bottom: 80px;
     right: 15px;
 }
@@ -290,7 +290,7 @@ pv2 {
     font-size: inherit;
     line-height: normal;
     vertical-align: middle;
-    background-image: url(image/icon/fileuploadbutton.png);
+    background-image: url(http://localhost:8080/ootd/image/icon/fileuploadbutton.png);
     background-size: 80px;
     cursor: pointer;
     border-radius: .25em;
@@ -306,6 +306,7 @@ pv2 {
 .ootdfilebox label:active {
   background-color: #367c36;
 }*/
+
 
 .ootdfilebox input[type="file"] {
     position: absolute;
@@ -340,7 +341,6 @@ pv2 {
     float: left;
     margin-bottom: 10px;
 }
-
 
 .ootdAPItable td:nth-child(1){
     width: 70px;

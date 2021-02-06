@@ -17,6 +17,7 @@ var ajax_last_num = 0;
 var pageNum = 1;
 var filebase64 = ''; // file의 사진값 저장할 base64
 var image1 = '';
+var apiNum = 0;
 //var image1base64 = '';
 
 var x = 131;
@@ -171,6 +172,7 @@ function hashtagList() {
 
 // kakao API 상품검출 좌표값 얻기
 function kakaoCall() {
+    apiNum = 0;
 
     var content = document.querySelector('.kakaoAPI');
     content.innerHTML = '';
