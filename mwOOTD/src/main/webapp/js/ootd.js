@@ -31,7 +31,7 @@ var dimensions = {
 };
 
 //이미지의 상품 좌표 검출
-var xyarr=[];
+var xyarr = [];
 
 // 메인 출력
 function ootdMain() {
@@ -71,6 +71,7 @@ function ootdMain() {
                 "background-image": "url(" + e.target.result + ")"
 
             })
+            kakaoCall();
         }
     })()
 
@@ -134,7 +135,7 @@ function addregButton() {
     regModalHtml += '</div></div></form></div><div class="modal-footer">';
     regModalHtml += '<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="dataReset()">닫기</button>'
     regModalHtml += '<button type="button" class="btn btn-primary" id="close_modal" onclick="reg(); this.onclick=null;">등록</button>'
-    regModalHtml += '<button type="button" class="btn btn-primary" id="imagedetection" onclick="kakaoCall()">사진조회</button><div name="preview" id="preview"></div></div></div></div></div></div></div>';
+    regModalHtml += '</div></div></div></div></div></div>';
     regModalHtml += '<canvas class="js-editorcanvas" style="display: none"></canvas>';
     regModalHtml += '<canvas class="js-previewcanvas" style="display: none"></canvas>';
 
@@ -170,6 +171,9 @@ function hashtagList() {
 
 // kakao API 상품검출 좌표값 얻기
 function kakaoCall() {
+
+    var content = document.querySelector('.kakaoAPI');
+    content.innerHTML = '';
 
 
     var beforeKey = "KakaoAK ";
@@ -208,8 +212,8 @@ function kakaoCall() {
 
 
             for (i = 0; i < 4; i++) {
-                
-            /*    if (!data[i].includes(score)) {
+
+                /*    if (!data[i].includes(score)) {
                     return fasle;
                 }
 */
@@ -247,7 +251,7 @@ function kakaoCall() {
                     x = xy; // 정방형으로 맞춰주기 위해 그냥 똑같이했다.
                     y = xy;
                     console.log('크기', x, y, '시작점', w, h);
-                    xyarr.push([x,y,w,h]);
+                    xyarr.push([x, y, w, h]);
                     console.log(xyarr);
 
                     function exceptionHandler(message) {
@@ -325,7 +329,7 @@ function reg() {
             formData.append('ootdtext', $('#ootdtext').val());
             formData.append("ootdphoto", file1);
             formData.append('ootdhashtag', hashJSON);
-            formData.append('xyarr',xyarr.toString());
+            formData.append('xyarr', xyarr.toString());
 
             //임시값
             formData.append('ootdnic', $('#ootdnic').val());
@@ -426,8 +430,12 @@ function hashtag(idx) {
 
 // 모달창 끌때 데이터 리셋 해주는 기능들어있는 함수
 function dataReset() {
+    
+    var content = document.querySelector('.kakaoAPI');
+    content.innerHTML = '';
+    
     hashCheck.length = 0;
-    xyarr.length=0;
+    xyarr.length = 0;
     $('#ootdtext').val(null);
     $('#ootdphoto').val(null);
     $('.ootd_hashtag').removeClass('ootd_hasktag_true');
