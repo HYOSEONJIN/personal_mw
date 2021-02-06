@@ -33,6 +33,8 @@ var dimensions = {
 
 //이미지의 상품 좌표 검출
 var xyarr = [];
+//입력받은 상품 정보
+var apiProductInput=[];
 
 // 메인 출력
 function ootdMain() {
@@ -332,12 +334,14 @@ function reg() {
             formData.append("ootdphoto", file1);
             formData.append('ootdhashtag', hashJSON);
             formData.append('xyarr', xyarr.toString());
-            console.log(apiNum,'APINUM!!!!!!!!!!!!!!!!!')
-            for(i=0; i< (apiNum+1); i++){
-                formData.append('productInfo'+i, $('.apitable'+i).val())
-                console.log($('.apitable'+i).val());
+            
+            for(i=0; i< apiNum ; i++){
+                // 값에 ,이 들어가있으면 생략해줘야함 (처리) var result = test.replace( /가/gi, '나');
+                var result = $('.apitable'+i).val().replace(/,/gi, '');
+                apiProductInput.push(result);            
 
             }
+        	formData.append('apiproductinfo',apiProductInput);
 
             //임시값
             formData.append('ootdnic', $('#ootdnic').val());

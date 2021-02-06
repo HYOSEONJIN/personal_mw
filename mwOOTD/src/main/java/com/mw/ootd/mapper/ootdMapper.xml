@@ -20,8 +20,7 @@ select * from ootdhashtag order by hash;
 </select>
 
 
-<!-- 회원가입 -->
-
+<!-- 글쓰기 -->
 <insert id="ootdDocInsert"
    parameterType="com.mw.ootd.Domain.ootdBoard"
    useGeneratedKeys="true"
