@@ -45,83 +45,50 @@ function ootdMain() {
 
     /*이미지를 베이스 64로 바꾸고 저장하지 않아도 썸네일로 보여줌*/
 
-    //    var ootdphoto = document.getElementById('ootdphoto')
-    //    var preview = document.querySelector('#preview')
-    //
-    //    /* FileReader 객체 생성 */
-    //    var reader = new FileReader();
-    //
-    //    /* reader 시작시 함수 구현 */
-    //    reader.onload = (function () {
-    //
-    //        image1 = document.createElement('img');
-    //        var vm = this;
-    //
-    //        return function (e) {
-    //            /* base64 인코딩 된 스트링 데이터 */
-    //            image1base64 = e.target.result
-    //            vm.image1.src = e.target.result
-    //            //console.log(vm);
-    //            // console.log(image1base64);
-    //            //alert('돌아가고있음')
-    //        }
-    //    })()
-    //
-    //    ootdphoto.addEventListener('change', function (e) {
-    //        var get_file = e.target.files;
-    //
-    //        if (get_file) {
-    //            reader.readAsDataURL(get_file[0]);
-    //        }
-    //
-    //        //preview.appendChild(image1);
-    //    })
+    var ootdphoto = document.getElementById('ootdphoto')
+    var preview = document.querySelector('#preview')
+
+    /* FileReader 객체 생성 */
+    var reader = new FileReader();
+
+    /* reader 시작시 함수 구현 */
+    reader.onload = (function () {
+
+        image1 = document.createElement('img');
+        var vm = this;
+
+        return function (e) {
+            /* base64 인코딩 된 스트링 데이터 */
+            image1base64 = e.target.result
+            vm.image1.src = e.target.result
+            //console.log(vm);
+            console.log(image1base64);
+            alert('돌아가고있음')
+            $('.img-upload-label').css({
+
+                "background-image": "url(" + e.target.result + ")"
+
+            })
+        }
+    })()
+
+    ootdphoto.addEventListener('change', function (e) {
+        var get_file = e.target.files;
+
+        if (get_file) {
+            reader.readAsDataURL(get_file[0]);
+        }
+
+
+
+        // $('.img-upload-label').style.backgroundImage= 'url('+image1+')'
+
+        //preview.appendChild(image1);
+    })
 
     /*이미지를 베이스 64로 바꾸고 저장하지 않아도 썸네일로 보여줌 여기까지*/
 
 
-
-    /*
-        function exceptionHandler(message) {
-            alert('에러메세지', message);
-        }
-
-
-        try {
-            // alert('try1');
-            var www = document.querySelector('.ootdphoto');
-            console.log(www);
-            var uploader = new Uploader({
-                input: document.querySelector('.ootdphoto'),
-                types: ['gif', 'jpg', 'jpeg', 'png']
-
-            });
-            // alert('try2');
-            var editor = new Cropper({
-                size: dimensions,
-                canvas: document.querySelector('.js-editorcanvas'),
-                preview: document.querySelector('.js-previewcanvas')
-            });
-
-            // Make sure both were initialised correctly
-            if (uploader && editor) {
-                //alert('try3');
-                // Start the uploader, which will launch the editor
-                uploader.listen(editor.setImageSource.bind(editor), (error) => {
-                    throw error;
-                });
-            }
-            // Allow the result to be exported as an actual image
-            var img = document.createElement('img');
-            //            document.body.appendChild(img);
-
-            //document.querySelector('.js-export').onclick = (e) => editor.export(img);
-            console.log("img:", img);
-
-        } catch (error) {
-            console.log("에러", error);
-            exceptionHandler(error.message);
-        }*/
 }
 
 /*글쓰기*/
@@ -226,7 +193,7 @@ function kakaoCall() {
             var data = apidata.result.objects;
             var dataheight = apidata.result.height;
             var datawidth = apidata.result.width;
-            
+
 
 
             for (i = 0; i < 3; i++) {
@@ -268,7 +235,7 @@ function kakaoCall() {
                         alert('에러메세지', message);
                     }
 
-                    
+
                     try {
                         // alert('try1');
                         var www = document.querySelector('.ootdphoto');
