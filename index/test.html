@@ -57,16 +57,19 @@
                                     <div class="form-group"><label for="recipient-name" class="col-form-label">TODAY OOTD</label>
                                         <br>
                                         
+                                        
                                         <table class="ootdregTable"><td width="100px"><div class="ootdfilebox">                                        
-                                        <label class="img-upload-label"><input type="file" class="ootdphoto img-upload" accept="image/jpeg,image/png,image/gif" id="ootdphoto" name="ootdphoto"></label></div>  
-                                      
-                                  </td>
-                                        
-                                        <td>    <div class="form-group"><input type="text" id="ootdtext" name="ootdtext" required=""> </div></td></table>
-                                        
-                                                                     
-                                  
-                                </form>
+                                        <label class="img-upload-label"><input type="file" class="ootdphoto img-upload" accept="image/jpeg,image/png,image/gif" id="ootdphoto" name="ootdphoto"></label></div> </td><td><div class="form-group"><input type="text" id="ootdtext" name="ootdtext" required=""> </div></td></table></form>
+                                    
+                                    <hr border="1px" colore="black">
+                                    <div class="kakaoAPI">
+                                        <table border="1"><td><img src="image/icon/bookmark.png" width="90"></td><td><input type="text"></td></table>
+                                    
+                                    
+                                    
+                                    </div>
+                                    
+                                    <hr border="1px" colore="black">
                              
                                 <div class="form-group">
                                     <div class="ootd_hs">
@@ -82,7 +85,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button><button type="button" class="btn btn-primary" id="close_modal" onclick="reg(); this.onclick=null;">등록</button><button type="button" class="btn btn-primary" id="imagedetection" onclick="kakaoCall()">사진조회</button>
+                            <div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="dataReset()">닫기</button><button type="button" class="btn btn-primary" id="close_modal" onclick="reg(); this.onclick=null;">등록</button><button type="button" class="btn btn-primary" id="imagedetection" onclick="kakaoCall()">사진조회</button>
                                 <div name="preview" id="preview"></div>
                             </div>
                         </div>

@@ -320,11 +320,32 @@ pv2 {
 
 .ootdfilebox {
     width: 100px;
-    background-color: blue;
 }
 
 
 
 .ootdregTable{
     width: 100%;
+}
+
+.kakaoAPI{
+    width: 100;
+    overflow: hidden;
+    text-align: 
+    
+}
+
+.ootdAPItable{
+    width: 50%;
+    float: left;
+}
+
+.ootdAPItable td:nth-child(1){
+    width: 60px;   
+}
+
+.ootdAPItable input[type=text]{
+    border : 0px;
+    width: 100%;
+    border-bottom: 1px solid black;
 }
