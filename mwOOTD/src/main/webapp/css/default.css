@@ -307,6 +307,7 @@ pv2 {
   background-color: #367c36;
 }*/
 
+
 .ootdfilebox input[type="file"] {
     position: absolute;
     width: 80px;
@@ -331,17 +332,19 @@ pv2 {
 .kakaoAPI{
     width: 100;
     overflow: hidden;
-    text-align: 
+    text-align: center;
     
 }
 
 .ootdAPItable{
     width: 50%;
     float: left;
+    margin-bottom: 10px;
 }
 
 .ootdAPItable td:nth-child(1){
-    width: 60px;   
+    width: 70px;
+    padding-left: 10px;
 }
 
 .ootdAPItable input[type=text]{
@@ -350,4 +353,3 @@ pv2 {
     width: 80%;
     border-bottom: 1px solid #424242;
 }
-

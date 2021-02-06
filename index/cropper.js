@@ -178,9 +178,11 @@ class Cropper {
             this.imageCanvas.onmousedown = this.clickStart.bind(this);
             console.log(this.previewCanvas.toDataURL());
             
-            var apihtml += '<table border="0" class="ootdAPItable"><td class="apiresult"><img src="';
+            var apihtml = '<table border="0" class="ootdAPItable"><td class="apiresult"><img src="';
             apihtml += this.previewCanvas.toDataURL();
-            apihtml += '"width="60"></td><td><input type="text"></td></table>'
+            apihtml += '"width="60"></td><td><input type="text" class="apitable'+i 
+            apihtml += '"></td></table>';
+            
             $(".kakaoAPI").append(apihtml);
             
             //img.setAttribute('src', this.previewCanvas.toDataURL());

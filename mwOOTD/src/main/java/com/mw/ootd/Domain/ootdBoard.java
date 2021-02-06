@@ -26,6 +26,14 @@ public class ootdBoard {
    int ootdviewcnt;
    String ootdip;
    String ootdhashtag;
+   String xyarr;
+   
+public String getXyarr() {
+	return xyarr;
+}
+public void setXyarr(String xyarr) {
+	this.xyarr = xyarr;
+}
 public int getOotdidx() {
 	return ootdidx;
 }

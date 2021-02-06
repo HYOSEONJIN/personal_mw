@@ -30,6 +30,8 @@ var dimensions = {
     height: 128
 };
 
+//이미지의 상품 좌표 검출
+var xyarr=[];
 
 // 메인 출력
 function ootdMain() {
@@ -112,6 +114,10 @@ function addregButton() {
     regModalHtml += '<div class="ootdfilebox"><label class="img-upload-label"><input type="file" class="ootdphoto img-upload" accept="image/jpeg,image/png,image/gif" id="ootdphoto" name="ootdphoto"></label></div></td>' /*</form>*/
     regModalHtml += '</div><td><div class="form-group">'
     regModalHtml += '<input type="text" id="ootdtext" name="ootdtext" required> </div></td></table></form>'
+
+    regModalHtml += '<div class="kakaoAPI"></div>'
+
+
 
     regModalHtml += '<div class="form-group"><div class="ootd_hs">';
 
@@ -201,7 +207,13 @@ function kakaoCall() {
 
 
 
-            for (i = 0; i < 3; i++) {
+            for (i = 0; i < 4; i++) {
+                
+            /*    if (!data[i].includes(score)) {
+                    return fasle;
+                }
+*/
+
                 if (data[i].score > 0.95) {
 
                     // 이미지가 줄어드는 비율처리해줄 변수
@@ -214,7 +226,7 @@ function kakaoCall() {
                         dataheight = 600;
                     }
 
-
+                    var tableNum = i;
 
                     console.log(data[i])
                     var w1 = Math.floor(datawidth * (data[i].x2 - data[i].x1));
@@ -235,6 +247,8 @@ function kakaoCall() {
                     x = xy; // 정방형으로 맞춰주기 위해 그냥 똑같이했다.
                     y = xy;
                     console.log('크기', x, y, '시작점', w, h);
+                    xyarr.push([x,y,w,h]);
+                    console.log(xyarr);
 
                     function exceptionHandler(message) {
                         alert('에러메세지', message);
@@ -265,12 +279,6 @@ function kakaoCall() {
                                 throw error;
                             });
                         }
-                        // Allow the result to be exported as an actual image
-                        var img = document.createElement('img');
-                        //            document.body.appendChild(img);
-
-                        //document.querySelector('.js-export').onclick = (e) => editor.export(img);
-                        console.log("img:", img);
 
                     } catch (error) {
                         console.log("에러", error);
@@ -317,6 +325,7 @@ function reg() {
             formData.append('ootdtext', $('#ootdtext').val());
             formData.append("ootdphoto", file1);
             formData.append('ootdhashtag', hashJSON);
+            formData.append('xyarr',xyarr.toString());
 
             //임시값
             formData.append('ootdnic', $('#ootdnic').val());
@@ -418,6 +427,7 @@ function hashtag(idx) {
 // 모달창 끌때 데이터 리셋 해주는 기능들어있는 함수
 function dataReset() {
     hashCheck.length = 0;
+    xyarr.length=0;
     $('#ootdtext').val(null);
     $('#ootdphoto').val(null);
     $('.ootd_hashtag').removeClass('ootd_hasktag_true');
@@ -426,7 +436,7 @@ function dataReset() {
     hashFalse();
     $('.img-upload-label').css({
 
-        "background-image":  "url(http://localhost:8080/ootd/image/icon/fileuploadbutton.png)"
+        "background-image": "url(http://localhost:8080/ootd/image/icon/fileuploadbutton.png)"
 
     })
 }

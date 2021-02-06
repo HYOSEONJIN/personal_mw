@@ -338,10 +338,13 @@ pv2 {
 .ootdAPItable{
     width: 50%;
     float: left;
+    margin-bottom: 10px;
 }
 
+
 .ootdAPItable td:nth-child(1){
-    width: 60px;   
+    width: 70px;
+    padding-left: 10px;
 }
 
 .ootdAPItable input[type=text]{
