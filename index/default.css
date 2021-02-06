@@ -281,7 +281,7 @@ pv2 {
 
 
 
-.ootdfilebox label {
+.img-upload-label {
     display: inline-block;
     padding: .5em .75em;
     width: 80px;
@@ -315,4 +315,16 @@ pv2 {
     margin: -1px;
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
+    float: left;
+}
+
+.ootdfilebox {
+    width: 100px;
+    background-color: blue;
+}
+
+
+
+.ootdregTable{
+    width: 100%;
 }

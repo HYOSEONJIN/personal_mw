@@ -59,7 +59,7 @@ function ootdMain() {
 
         return function (e) {
             /* base64 인코딩 된 스트링 데이터 */
-           // image1base64 = e.target.result
+            // image1base64 = e.target.result
             vm.image1.src = e.target.result
             //console.log(vm);
             //console.log(image1base64);
@@ -105,10 +105,15 @@ function addregButton() {
     regModalHtml += '<div class="modal-header"><h5 class="modal-title" id="exampleModalLabel">WEATHER WEAR - OOTD</h5>';
     regModalHtml += '<div class="modal-body"><form><div class="form-group">'
     regModalHtml += '<label for="recipient-name" class="col-form-label">TODAY OOTD</label><br>'
-    regModalHtml += '<form id="photoform" method="POST" enctype="multipart/form-data">'
-    regModalHtml += ' <div class="ootdfilebox"><label class="img-upload-label"><input type="file" class="ootdphoto img-upload" accept="image/jpeg,image/png,image/gif" id="ootdphoto" name="ootdphoto"></label></div></form></div><div class="form-group">'
-    regModalHtml += '<input type="text" id="ootdtext" name="ootdtext" required> </div><div class="form-group">'
-    regModalHtml += '<div class="ootd_hs">';
+
+
+    regModalHtml += ' <table class="ootdregTable"><td width="100px">';
+    /* regModalHtml += '<form id="photoform" method="POST" enctype="multipart/form-data">'*/
+    regModalHtml += '<div class="ootdfilebox"><label class="img-upload-label"><input type="file" class="ootdphoto img-upload" accept="image/jpeg,image/png,image/gif" id="ootdphoto" name="ootdphoto"></label></div></td>' /*</form>*/
+    regModalHtml += '</div><td><div class="form-group">'
+    regModalHtml += '<input type="text" id="ootdtext" name="ootdtext" required> </div></td></table></form>'
+
+    regModalHtml += '<div class="form-group"><div class="ootd_hs">';
 
     // 해시태그 리스트 불러오기
     regModalHtml += hashtagName;
@@ -121,7 +126,7 @@ function addregButton() {
 
 
     regModalHtml += '</div></div></form></div><div class="modal-footer">';
-    regModalHtml += '<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>'
+    regModalHtml += '<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="dataReset()">닫기</button>'
     regModalHtml += '<button type="button" class="btn btn-primary" id="close_modal" onclick="reg(); this.onclick=null;">등록</button>'
     regModalHtml += '<button type="button" class="btn btn-primary" id="imagedetection" onclick="kakaoCall()">사진조회</button><div name="preview" id="preview"></div></div></div></div></div></div></div>';
     regModalHtml += '<canvas class="js-editorcanvas" style="display: none"></canvas>';
@@ -419,6 +424,11 @@ function dataReset() {
     $('.ootd_hashtag').addClass('ootd_hashtag_false');
     hashJSON = '';
     hashFalse();
+    $('.img-upload-label').css({
+
+        "background-image":  "url(http://localhost:8080/ootd/image/icon/fileuploadbutton.png)"
+
+    })
 }
 
 // hash태그를 JSON형식의 String으로 만들어기

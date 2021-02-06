@@ -42,10 +42,7 @@
             <img src="image/logo/mwlogo.png" width="119px" class="logoimage">
             <input type="hidden" value="1" name="memidxsession" id="memidxsession">
         </header>
-        <div class="filebox">
-  <label for="ex_file">업로드</label>
-  <input type="file" id="ex_file">
-</div>
+        
 
 
         <div class="content" id="content" name="content"><button type="button" class="test" onclick="pageView(pageNum)">ㅇㅇ</button><button type="button" class="regFormButton" data-toggle="modal" data-target="#ootdRegModal" data-what="hello"></button>
@@ -57,9 +54,20 @@
                             <h5 class="modal-title" id="exampleModalLabel">WEATHER WEAR - OOTD</h5>
                             <div class="modal-body">
                                 <form>
-                                    <div class="form-group"><label for="recipient-name" class="col-form-label">TODAY OOTD</label><br><label class="img-upload-label"><input type="file" class="ootdphoto img-upload" accept="image/jpeg,image/png,image/gif" id="ootdphoto" name="ootdphoto"></label></div>
+                                    <div class="form-group"><label for="recipient-name" class="col-form-label">TODAY OOTD</label>
+                                        <br>
+                                        
+                                        <table class="ootdregTable"><td width="100px"><div class="ootdfilebox">                                        
+                                        <label class="img-upload-label"><input type="file" class="ootdphoto img-upload" accept="image/jpeg,image/png,image/gif" id="ootdphoto" name="ootdphoto"></label></div>  
+                                      
+                                  </td>
+                                        
+                                        <td>    <div class="form-group"><input type="text" id="ootdtext" name="ootdtext" required=""> </div></td></table>
+                                        
+                                                                     
+                                  
                                 </form>
-                                <div class="form-group"><input type="text" id="ootdtext" name="ootdtext" required=""> </div>
+                             
                                 <div class="form-group">
                                     <div class="ootd_hs">
                                         <div class="ootd_hashtag" onclick="hashtag(1)" id="ootd_hashtag1">걸크러쉬</div>
