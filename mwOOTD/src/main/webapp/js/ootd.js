@@ -111,7 +111,11 @@ function addregButton() {
     /* regModalHtml += '<form id="photoform" method="POST" enctype="multipart/form-data">'*/
     regModalHtml += '<div class="ootdfilebox"><label class="img-upload-label"><input type="file" class="ootdphoto img-upload" accept="image/jpeg,image/png,image/gif" id="ootdphoto" name="ootdphoto"></label></div></td>' /*</form>*/
     regModalHtml += '</div><td><div class="form-group">'
-    regModalHtml += '<input type="text" id="ootdtext" name="ootdtext" required> </div></td></table></form>'
+    regModalHtml += '<input type="text" id="ootdtext" name="ootdtext" required> </div></td></table></form><hr>'
+
+    regModalHtml += '<div class="kakaoAPI"></div><hr>'
+
+
 
     regModalHtml += '<div class="form-group"><div class="ootd_hs">';
 
@@ -202,6 +206,12 @@ function kakaoCall() {
 
 
             for (i = 0; i < 3; i++) {
+                
+            /*    if (!data[i].includes(score)) {
+                    return fasle;
+                }
+*/
+
                 if (data[i].score > 0.95) {
 
                     // 이미지가 줄어드는 비율처리해줄 변수
@@ -266,11 +276,11 @@ function kakaoCall() {
                             });
                         }
                         // Allow the result to be exported as an actual image
-                        var img = document.createElement('img');
+                        //var img = document.createElement('img');
                         //            document.body.appendChild(img);
 
                         //document.querySelector('.js-export').onclick = (e) => editor.export(img);
-                        console.log("img:", img);
+                        //console.log("img:", img);
 
                     } catch (error) {
                         console.log("에러", error);
@@ -426,7 +436,7 @@ function dataReset() {
     hashFalse();
     $('.img-upload-label').css({
 
-        "background-image":  "url(http://localhost:8080/ootd/image/icon/fileuploadbutton.png)"
+        "background-image": "url(http://localhost:8080/ootd/image/icon/fileuploadbutton.png)"
 
     })
 }

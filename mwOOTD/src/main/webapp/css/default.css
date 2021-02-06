@@ -327,3 +327,27 @@ pv2 {
 .ootdregTable{
     width: 100%;
 }
+
+.kakaoAPI{
+    width: 100;
+    overflow: hidden;
+    text-align: 
+    
+}
+
+.ootdAPItable{
+    width: 50%;
+    float: left;
+}
+
+.ootdAPItable td:nth-child(1){
+    width: 60px;   
+}
+
+.ootdAPItable input[type=text]{
+    margin-left: 10px;
+    border : 0px;
+    width: 80%;
+    border-bottom: 1px solid #424242;
+}
+

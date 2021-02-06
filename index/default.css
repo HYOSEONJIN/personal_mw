@@ -331,7 +331,7 @@ pv2 {
 .kakaoAPI{
     width: 100;
     overflow: hidden;
-    text-align: 
+    text-align: center;
     
 }
 
@@ -345,7 +345,8 @@ pv2 {
 }
 
 .ootdAPItable input[type=text]{
+    margin-left: 10px;
     border : 0px;
-    width: 100%;
-    border-bottom: 1px solid black;
+    width: 80%;
+    border-bottom: 1px solid #424242;
 }
