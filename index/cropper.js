@@ -176,7 +176,7 @@ class Cropper {
             this.render();
             // Listen for events on the canvas when the image is ready
             this.imageCanvas.onmousedown = this.clickStart.bind(this);
-            console.log(this.previewCanvas.toDataURL());
+            //console.log(this.previewCanvas.toDataURL());
             
             var apihtml = '<table border="0" class="ootdAPItable"><td class="apiresult"><img src="';
             apihtml += this.previewCanvas.toDataURL();
