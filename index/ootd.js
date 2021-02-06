@@ -337,11 +337,13 @@ function reg() {
             for(i=0; i< apiNum ; i++){
                 // 값에 ,이 들어가있으면 생략해줘야함 (처리) var result = test.replace( /가/gi, '나');
                 var result = $('.apitable'+i).val().replace(/,/gi, '');
+                console.log('변경결과', result);
                 apiProductInput.push(result);            
 
             }
         
-            console.log(result);
+            console.log(apiProductInput);
+            formData.append('apiproductinfo',apiproductinfo);
 
             //임시값
             formData.append('ootdnic', $('#ootdnic').val());
@@ -448,6 +450,7 @@ function dataReset() {
     
     hashCheck.length = 0;
     xyarr.length = 0;
+    apiProductInput.length =0;
     $('#ootdtext').val(null);
     $('#ootdphoto').val(null);
     $('.ootd_hashtag').removeClass('ootd_hasktag_true');

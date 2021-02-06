@@ -28,9 +28,9 @@ select * from ootdhashtag order by hash;
    
    INSERT INTO ootd
    
-   ( memidx, ootdnic, ootdphotoname, ootdtext,ootdhashtag)
+   ( memidx, ootdnic, ootdphotoname, ootdtext,ootdhashtag, xyarr, apiproductinfo)
    VALUES
-   (#{memidx},#{ootdnic},#{ootdphotoname},#{ootdtext},#{ootdhashtag})
+   (#{memidx},#{ootdnic},#{ootdphotoname},#{ootdtext},#{ootdhashtag}, #{xyarr}, #{apiproductinfo})
 
 </insert>
 
