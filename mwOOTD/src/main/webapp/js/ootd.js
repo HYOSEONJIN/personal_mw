@@ -12,7 +12,7 @@ window.onload = function () {
 
 var hashtagName = ''; // 해시태그 div 생성해주는 for문에 사용
 var hashCheck = []; // hash태그 체크 여부 저장해주는 배열
-var hashJSON = ''; // hash태그를 JSON형식의 String으로 저장
+//var hashJSON = ''; // hash태그를 JSON형식의 String으로 저장
 var hashAmount = 0; // 해시태그 갯수 체크
 
 var ajax_last_num = 0;
@@ -36,7 +36,7 @@ var dimensions = {
 //이미지의 상품 좌표 검출
 var xyarr = [];
 //입력받은 상품 정보
-var apiProductInput=[];
+var apiProductInput = [];
 
 // 메인 출력
 function ootdMain() {
@@ -44,7 +44,7 @@ function ootdMain() {
     var content = document.querySelector('.content');
     content.innerHTML = '';
     pageNum = 1;
-    hashJSON = '';
+    //hashJSON = '';
     pageView(pageNum);
     addregButton();
 
@@ -326,7 +326,7 @@ function reg() {
         if (file1.type == 'image/jpeg' || (file1.type == 'image/png') || file1.type == "undefined") {
 
 
-            hashtagJSON();
+           // hashtagJSON();
 
             var text = $('#ootdtext').val();
             console.log(text);
@@ -334,23 +334,23 @@ function reg() {
             var formData = new FormData();
             formData.append('ootdtext', $('#ootdtext').val());
             formData.append("ootdphoto", file1);
-            formData.append('ootdhashtag', hashJSON);
+            formData.append('ootdhashtag', hashCheck.toString());
             formData.append('xyarr', xyarr.toString());
-            for(i=0; i< apiNum ; i++){
+            for (i = 0; i < apiNum; i++) {
                 // 값에 ,이 들어가있으면 생략해줘야함 (처리) var result = test.replace( /가/gi, '나');
-                var result = $('.apitable'+i).val().replace(/,/gi, '');
+                var result = $('.apitable' + i).val().replace(/,/gi, '');
                 console.log('변경결과', result);
-                apiProductInput.push(result);            
+                apiProductInput.push(result);
 
             }
-        
+
             console.log(apiProductInput);
-            formData.append('apiproductinfo',apiProductInput);
+            formData.append('apiproductinfo', apiProductInput);
 
             //임시값
             formData.append('ootdnic', $('#ootdnic').val());
             formData.append('memidx', $('#memidx').val());
-            
+
 
 
             $.ajax({
@@ -378,19 +378,19 @@ function reg() {
                             /////////// 원래 저장값 날려주는 처리 할 부분/////////////////
                             $("#ootdRegModal").modal("hide");
                         } else if (data == 0) {
-                            hashJSON = '';
+                            //hashJSON = '';
 
-                            console.log(hashJSON);
+                            //console.log(hashJSON);
                             dataReset();
                             alert("사진은 필수항목입니다");
                         } else if (data == 2) {
                             hashJSON = '';
-                            console.log(hashJSON);
+                            //console.log(hashJSON);
                             dataReset();
                             alert('내용을 입력하세요');
                         } else {
                             hashJSON = '';
-                            console.log(hashJSON);
+                            //console.log(hashJSON);
                             dataReset();
                             alert("알수없는 에러가 발생했습니다. 다시시도해주세요");
 
@@ -402,8 +402,8 @@ function reg() {
             })
 
         } else {
-            hashJSON = '';
-            console.log(hashJSON);
+           // hashJSON = '';
+           //console.log(hashJSON);
             dataReset();
             alert('JPG 또는 PNG 형식의 파일만 첨부해주세요 ');
         }
@@ -431,18 +431,18 @@ function hashtag(idx) {
         // 선택되어있을 때 다시 눌러서 선택을 해제함
         $('#ootd_hashtag' + idx).removeClass('ootd_hasktag_true');
         $('#ootd_hashtag' + idx).addClass('ootd_hashtag_false');
-         hashCheck[idx] = false;
-        hashAmount = hashAmount-1;
+        hashCheck[idx] = false;
+        hashAmount = hashAmount - 1;
 
     } else {
         // 선택함
-        if(hashAmount<3){
-        $('#ootd_hashtag' + idx).removeClass('ootd_hashtag_false');
-        $('#ootd_hashtag' + idx).addClass('ootd_hasktag_true');        
-        hashCheck[idx] = $('#ootd_hashtag' + idx).text();
-        console.log(hashCheck[idx]);
-        hashAmount++;
-        }else{
+        if (hashAmount < 3) {
+            $('#ootd_hashtag' + idx).removeClass('ootd_hashtag_false');
+            $('#ootd_hashtag' + idx).addClass('ootd_hasktag_true');
+            hashCheck[idx] = $('#ootd_hashtag' + idx).text();
+            console.log(hashCheck[idx]);
+            hashAmount++;
+        } else {
             alert('해시태그는 3개까지만 가능합니다')
         }
 
@@ -452,18 +452,19 @@ function hashtag(idx) {
 
 // 모달창 끌때 데이터 리셋 해주는 기능들어있는 함수
 function dataReset() {
-    
+
     var content = document.querySelector('.kakaoAPI');
     content.innerHTML = '';
-    
+
+    hashAmount = 0;
     hashCheck.length = 0;
     xyarr.length = 0;
-    apiProductInput.length =0;
+    apiProductInput.length = 0;
     $('#ootdtext').val(null);
     $('#ootdphoto').val(null);
     $('.ootd_hashtag').removeClass('ootd_hasktag_true');
     $('.ootd_hashtag').addClass('ootd_hashtag_false');
-    hashJSON = '';
+    //hashJSON = '';
     hashFalse();
     $('.img-upload-label').css({
 
@@ -473,23 +474,23 @@ function dataReset() {
 }
 
 // hash태그를 JSON형식의 String으로 만들어기
-function hashtagJSON() {
+/*function hashtagJSON() {
 
     hashJSON = '';
-    hashJSON += '[{'
+    hashJSON += '{'
 
     for (i = 1; i < 9; i++) {
-        hashJSON += '"hashtag' + i + '":';
-        hashJSON += '"'+hashCheck[i]+'"' + ',';
+        hashJSON += '"hashtag":';
+        hashJSON += '"' + hashCheck[i] + '"' + ',';
     }
 
-    hashJSON += '"hashtag9":' + '"'+ hashCheck[9]+'"';
-    hashJSON += '}]';
+    hashJSON += '"hashtag": "' + hashCheck[9] + '"';
+    hashJSON += '}';
 
     console.log(hashJSON);
 
 
-}
+}*/
 
 
 // 리스트 출력 함수
@@ -575,10 +576,24 @@ function viewPost(data, idx) {
             postviewhtml += rs.ootdnic
             postviewhtml += '</pv1></td><td colspan="2"><pv2>';
             postviewhtml += rs.ootdlikecnt
-            postviewhtml += '명이 좋아합니다&nbsp&nbsp</pv2></td><td><img src="image/icon/heart.png" width="20"></td><td></td></tr>';
+            postviewhtml += '명이 좋아합니다&nbsp&nbsp</pv2></td><td><img src="image/icon/heart.png" width="20"></td><td></td></tr><tr><td class="ootdposthashtag" colspan="7">';
+
+
+            var strArray=rs.ootdhashtag.split(',');
+            console.log(strArray);
             
+            var hash = '';
             
-            postviewhtml += '<tr><td></td>';
+            for(i=0; i<10; i++){
+                if(strArray[i]!='false'){
+                    hash += '#' + strArray[i] + ' '                   
+                }                
+            }
+
+            postviewhtml += hash
+
+
+            postviewhtml += '</td><tr><td></td>';
             postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
             postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
             postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
