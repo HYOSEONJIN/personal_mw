@@ -208,14 +208,13 @@ a1 {
 .ootdpostviewtable {
     width: 100%;
 
-
 }
 
 .postviewarea {
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
-    overflow: hidden;
+    overflow: scroll;
 
 }
 
