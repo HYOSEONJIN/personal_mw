@@ -573,81 +573,145 @@ function viewPost(data, idx) {
 
 
 
+    setTimeout(function () {
 
-    var postviewhtml = '';
+        var postviewhtml = '';
 
-    $(".bottomArea").remove();
-    $.ajax({
-        url: 'http://localhost:8080/ootd/postview',
-        type: 'get',
-        data: {
-            ootdidx: data
-        },
-        success: function (data) {
-            console.log(data);
-            console.log(data[0]);
+        $(".bottomArea").remove();
+        $.ajax({
+            url: 'http://localhost:8080/ootd/postview',
+            type: 'get',
+            data: {
+                ootdidx: data
+            },
+            success: function (data) {
+                console.log(data);
+                console.log(data[0]);
 
-            var rs = data[0];
+                var rs = data[0];
 
-            postviewhtml += '<div class="ootddrop" id="ootddrop" name="ootddrop">';
-            postviewhtml += '<div class="ootddropcontent">수정</div>';
-            postviewhtml += '<div class="ootddropcontent" onclick="ootdPostDelete(' + rs.ootdidx + ')">삭제</div></div>';
+                postviewhtml += '<div class="ootddrop" id="ootddrop" name="ootddrop">';
+                postviewhtml += '<div class="ootddropcontent">수정</div>';
+                postviewhtml += '<div class="ootddropcontent" onclick="ootdPostDelete(' + rs.ootdidx + ')">삭제</div></div>';
 
-            postviewhtml += '<div class="postviewarea" id="postviewarea" name="postviewarea">';
-            postviewhtml += '<table class="ootdpostviewtable"  width="100%">';
-            postviewhtml += '<tr><td class="ootdposttable_side"> </td>';
-            postviewhtml += ' <td colspan="2"><img src="image/icon/location.png" width="10">&nbsp&nbsp';
-            postviewhtml += rs.ootdloc
-            postviewhtml += '</td><td></td><td></td><td colspan="2" class="ootdbmk">';
-            postviewhtml += '<img src="image/icon/usefulbutton.png" onclick="itemClick(event);" ></td>';
-            postviewhtml += '</tr><tr><td colspan="7">';
-            postviewhtml += '<img class="ootdpostphoto" src="http://localhost:8080/ootd/fileupload/ootdimage/';
-            postviewhtml += rs.ootdphotoname
-            postviewhtml += '" width="100%"></td></tr><tr class="ootdpostviewlinethree"><td></td><td colspan="2"><pv1>';
-            postviewhtml += rs.ootdnic
-            postviewhtml += '</pv1></td><td colspan="2"><pv2>';
-            postviewhtml += rs.ootdlikecnt
-            postviewhtml += '명이 좋아합니다&nbsp&nbsp</pv2></td><td><div class="likediv">';
-
-
-            postviewhtml += likeheart;
-
-            postviewhtml += '</div></td><td></td></tr><tr><td class="ootdposthashtag" colspan="7">';
+                postviewhtml += '<div class="postviewarea" id="postviewarea" name="postviewarea">';
+                postviewhtml += '<table class="ootdpostviewtable"  width="100%">';
+                postviewhtml += '<tr><td class="ootdposttable_side"> </td>';
+                postviewhtml += ' <td colspan="2"><img src="image/icon/location.png" width="10">&nbsp&nbsp';
+                postviewhtml += rs.ootdloc
+                postviewhtml += '</td><td></td><td></td><td colspan="2" class="ootdbmk">';
+                postviewhtml += '<img src="image/icon/usefulbutton.png" onclick="itemClick(event);" ></td>';
+                postviewhtml += '</tr><tr><td colspan="7">';
+                postviewhtml += '<img class="ootdpostphoto" src="http://localhost:8080/ootd/fileupload/ootdimage/';
+                postviewhtml += rs.ootdphotoname
+                postviewhtml += '" width="100%"></td></tr><tr class="ootdpostviewlinethree"><td></td><td colspan="2"><pv1>';
+                postviewhtml += rs.ootdnic
+                postviewhtml += '</pv1></td><td colspan="2"><pv2>';
+                postviewhtml += rs.ootdlikecnt
+                postviewhtml += '명이 좋아합니다&nbsp&nbsp</pv2></td><td><div class="ootdlikediv">';
 
 
-            var strArray = rs.ootdhashtag.split(',');
-            console.log(strArray);
+                postviewhtml += likeheart;
 
-            var hash = '';
+                postviewhtml += '</div></td><td></td></tr><tr><td class="ootdposthashtag" colspan="7">';
 
-            for (i = 0; i < 10; i++) {
-                if (strArray[i] != 'false') {
-                    hash += '#' + strArray[i] + ' '
+
+                var strArray = rs.ootdhashtag.split(',');
+                console.log(strArray);
+
+                var hash = '';
+
+                for (i = 0; i < 10; i++) {
+                    if (strArray[i] != 'false') {
+                        hash += '#' + strArray[i] + ' '
+                    }
+                }
+                postviewhtml += hash
+
+
+                postviewhtml += '</td><tr><td></td>';
+                postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
+                postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
+                postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
+                postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
+                postviewhtml += '<td></td><td class="ootdposttable_side"></td></tr>';
+                postviewhtml += '<tr class="ootdpostviewtext"><td></td><td class="needborder" colspan="5"><pv3>';
+                postviewhtml += rs.ootdtext
+                postviewhtml += '</pv3></td><td ></td></tr><tr><td></td><td class="ootdcommenttd" colspan="4"><img src="image/icon/comment.png" width="20">&nbsp&nbsp';
+                postviewhtml += rs.ootdcmtcnt
+                postviewhtml += '</td><td></td><td></td></tr></table>';
+                postviewhtml += '<div class="bottomArea"><img src="/ootd/image/background.PNG" width="90"></div>';
+
+
+                var content = document.querySelector('.content');
+                content.innerHTML = postviewhtml;
+
+                function readTextFile(file) {
+                    var rawFile = new XMLHttpRequest();
+                    rawFile.open("GET", file, false);
+                    rawFile.onreadystatechange = function () {
+                        if (rawFile.readyState === 4) {
+                            if (rawFile.status === 200 || rawFile.status == 0) {
+                                
+                                console.log(rawFile)
+                                //var allText = rawFile.responseText;
+                                //alert(allText);
+                            }
+                        }
+                    };
+                    rawFile.send(null);
+                }
+            readTextFile("http://localhost:8080/ootd/fileupload/ootdimage/default.png");
+
+
+
+            }
+        });
+    }, 100)
+
+
+
+
+
+
+    /*
+        function readTextFile(file) {
+            var rawFile = new XMLHttpRequest();
+            rawFile.open("GET", file, false);
+            rawFile.onreadystatechange = function () {
+                if (rawFile.readyState === 4) {
+                    if (rawFile.status === 200 || rawFile.status == 0) {
+                        var allText = rawFile.responseText;
+                        alert(allText);
+                    }
                 }
             }
-            postviewhtml += hash
-
-
-            postviewhtml += '</td><tr><td></td>';
-            postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
-            postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
-            postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
-            postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
-            postviewhtml += '<td></td><td class="ootdposttable_side"></td></tr>';
-            postviewhtml += '<tr class="ootdpostviewtext"><td></td><td class="needborder" colspan="5"><pv3>';
-            postviewhtml += rs.ootdtext
-            postviewhtml += '</pv3></td><td ></td></tr><tr><td></td><td class="ootdcommenttd" colspan="4"><img src="image/icon/comment.png" width="20">&nbsp&nbsp';
-            postviewhtml += rs.ootdcmtcnt
-            postviewhtml += '</td><td></td><td></td></tr></table>';
-            postviewhtml += '<div class="bottomArea"><img src="/ootd/image/background.PNG" width="90"></div>';
-
-
-            var content = document.querySelector('.content');
-            content.innerHTML = postviewhtml;
-
-
+            rawFile.send(null);
         }
-    });
+    */
+
+    /*
+        function loadFile(filePath) {
+            var result = null;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("GET", filePath, false);
+            xmlhttp.send();
+            if (xmlhttp.status == 200) {
+                result = xmlhttp.responseText;
+            }
+            return result;
+        }
+        
+        var filepath = 'file:///C:\Users\bit\Documents\GitHub\personal_mw\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\mwOOTD\fileupload\ootdimage\'
+        filepath += rs.ootdphotoname
+
+        loadFile(filepath);
+    */
+
+
+
+
+
 
 
 
@@ -692,18 +756,32 @@ function ootdPostDelete(idx) {
 }
 
 
+/*좋아요 ON/OFF*/
 function ootdlike(chk, ootdidx, memidx) {
+
+
 
     $.ajax({
         url: 'http://localhost:8080/ootd/like/onoff',
         type: 'get',
         data: {
             chk: chk,
-            ootdidx : ootdidx,
-            memidx : memidx
+            ootdidx: ootdidx,
+            memidx: memidx
 
         },
         success: function (result) {
+            if (result == 1) {
+                likeheart = '<img src="image/icon/heart.png" width="20" onclick="ootdlike(0,' + ootdidx + ',' + memidx + '); this.onclick=null;">';
+
+
+            } else if (result == 0) {
+
+                likeheart = '<img src="image/icon/emptyheart.png" width="20" onclick="ootdlike(1,' + ootdidx + ',' + memidx + '); this.onclick=null;">';
+            }
+
+            var ootdlikediv = document.querySelector('.ootdlikediv');
+            ootdlikediv.innerHTML = likeheart;
 
 
         },

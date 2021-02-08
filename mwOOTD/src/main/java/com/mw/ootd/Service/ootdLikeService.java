@@ -29,4 +29,24 @@ public class ootdLikeService {
 		return result;
 	}
 
+
+
+	// 좋아요 ON/OFF
+	public int likeOnOff(int chk, int ootdidx, int memidx) {
+		
+		dao = template.getMapper(ootdInterfaceDao.class);
+		int result = 0;
+		// 좋아요해주기
+		if(chk==1) {
+			dao.onheart(ootdidx, memidx);
+			result=1;
+		}else if (chk==0) {
+			// 좋아요 삭제
+			dao.offheart(ootdidx, memidx);
+			result=0;
+		}
+		
+		return result;
+	}
+
 }

@@ -77,4 +77,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select count(*) from ootdlike where ootdidx=#{param1} AND memidx= #{param2}	
 	</select>
 	
+	
+ 	<!-- 좋아요 해주기 -->
+ 	<insert id="onheart" parameterType="int">
+		INSERT INTO ootdlike
+		(ootdidx, memidx)
+		VALUES
+		(#{param1}, #{param2})		
+	</insert>
+	
+	<!-- 좋아요삭제 -->
+	<delete id="offheart" parameterType="int">
+		delete from ootdlike where ootdidx=#{param1} and memidx=#{param2}
+	</delete>
+	
 </mapper>

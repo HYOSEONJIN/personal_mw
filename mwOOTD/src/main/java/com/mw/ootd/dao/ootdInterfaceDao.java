@@ -39,6 +39,12 @@ public interface ootdInterfaceDao {
 	// 해당 글에 좋아요 했는지 안했는지 여부
 	int likeChk(int ootdidx, int memidx);
 
+	// 좋아요 해주기
+	int onheart(int ootdidx, int memidx);
+
+	// 좋아요 삭제
+	int offheart(int ootdidx, int memidx);
+
 
 
 }
