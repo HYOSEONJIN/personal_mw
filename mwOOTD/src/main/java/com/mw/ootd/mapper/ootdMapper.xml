@@ -6,49 +6,68 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.mw.ootd.dao.ootdInterfaceDao">
 
 
-<!-- 모든 OOTD 글 리스트 불러오기 -->
-<select id="selectAllootdList"
-resultType="com.mw.ootd.Domain.ootdBoard">
-select * from ootd order by ootddate desc;
-</select>
+	<!-- 모든 OOTD 글 리스트 불러오기 -->
+	<select id="selectAllootdList"
+		resultType="com.mw.ootd.Domain.ootdBoard">
+		select * from ootd order by ootddate desc;
+	</select>
 
-<!-- 해시태그 네임 불러오기 -->
-<select id="selectHashName"
-resultType="com.mw.ootd.Domain.hashtag">
-select * from ootdhashtag order by hash;
+	<!-- 해시태그 네임 불러오기 -->
+	<select id="selectHashName"
+		resultType="com.mw.ootd.Domain.hashtag">
+		select * from ootdhashtag order by hash;
 
-</select>
-
-
-<!-- 글쓰기 -->
-<insert id="ootdDocInsert"
-   parameterType="com.mw.ootd.Domain.ootdBoard"
-   useGeneratedKeys="true"
-   keyProperty="ootdidx">
-   
-   INSERT INTO ootd
-   
-   ( memidx, ootdnic, ootdphotoname, ootdtext,ootdhashtag, xyarr, apiproductinfo)
-   VALUES
-   (#{memidx},#{ootdnic},#{ootdphotoname},#{ootdtext},#{ootdhashtag}, #{xyarr}, #{apiproductinfo})
-
-</insert>
-
-<!-- 페이지 별 리스트 -->
-
-<select id="PagingView"
-	resultType="com.mw.ootd.Domain.ootdBoard">
-select * from ootd order by ootdidx desc limit #{param1}, #{param2} 
-</select>
-
-<!-- 글번호에 맞는 게시글 정보 -->
-<select id="postByIdx" resultType="com.mw.ootd.Domain.ootdBoard">
-	select * from ootd where ootdidx = #{ootdidx}
-</select>
+	</select>
 
 
-<!-- 글 삭제하기 -->
-<delete id="deletPost">
-DELETE FROM ootd WHERE ootdidx = #{ootdidx}
-</delete>
+	<!-- 글쓰기 -->
+	<insert id="ootdDocInsert"
+		parameterType="com.mw.ootd.Domain.ootdBoard" useGeneratedKeys="true"
+		keyProperty="ootdidx">
+
+		INSERT INTO ootd
+
+		( memidx, ootdnic, ootdphotoname,
+		ootdtext,ootdhashtag, xyarr,
+		apiproductinfo)
+		VALUES
+		(#{memidx},#{ootdnic},#{ootdphotoname},#{ootdtext},#{ootdhashtag},
+		#{xyarr}, #{apiproductinfo})
+
+	</insert>
+
+	<!-- 방금 쓴 글 번호 반환 -->
+	<select id="ootdidxReturn" resultType="int">
+		SELECT ootdidx FROM ootd
+		where ootdphotoname = #{ootdphotoname}
+	</select>
+
+	<insert id="makeLikeCol" parameterType="int"
+		>
+		INSERT INTO ootdlike
+		(ootdidx)
+		VALUES
+		(#{ootdidx})
+
+	</insert>
+
+	<!-- 페이지 별 리스트 -->
+
+	<select id="PagingView"
+		resultType="com.mw.ootd.Domain.ootdBoard">
+		select * from ootd order by ootdidx desc limit #{param1},
+		#{param2}
+	</select>
+
+	<!-- 글번호에 맞는 게시글 정보 -->
+	<select id="postByIdx" resultType="com.mw.ootd.Domain.ootdBoard">
+		select * from ootd where
+		ootdidx = #{ootdidx}
+	</select>
+
+
+	<!-- 글 삭제하기 -->
+	<delete id="deletPost">
+		DELETE FROM ootd WHERE ootdidx = #{ootdidx}
+	</delete>
 </mapper>

@@ -19,6 +19,11 @@ public interface ootdInterfaceDao {
 	// 글등록
 	int ootdDocInsert(ootdBoard ootd);
 	
+	// 글 등록시 ootdidx를 반환
+	int ootdidxReturn(String ootdphotoname);
+	// 반환된 ootdidx값으로 좋아요칼럼생성
+	void makeLikeCol(int ootdidx);
+	
 	// 전체 글의 수
 	int selectMemberCount();
 	
@@ -30,4 +35,7 @@ public interface ootdInterfaceDao {
 
 	// ootdidx값에 따른 글 삭제
 	int deletPost(int ootdidx);
+
+
+
 }
