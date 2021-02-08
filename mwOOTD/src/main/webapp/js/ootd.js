@@ -343,7 +343,7 @@ function reg() {
             }
         
             console.log(apiProductInput);
-            formData.append('apiproductinfo',apiproductinfo);
+            formData.append('apiproductinfo',apiProductInput);
 
             //임시값
             formData.append('ootdnic', $('#ootdnic').val());
