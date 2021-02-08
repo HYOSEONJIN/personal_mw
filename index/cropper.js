@@ -26,9 +26,9 @@ class Uploader {
      * @param {object} options the parameters to be passed for instantiation
      */
     constructor(options) {
-        if (!options.input) {
-            throw '[Uploader] Missing input file element.';
-        }
+        // if (!options.input) {
+        //        throw '[Uploader] Missing input file element.';
+        //  }
 
         this.fileInput = options.input;
         console.log(options);
@@ -56,6 +56,24 @@ class Uploader {
         } else {
             // Read the image as base64 data
             reader.readAsDataURL(file);
+            console.log(file)
+            // When loaded, return the file data
+            reader.onload = (e) => resolve(e.target.result);
+        }
+        //};
+    }
+
+    listen2(resolve, reject) {
+
+        let file = this.fileInput.files[0];
+        let reader = new FileReader();
+        // Make sure the file is of the correct type
+        if (!this.validFileType(file.type)) {
+            reject(`[Uploader:listen] Invalid file type: ${file.type}`);
+        } else {
+            // Read the image as base64 data
+            reader.readAsDataURL(file);
+            console.log(file)
             // When loaded, return the file data
             reader.onload = (e) => resolve(e.target.result);
         }
@@ -177,14 +195,14 @@ class Cropper {
             // Listen for events on the canvas when the image is ready
             this.imageCanvas.onmousedown = this.clickStart.bind(this);
             //console.log(this.previewCanvas.toDataURL());
-            
+
             var apihtml = '<table border="0" class="ootdAPItable"><td class="apiresult"><img src="';
             apihtml += this.previewCanvas.toDataURL();
-            apihtml += '"width="60"></td><td><input type="text" class="apitable'+apiNum
+            apihtml += '"width="60"></td><td><input type="text" class="apitable' + apiNum
             apihtml += '"></td></table>';
-            
+
             $(".kakaoAPI").append(apihtml);
-            
+
             apiNum++;
             //img.setAttribute('src', this.previewCanvas.toDataURL());
         };

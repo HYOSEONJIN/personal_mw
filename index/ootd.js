@@ -38,6 +38,8 @@ var xyarr = [];
 //입력받은 상품 정보
 var apiProductInput = [];
 
+var fileData = '';
+
 // 메인 출력
 function ootdMain() {
 
@@ -268,7 +270,7 @@ function kakaoCall() {
                     try {
                         // alert('try1');
                         var www = document.querySelector('.ootdphoto');
-                        console.log(www);
+                        console.log('첨부파일은 ', www);
                         var uploader = new Uploader({
                             input: document.querySelector('.ootdphoto'),
                             types: ['gif', 'jpg', 'jpeg', 'png']
@@ -640,29 +642,49 @@ function viewPost(data, idx) {
                 postviewhtml += '</pv3></td><td ></td></tr><tr><td></td><td class="ootdcommenttd" colspan="4"><img src="image/icon/comment.png" width="20">&nbsp&nbsp';
                 postviewhtml += rs.ootdcmtcnt
                 postviewhtml += '</td><td></td><td></td></tr></table>';
+                postviewhtml += '<canvas class="js-editorcanvas" style="display: none"></canvas>';
+                postviewhtml += '<canvas class="js-previewcanvas" style="display: none"></canvas>';
                 postviewhtml += '<div class="bottomArea"><img src="/ootd/image/background.PNG" width="90"></div>';
 
 
                 var content = document.querySelector('.content');
                 content.innerHTML = postviewhtml;
 
-                function readTextFile(file) {
-                    var rawFile = new XMLHttpRequest();
-                    rawFile.open("GET", file, false);
-                    rawFile.onreadystatechange = function () {
-                        if (rawFile.readyState === 4) {
-                            if (rawFile.status === 200 || rawFile.status == 0) {
-                                
-                                console.log(rawFile)
-                                //var allText = rawFile.responseText;
-                                //alert(allText);
-                            }
-                        }
-                    };
-                    rawFile.send(null);
-                }
-            readTextFile("http://localhost:8080/ootd/fileupload/ootdimage/default.png");
 
+                callProduct(rs.ootdphotoname, rs.xyarr, rs.apiproductinfo);
+
+
+                /*                const url = 'ttp://localhost:8080/ootd/fileupload/ootdimage/default.png'
+                                const fileName = 'myFile'
+                                fetch(url)
+                                    .then(response => response.blob())
+                                    .then(bob => {
+                                        const file = new File([blob], fileName, {
+                                            contentType: 'image/jpeg'
+                                        })
+                                        // access file here
+                                    })*/
+
+
+                /*
+                                function readTextFile(file) {
+                                    var rawFile = new XMLHttpRequest();
+                                    rawFile.open("GET", file, false);
+                                    rawFile.onreadystatechange = function () {
+                                        if (rawFile.readyState === 4) {
+                                            if (rawFile.status === 200 || rawFile.status == 0) {
+                                                
+                                                console.log(rawFile)
+                                                //var allText = rawFile.responseText;
+                                                //alert(allText);
+                                            }
+                                        }
+                                    };
+                                    rawFile.send(null);
+                                }
+                            readTextFile("http://localhost:8080/ootd/fileupload/ootdimage/default.png");
+
+                */
 
 
             }
@@ -790,6 +812,82 @@ function ootdlike(chk, ootdidx, memidx) {
         }
     });
 
+
+
+}
+
+function callProduct(imgname, xyarr, apiproductinfo) {
+
+
+    /* Here is the codefor converting "image source to "Base64 ".****/
+    let url = 'http://localhost:8080/ootd/fileupload/ootdimage/default.png'
+
+    const toDataURL = url => fetch(url)
+        .then(response => response.blob())
+        .then(blob => new Promise((resolve, reject) => {
+            const reader = new FileReader()
+            reader.onloadend = () => resolve(reader.result)
+            reader.onerror = reject
+            reader.readAsDataURL(blob)
+        }))
+
+    /***  * for converting "Base64" to javascript "File Object". ** **/
+    function dataURLtoFile(dataurl, filename) {
+        var arr = dataurl.split(','),
+            mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]),
+            n = bstr.length,
+            u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], filename, {
+            type: mime
+        });
+    }
+    /**** Calling both  function *****/
+    toDataURL(url)
+        .then(dataUrl => {
+            console.log('RESULT:', dataUrl)
+            fileData = dataURLtoFile(dataUrl, "imageName.jpg");
+            //fileArr.push(fileData)
+            console.log(fileData)
+        })
+
+
+
+    function exceptionHandler(message) {
+        alert('에러메세지', message);
+    }
+
+
+    try {
+        // alert('try1');
+        var uploader = new Uploader({
+            input: fileData,
+            types: ['gif', 'jpg', 'jpeg', 'png']
+
+        });
+        // alert('try2');
+        var editor = new Cropper({
+            size: dimensions,
+            canvas: document.querySelector('.js-editorcanvas'),
+            preview: document.querySelector('.js-previewcanvas')
+        });
+
+        // Make sure both were initialised correctly
+        if (uploader && editor) {
+            //alert('try3');
+            // Start the uploader, which will launch the editor
+            uploader.listen2(editor.setImageSource.bind(editor), (error) => {
+                throw error;
+            });
+        }
+
+    } catch (error) {
+        console.log("에러", error);
+        exceptionHandler(error.message);
+    }
 
 
 }
