@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+
+    
+<body>
+    
+    <canvas id="canvas"></canvas>
+<div style="display:none;">
+  <img id="source" src="https://mdn.mozillademos.org/files/5397/rhino.jpg"
+       width="300" height="227">
+</div>
+    
+</body>
+    
+    <script>
+    var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+var image = document.getElementById('source');
+
+ctx.drawImage(image, 33, 71, 104, 124);
+    </script>
+</html>

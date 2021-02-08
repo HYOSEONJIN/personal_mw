@@ -29,5 +29,17 @@ public class ootdPostService {
 		
 		return ootdlist;
 	}
+	
+	// idx값에 따른 게시글 삭제
+	public int deletPost(int ootdidx) {
+		// 0 실패 1 성공
+		
+		dao = template.getMapper(ootdInterfaceDao.class);
+		int result = dao.deletPost(ootdidx);
+		
+		
+		return result;
+		
+	}
 }
 	

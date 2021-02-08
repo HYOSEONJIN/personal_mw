@@ -37,8 +37,8 @@ var dimensions = {
 var xyarr = [];
 //입력받은 상품 정보
 var apiProductInput = [];
-
 var fileData = '';
+var fileArr = [];
 
 // 메인 출력
 function ootdMain() {
@@ -850,7 +850,7 @@ function callProduct(imgname, xyarr, apiproductinfo) {
         .then(dataUrl => {
             console.log('RESULT:', dataUrl)
             fileData = dataURLtoFile(dataUrl, "imageName.jpg");
-            //fileArr.push(fileData)
+           // fileArr.push(fileData)
             console.log(fileData)
         })
 

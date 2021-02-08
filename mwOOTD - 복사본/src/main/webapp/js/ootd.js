@@ -3,6 +3,7 @@ window.onload = function () {
     hashtagList();
     hashFalse();
 
+    var file1
 
 
 };
@@ -11,25 +12,96 @@ window.onload = function () {
 
 var hashtagName = ''; // 해시태그 div 생성해주는 for문에 사용
 var hashCheck = []; // hash태그 체크 여부 저장해주는 배열
-var hashJSON = ''; // hash태그를 JSON형식의 String으로 저장
+//var hashJSON = ''; // hash태그를 JSON형식의 String으로 저장
+var hashAmount = 0; // 해시태그 갯수 체크
+
 var ajax_last_num = 0;
 var pageNum = 1;
+var filebase64 = ''; // file의 사진값 저장할 base64
+var image1 = '';
+var apiNum = 0;
+//var image1base64 = '';
 
+var x = 131;
+var y = 131;
+var w = 176;
+var h = 328;
+// Auto-resize the cropped image
 
+var dimensions = {
+    width: 128,
+    height: 128
+};
+
+//이미지의 상품 좌표 검출
+var xyarr = [];
+//입력받은 상품 정보
+var apiProductInput = [];
+var fileData = '';
+var fileArr = [];
 
 // 메인 출력
 function ootdMain() {
 
     var content = document.querySelector('.content');
     content.innerHTML = '';
-	pageNum=1;
-    hashJSON = '';
+    pageNum = 1;
+    //hashJSON = '';
     pageView(pageNum);
     addregButton();
 
 
+
+    /*이미지를 베이스 64로 바꾸고 저장하지 않아도 썸네일로 보여줌*/
+
+    var ootdphoto = document.getElementById('ootdphoto')
+    var preview = document.querySelector('#preview')
+
+    /* FileReader 객체 생성 */
+    var reader = new FileReader();
+
+    /* reader 시작시 함수 구현 */
+    reader.onload = (function () {
+
+        image1 = document.createElement('img');
+        var vm = this;
+
+        return function (e) {
+            /* base64 인코딩 된 스트링 데이터 */
+            // image1base64 = e.target.result
+            vm.image1.src = e.target.result
+            //console.log(vm);
+            //console.log(image1base64);
+            //alert('돌아가고있음')
+            $('.img-upload-label').css({
+
+                "background-image": "url(" + e.target.result + ")"
+
+            })
+            kakaoCall();
+        }
+    })()
+
+    ootdphoto.addEventListener('change', function (e) {
+        var get_file = e.target.files;
+
+        if (get_file) {
+            reader.readAsDataURL(get_file[0]);
+        }
+
+
+
+        // $('.img-upload-label').style.backgroundImage= 'url('+image1+')'
+
+        //preview.appendChild(image1);
+    })
+
+    /*이미지를 베이스 64로 바꾸고 저장하지 않아도 썸네일로 보여줌 여기까지*/
+
+
 }
 
+/*글쓰기*/
 function addregButton() {
 
 
@@ -42,11 +114,20 @@ function addregButton() {
     regModalHtml += '<div class="modal-dialog" role="document"><div class="modal-content">'
     regModalHtml += '<div class="modal-header"><h5 class="modal-title" id="exampleModalLabel">WEATHER WEAR - OOTD</h5>';
     regModalHtml += '<div class="modal-body"><form><div class="form-group">'
-    regModalHtml += '<label for="recipient-name" class="col-form-label">TODAY OOTD</label>'
-    regModalHtml += '<form id="photoform" method="POST" enctype="multipart/form-data">'
-    regModalHtml += '<input type="file" id="ootdphoto" name="ootdphoto"></form></div><div class="form-group">'
-    regModalHtml += '<input type="text" id="ootdtext" name="ootdtext" required> </div><div class="form-group">'
-    regModalHtml += '<div class="ootd_hs">';
+    regModalHtml += '<label for="recipient-name" class="col-form-label">TODAY OOTD</label><br>'
+
+
+    regModalHtml += ' <table class="ootdregTable"><td width="100px">';
+    /* regModalHtml += '<form id="photoform" method="POST" enctype="multipart/form-data">'*/
+    regModalHtml += '<div class="ootdfilebox"><label class="img-upload-label"><input type="file" class="ootdphoto img-upload" accept="image/jpeg,image/png,image/gif" id="ootdphoto" name="ootdphoto"></label></div></td>' /*</form>*/
+    regModalHtml += '</div><td><div class="form-group">'
+    regModalHtml += '<input type="text" id="ootdtext" name="ootdtext" required> </div></td></table></form>'
+
+    regModalHtml += '<div class="kakaoAPI"></div>'
+
+
+
+    regModalHtml += '<div class="form-group"><div class="ootd_hs">';
 
     // 해시태그 리스트 불러오기
     regModalHtml += hashtagName;
@@ -59,9 +140,11 @@ function addregButton() {
 
 
     regModalHtml += '</div></div></form></div><div class="modal-footer">';
-    regModalHtml += '<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>'
+    regModalHtml += '<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="dataReset()">닫기</button>'
     regModalHtml += '<button type="button" class="btn btn-primary" id="close_modal" onclick="reg(); this.onclick=null;">등록</button>'
-    regModalHtml += '<button type="button" class="btn btn-primary" id="imagedetection" onclick="kakaoCall()">사진조회</button><img src="" id="imageTest" width="40"></div></div></div></div></div></div>';
+    regModalHtml += '</div></div></div></div></div></div>';
+    regModalHtml += '<canvas class="js-editorcanvas" style="display: none"></canvas>';
+    regModalHtml += '<canvas class="js-previewcanvas" style="display: none"></canvas>';
 
 
     $(".content").append(regModalHtml);
@@ -89,63 +172,25 @@ function hashtagList() {
 
 }
 
-function imageDetection() {
-    //var file = document.querySelector('#ootdphoto');
-    var base64First = 'data:image/gif;base64,';
-
-    // Check for the File API support.
-    if (window.File && window.FileReader && window.FileList && window.Blob) {
-        document.getElementById('ootdphoto').addEventListener('change', handleFileSelect, false);
-    } else {
-        alert('The File APIs are not fully supported in this browser.');
-    }
 
 
-    function handleFileSelect(evt) {
-        var f = evt.target.files[0]; // FileList object
-        var reader = new FileReader();
-        // Closure to capture the file information.
-        reader.onload = (function (theFile) {
-            return function (e) {
-                var binaryData = e.target.result;
-                //Converting Binary Data to base 64
-                var base64String = window.btoa(binaryData);
-                //showing file converted to base64
-                //document.getElementById('ootdtext').value = base64String;
-                console.log('베이스64', base64String);
-                $('#imageTest').attr('src', (base64First + base64String));
-                alert('File converted to base64 successfuly!\nCheck in Textarea');
-            };
-        })(f);
-        // Read in the image file as a data URL.
-        reader.readAsBinaryString(f);
-    }
 
-}
 
 // kakao API 상품검출 좌표값 얻기
 function kakaoCall() {
+    apiNum = 0;
+
+    var content = document.querySelector('.kakaoAPI');
+    content.innerHTML = '';
+
 
     var beforeKey = "KakaoAK ";
     var key = "0e5bc43cde12fc5035c512eca57aa8be";
     var apiUri = "https://dapi.kakao.com/v2/vision/product/detect"
-    //+ "?image_url=https://t1.daumcdn.net/alvolo/_vision/openapi/r2/images/06.jpg";
-    /*    
-    var form = $('#photoform');
-    				var formData = new FormData(form[0]);
-    	console.log(typeof(formData));
-    	console.log(formData);*/
-
-
-    /*
-      var form = $('#photoform')[0];
-        
-        var formData = new FormData(form);
-    */
-
 
     var photoFile = $('#ootdphoto');
-    var file1 = photoFile[0].files[0];
+    file1 = photoFile[0].files[0];
+
     //console.log("file",file1);
     var fd = new FormData();
     fd.append("attribute", "1");
@@ -157,7 +202,7 @@ function kakaoCall() {
         beforeSend: function (request) {
 
             request.setRequestHeader("Authorization", (beforeKey + key));
-            //request.setRequestHeader("Content-Type", "multipart/form-data");
+
 
         },
         url: apiUri,
@@ -166,12 +211,102 @@ function kakaoCall() {
         processData: false,
         timeout: 1e4,
         enctype: 'multipart/form-data',
-        success: function (msg) {
-            console.log('카카오메세지', msg);
+        success: function (apidata) {
+            console.log('카카오메세지', apidata);
+            var data = apidata.result.objects;
+            var dataheight = apidata.result.height;
+            var datawidth = apidata.result.width;
+
+
+
+            for (i = 0; i < 4; i++) {
+
+                /*    if (!data[i].includes(score)) {
+                    return fasle;
+                }
+*/
+
+                if (data[i].score > 0.95) {
+
+                    // 이미지가 줄어드는 비율처리해줄 변수
+                    var per = 1;
+
+                    // 이미지의 높이가 600보다 크면 600으로 줄어들기 때문에 처리해준다.
+                    if (dataheight > 600) {
+                        per = 600 / dataheight
+                        datawidth = datawidth * per
+                        dataheight = 600;
+                    }
+
+                    var tableNum = i;
+
+                    console.log(data[i])
+                    var w1 = Math.floor(datawidth * (data[i].x2 - data[i].x1));
+                    var w2 = Math.floor(dataheight * (data[i].y2 - data[i].y1));
+                    var xy = 0
+                    if (w1 > w2) {
+                        xy = w1
+                    } else {
+                        xy = w2
+                    }
+
+                    /*/이미지지점/*/
+                    h = Math.floor(data[i].y1 * dataheight) // 위쪽에서얼마나떨어지는지 px
+                    w = Math.floor(data[i].x1 * datawidth) // 왼쪽에서얼마나떨어지는지 px
+
+
+                    /*크기*/
+                    x = xy; // 정방형으로 맞춰주기 위해 그냥 똑같이했다.
+                    y = xy;
+                    console.log('크기', x, y, '시작점', w, h);
+                    xyarr.push([x, y, w, h]);
+                    console.log(xyarr);
+
+                    function exceptionHandler(message) {
+                        alert('에러메세지', message);
+                    }
+
+
+                    try {
+                        // alert('try1');
+                        var www = document.querySelector('.ootdphoto');
+                        console.log('첨부파일은 ', www);
+                        var uploader = new Uploader({
+                            input: document.querySelector('.ootdphoto'),
+                            types: ['gif', 'jpg', 'jpeg', 'png']
+
+                        });
+                        // alert('try2');
+                        var editor = new Cropper({
+                            size: dimensions,
+                            canvas: document.querySelector('.js-editorcanvas'),
+                            preview: document.querySelector('.js-previewcanvas')
+                        });
+
+                        // Make sure both were initialised correctly
+                        if (uploader && editor) {
+                            //alert('try3');
+                            // Start the uploader, which will launch the editor
+                            uploader.listen(editor.setImageSource.bind(editor), (error) => {
+                                throw error;
+                            });
+                        }
+
+                    } catch (error) {
+                        console.log("에러", error);
+                        exceptionHandler(error.message);
+                    }
+
+                } else {
+                    console.log('일치가 구린 데이터밖에 없음~')
+                }
+
+            }
+
         },
         error: function (e) {
             console.log(formData);
-            console.log("에러발생 : ", e);
+            console.log("KAKAO API AJAX 에러발생 : ", e);
         }
 
 
@@ -193,7 +328,7 @@ function reg() {
         if (file1.type == 'image/jpeg' || (file1.type == 'image/png') || file1.type == "undefined") {
 
 
-            hashtagJSON();
+            // hashtagJSON();
 
             var text = $('#ootdtext').val();
             console.log(text);
@@ -201,7 +336,18 @@ function reg() {
             var formData = new FormData();
             formData.append('ootdtext', $('#ootdtext').val());
             formData.append("ootdphoto", file1);
-            formData.append('ootdhashtag', hashJSON);
+            formData.append('ootdhashtag', hashCheck.toString());
+            formData.append('xyarr', xyarr.toString());
+            for (i = 0; i < apiNum; i++) {
+                // 값에 ,이 들어가있으면 생략해줘야함 (처리) var result = test.replace( /가/gi, '나');
+                var result = $('.apitable' + i).val().replace(/,/gi, '');
+                console.log('변경결과', result);
+                apiProductInput.push(result);
+
+            }
+
+            console.log(apiProductInput);
+            formData.append('apiproductinfo', apiProductInput);
 
             //임시값
             formData.append('ootdnic', $('#ootdnic').val());
@@ -234,19 +380,19 @@ function reg() {
                             /////////// 원래 저장값 날려주는 처리 할 부분/////////////////
                             $("#ootdRegModal").modal("hide");
                         } else if (data == 0) {
-                            hashJSON = '';
+                            //hashJSON = '';
 
-                            console.log(hashJSON);
+                            //console.log(hashJSON);
                             dataReset();
                             alert("사진은 필수항목입니다");
                         } else if (data == 2) {
                             hashJSON = '';
-                            console.log(hashJSON);
+                            //console.log(hashJSON);
                             dataReset();
                             alert('내용을 입력하세요');
                         } else {
                             hashJSON = '';
-                            console.log(hashJSON);
+                            //console.log(hashJSON);
                             dataReset();
                             alert("알수없는 에러가 발생했습니다. 다시시도해주세요");
 
@@ -258,8 +404,8 @@ function reg() {
             })
 
         } else {
-            hashJSON = '';
-            console.log(hashJSON);
+            // hashJSON = '';
+            //console.log(hashJSON);
             dataReset();
             alert('JPG 또는 PNG 형식의 파일만 첨부해주세요 ');
         }
@@ -288,13 +434,19 @@ function hashtag(idx) {
         $('#ootd_hashtag' + idx).removeClass('ootd_hasktag_true');
         $('#ootd_hashtag' + idx).addClass('ootd_hashtag_false');
         hashCheck[idx] = false;
+        hashAmount = hashAmount - 1;
 
     } else {
         // 선택함
-        $('#ootd_hashtag' + idx).removeClass('ootd_hashtag_false');
-        $('#ootd_hashtag' + idx).addClass('ootd_hasktag_true');
-        hashCheck[idx] = true;
-
+        if (hashAmount < 3) {
+            $('#ootd_hashtag' + idx).removeClass('ootd_hashtag_false');
+            $('#ootd_hashtag' + idx).addClass('ootd_hasktag_true');
+            hashCheck[idx] = $('#ootd_hashtag' + idx).text();
+            console.log(hashCheck[idx]);
+            hashAmount++;
+        } else {
+            alert('해시태그는 3개까지만 가능합니다')
+        }
 
     }
 
@@ -302,33 +454,45 @@ function hashtag(idx) {
 
 // 모달창 끌때 데이터 리셋 해주는 기능들어있는 함수
 function dataReset() {
+
+    var content = document.querySelector('.kakaoAPI');
+    content.innerHTML = '';
+
+    hashAmount = 0;
     hashCheck.length = 0;
+    xyarr.length = 0;
+    apiProductInput.length = 0;
     $('#ootdtext').val(null);
     $('#ootdphoto').val(null);
     $('.ootd_hashtag').removeClass('ootd_hasktag_true');
     $('.ootd_hashtag').addClass('ootd_hashtag_false');
-    hashJSON = '';
+    //hashJSON = '';
     hashFalse();
+    $('.img-upload-label').css({
+
+        "background-image": "url(http://localhost:8080/ootd/image/icon/fileuploadbutton.png)"
+
+    })
 }
 
 // hash태그를 JSON형식의 String으로 만들어기
-function hashtagJSON() {
+/*function hashtagJSON() {
 
     hashJSON = '';
-    hashJSON += '[{'
+    hashJSON += '{'
 
     for (i = 1; i < 9; i++) {
-        hashJSON += '"hashtag' + i + '":';
-        hashJSON += hashCheck[i] + ',';
+        hashJSON += '"hashtag":';
+        hashJSON += '"' + hashCheck[i] + '"' + ',';
     }
 
-    hashJSON += '"hashtag9":' + hashCheck[9];
-    hashJSON += '}]';
+    hashJSON += '"hashtag": "' + hashCheck[9] + '"';
+    hashJSON += '}';
 
     console.log(hashJSON);
 
 
-}
+}*/
 
 
 // 리스트 출력 함수
@@ -357,6 +521,7 @@ function pageView(idx) {
                 listhtml += '<tr><td><a1 class="ootdlocation">' + data[i].ootdloc + '</a1></td></tr>';
                 listhtml += '<tr><td><a1 class="ootdlistlike">♥ ' + data[i].ootdlikecnt + '</a1></td></tr></table></div>';
 
+
             }
 
             listhtml += '</div></div></form>';
@@ -381,56 +546,348 @@ function pageView(idx) {
 /*게시물 출력*/
 function viewPost(data, idx) {
 
-    var postviewhtml = '';
-    $(".bottomArea").remove();
+
+    var likeheart = '';
+
     $.ajax({
-        url: 'http://localhost:8080/ootd/postview',
+        url: 'http://localhost:8080/ootd/like/chk',
         type: 'get',
         data: {
-            ootdidx: data
+            ootdidx: data,
+            memidx: idx
         },
-        success: function (data) {
-            console.log(data);
-            console.log(data[0]);
-
-            var rs = data[0];
+        success: function (result) {
 
 
-            postviewhtml += '<div class="postviewarea" id="postviewarea" name="postviewarea">';
-            postviewhtml += '<table class="ootdpostviewtable"  width="100%">';
-            postviewhtml += '<tr><td class="ootdposttable_side"> </td>';
-            postviewhtml += ' <td colspan="2"><img src="https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_location_on_48px-512.png" width="25">';
-            postviewhtml += rs.ootdloc
-            postviewhtml += '</td><td></td><td></td><td colspan="2" class="ootdbmk">';
-            postviewhtml += '<img src="image/icon/bookmarkon.png" width="30"></td>';
-            postviewhtml += '</tr><tr><td colspan="7">';
-            postviewhtml += '<img class="ootdpostphoto" src="http://localhost:8080/ootd/fileupload/ootdimage/';
-            postviewhtml += rs.ootdphotoname
-            postviewhtml += '" width="100%"></td></tr><tr class="ootdpostviewlinethree"><td></td><td colspan="2"><pv1>';
-            postviewhtml += rs.ootdnic
-            postviewhtml += '</pv1></td><td colspan="2"><pv2>';
-            postviewhtml += rs.ootdlikecnt
-            postviewhtml += '명이 좋아합니다&nbsp&nbsp</pv2></td><td><img src="image/icon/heart.png" width="20"></td><td></td></tr><tr><td></td>';
-            postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
-            postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
-            postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
-            postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
-            postviewhtml += '<td></td><td class="ootdposttable_side"></td></tr>';
-            postviewhtml += '<tr class="ootdpostviewtext"><td></td><td class="needborder" colspan="5"><pv3>';
-            postviewhtml += rs.ootdtext
-            postviewhtml += '</pv3></td><td ></td></tr><tr><td></td><td class="ootdcommenttd" colspan="4"><img src="image/icon/comment.png" width="20">&nbsp&nbsp';
-            postviewhtml += rs.ootdcmtcnt
-            postviewhtml += '</td><td>수정</td><td></td></tr></table>';
-            postviewhtml += '<div class="bottomArea"><img src="/ootd/image/background.PNG" width="90"></div>';
+            if (result == 1) {
+                likeheart = '<img src="image/icon/heart.png" width="20" onclick="ootdlike(0,' + data + ',' + idx + '); this.onclick=null;">';
+            } else {
+                likeheart = '<img src="image/icon/emptyheart.png" width="20" onclick="ootdlike(1,' + data + ',' + idx + '); this.onclick=null;">';
+            }
 
+            console.log('하트여부', likeheart);
 
-            var content = document.querySelector('.content');
-            content.innerHTML = postviewhtml;
-
-
+        },
+        error: function (e) {
+            console.log('좋아요 정보 ajax 에러', e)
         }
     });
 
+
+
+    setTimeout(function () {
+
+        var postviewhtml = '';
+
+        $(".bottomArea").remove();
+        $.ajax({
+            url: 'http://localhost:8080/ootd/postview',
+            type: 'get',
+            data: {
+                ootdidx: data
+            },
+            success: function (data) {
+                console.log(data);
+                console.log(data[0]);
+
+                var rs = data[0];
+
+                postviewhtml += '<div class="ootddrop" id="ootddrop" name="ootddrop">';
+                postviewhtml += '<div class="ootddropcontent">수정</div>';
+                postviewhtml += '<div class="ootddropcontent" onclick="ootdPostDelete(' + rs.ootdidx + ')">삭제</div></div>';
+
+                postviewhtml += '<div class="postviewarea" id="postviewarea" name="postviewarea">';
+                postviewhtml += '<table class="ootdpostviewtable"  width="100%">';
+                postviewhtml += '<tr><td class="ootdposttable_side"> </td>';
+                postviewhtml += ' <td colspan="2"><img src="image/icon/location.png" width="10">&nbsp&nbsp';
+                postviewhtml += rs.ootdloc
+                postviewhtml += '</td><td></td><td></td><td colspan="2" class="ootdbmk">';
+                postviewhtml += '<img src="image/icon/usefulbutton.png" onclick="itemClick(event);" ></td>';
+                postviewhtml += '</tr><tr><td colspan="7">';
+                postviewhtml += '<img class="ootdpostphoto" src="http://localhost:8080/ootd/fileupload/ootdimage/';
+                postviewhtml += rs.ootdphotoname
+                postviewhtml += '" width="100%"></td></tr><tr class="ootdpostviewlinethree"><td></td><td colspan="2"><pv1>';
+                postviewhtml += rs.ootdnic
+                postviewhtml += '</pv1></td><td colspan="2"><pv2>';
+                postviewhtml += rs.ootdlikecnt
+                postviewhtml += '명이 좋아합니다&nbsp&nbsp</pv2></td><td><div class="ootdlikediv">';
+
+
+                postviewhtml += likeheart;
+
+                postviewhtml += '</div></td><td></td></tr><tr><td class="ootdposthashtag" colspan="7">';
+
+
+                var strArray = rs.ootdhashtag.split(',');
+                console.log(strArray);
+
+                var hash = '';
+
+                for (i = 0; i < 10; i++) {
+                    if (strArray[i] != 'false') {
+                        hash += '#' + strArray[i] + ' '
+                    }
+                }
+                postviewhtml += hash
+
+
+                postviewhtml += '</td><tr><td></td>';
+                postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
+                postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
+                postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
+                postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
+                postviewhtml += '<td></td><td class="ootdposttable_side"></td></tr>';
+                postviewhtml += '<tr class="ootdpostviewtext"><td></td><td class="needborder" colspan="5"><pv3>';
+                postviewhtml += rs.ootdtext
+                postviewhtml += '</pv3></td><td ></td></tr><tr><td></td><td class="ootdcommenttd" colspan="4"><img src="image/icon/comment.png" width="20">&nbsp&nbsp';
+                postviewhtml += rs.ootdcmtcnt
+                postviewhtml += '</td><td></td><td></td></tr></table>';
+                postviewhtml += '<canvas class="js-editorcanvas" style="display: none"></canvas>';
+                postviewhtml += '<canvas class="js-previewcanvas" style="display: none"></canvas>';
+                postviewhtml += '<div class="bottomArea"><img src="/ootd/image/background.PNG" width="90"></div>';
+
+
+                var content = document.querySelector('.content');
+                content.innerHTML = postviewhtml;
+
+
+                callProduct(rs.ootdphotoname, rs.xyarr, rs.apiproductinfo);
+
+
+                /*                const url = 'ttp://localhost:8080/ootd/fileupload/ootdimage/default.png'
+                                const fileName = 'myFile'
+                                fetch(url)
+                                    .then(response => response.blob())
+                                    .then(bob => {
+                                        const file = new File([blob], fileName, {
+                                            contentType: 'image/jpeg'
+                                        })
+                                        // access file here
+                                    })*/
+
+
+                /*
+                                function readTextFile(file) {
+                                    var rawFile = new XMLHttpRequest();
+                                    rawFile.open("GET", file, false);
+                                    rawFile.onreadystatechange = function () {
+                                        if (rawFile.readyState === 4) {
+                                            if (rawFile.status === 200 || rawFile.status == 0) {
+                                                
+                                                console.log(rawFile)
+                                                //var allText = rawFile.responseText;
+                                                //alert(allText);
+                                            }
+                                        }
+                                    };
+                                    rawFile.send(null);
+                                }
+                            readTextFile("http://localhost:8080/ootd/fileupload/ootdimage/default.png");
+
+                */
+
+
+            }
+        });
+    }, 100)
+
+
+
+
+
+
+    /*
+        function readTextFile(file) {
+            var rawFile = new XMLHttpRequest();
+            rawFile.open("GET", file, false);
+            rawFile.onreadystatechange = function () {
+                if (rawFile.readyState === 4) {
+                    if (rawFile.status === 200 || rawFile.status == 0) {
+                        var allText = rawFile.responseText;
+                        alert(allText);
+                    }
+                }
+            }
+            rawFile.send(null);
+        }
+    */
+
+    /*
+        function loadFile(filePath) {
+            var result = null;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("GET", filePath, false);
+            xmlhttp.send();
+            if (xmlhttp.status == 200) {
+                result = xmlhttp.responseText;
+            }
+            return result;
+        }
+        
+        var filepath = 'file:///C:\Users\bit\Documents\GitHub\personal_mw\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\mwOOTD\fileupload\ootdimage\'
+        filepath += rs.ootdphotoname
+
+        loadFile(filepath);
+    */
+
+
+
+
+
+
+
+
+}
+
+
+/*수정 삭제 창 팝업*/
+function itemClick(event) {
+    var ootddrop = document.getElementById('ootddrop');
+
+
+    x = event.pageX;
+    y = event.pageY;
+
+    if (ootddrop.style.display == 'block') {
+        ootddrop.style.display = 'none';
+    } else {
+        ootddrop.style.display = 'block';
+        ootddrop.style.left = (x - 54) + "px";
+        ootddrop.style.top = y + "px";
+    }
+}
+
+/*게시글 삭제*/
+function ootdPostDelete(idx) {
+
+    if (confirm('정말로 삭제하시겠습니까?')) {
+
+        $.ajax({
+            url: 'http://localhost:8080/ootd/postview',
+            type: 'get',
+            data: {
+                ootdidx: idx
+            },
+            success: function (data) {
+
+
+            }
+
+        });
+    }
+}
+
+
+/*좋아요 ON/OFF*/
+function ootdlike(chk, ootdidx, memidx) {
+
+
+
+    $.ajax({
+        url: 'http://localhost:8080/ootd/like/onoff',
+        type: 'get',
+        data: {
+            chk: chk,
+            ootdidx: ootdidx,
+            memidx: memidx
+
+        },
+        success: function (result) {
+            if (result == 1) {
+                likeheart = '<img src="image/icon/heart.png" width="20" onclick="ootdlike(0,' + ootdidx + ',' + memidx + '); this.onclick=null;">';
+
+
+            } else if (result == 0) {
+
+                likeheart = '<img src="image/icon/emptyheart.png" width="20" onclick="ootdlike(1,' + ootdidx + ',' + memidx + '); this.onclick=null;">';
+            }
+
+            var ootdlikediv = document.querySelector('.ootdlikediv');
+            ootdlikediv.innerHTML = likeheart;
+
+
+        },
+        error: function (e) {
+            console.log('좋아요 더하기 빼기 ajax 에러', e)
+        }
+    });
+
+
+
+}
+
+function callProduct(imgname, xyarr, apiproductinfo) {
+
+
+    /* Here is the codefor converting "image source to "Base64 ".****/
+    let url = 'http://localhost:8080/ootd/fileupload/ootdimage/default.png'
+
+    const toDataURL = url => fetch(url)
+        .then(response => response.blob())
+        .then(blob => new Promise((resolve, reject) => {
+            const reader = new FileReader()
+            reader.onloadend = () => resolve(reader.result)
+            reader.onerror = reject
+            reader.readAsDataURL(blob)
+        }))
+
+    /***  * for converting "Base64" to javascript "File Object". ** **/
+    function dataURLtoFile(dataurl, filename) {
+        var arr = dataurl.split(','),
+            mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]),
+            n = bstr.length,
+            u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], filename, {
+            type: mime
+        });
+    }
+    /**** Calling both  function *****/
+    toDataURL(url)
+        .then(dataUrl => {
+            console.log('RESULT:', dataUrl)
+            fileData = dataURLtoFile(dataUrl, "imageName.jpg");
+            fileArr.push(fileData)
+            console.log(fileData)
+        })
+
+
+
+    function exceptionHandler(message) {
+        alert('에러메세지', message);
+    }
+
+
+    try {
+        // alert('try1');
+        var uploader = new Uploader({
+            input: fileData,
+            types: ['gif', 'jpg', 'jpeg', 'png']
+
+        });
+        // alert('try2');
+        var editor = new Cropper({
+            size: dimensions,
+            canvas: document.querySelector('.js-editorcanvas'),
+            preview: document.querySelector('.js-previewcanvas')
+        });
+
+        // Make sure both were initialised correctly
+        if (uploader && editor) {
+            //alert('try3');
+            // Start the uploader, which will launch the editor
+            uploader.listen2(editor.setImageSource.bind(editor), (error) => {
+                throw error;
+            });
+        }
+
+    } catch (error) {
+        console.log("에러", error);
+        exceptionHandler(error.message);
+    }
 
 
 }

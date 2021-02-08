@@ -15,12 +15,26 @@ public class ootdLikeController {
 	@Autowired
 	private ootdLikeService likeService;
 	
-	@RequestMapping("/istrue")
+	
+	// 좋아요 여부 체크
+	@GetMapping("/chk")
 	public int likechk(
+			@RequestParam("ootdidx") int ootdidx,
 			@RequestParam("memidx") int memidx) {
 			
-		System.out.println(likeService.likeChk(memidx));	
-		return likeService.likeChk(memidx);
+			System.out.println("좋아요" + ootdidx + "ㅇㅇ" +memidx);
+		return likeService.likeChk(ootdidx, memidx);
+	}
+	
+	// 좋아요 on/off
+	@GetMapping("/onoff")
+	public int likeOnOff(
+			@RequestParam("chk") int chk,
+			@RequestParam("ootdidx") int ootdidx,
+			@RequestParam("memidx") int memidx) {
+			
+			
+		return likeService.likeOnOff(chk, ootdidx, memidx);
 	}
 
 }

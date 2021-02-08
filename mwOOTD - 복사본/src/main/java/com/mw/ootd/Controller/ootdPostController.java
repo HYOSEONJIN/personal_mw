@@ -27,4 +27,16 @@ public class ootdPostController {
 		
 		return postService.getPostView(ootdidx);
 	}
+	
+	/* 삭제 */	
+	@GetMapping("/delete")
+	public int ootdPostDel(
+			@RequestParam("ootdidx") int ootdidx){
+		
+		System.out.println(ootdidx);
+	
+		
+		return postService.deletPost(ootdidx);
+		
+	}
 }

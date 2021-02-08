@@ -7,8 +7,6 @@
  */
 
 /** Class used for uploading images. */
-var chk2 = true;
-
 class Uploader {
     /**
      * <p>Creates an Uploader instance with parameters passed as an object.</p>
@@ -28,9 +26,9 @@ class Uploader {
      * @param {object} options the parameters to be passed for instantiation
      */
     constructor(options) {
-        // if (!options.input) {
-        //        throw '[Uploader] Missing input file element.';
-        //  }
+        if (!options.input) {
+            throw '[Uploader] Missing input file element.';
+        }
 
         this.fileInput = options.input;
         console.log(options);
@@ -47,8 +45,6 @@ class Uploader {
 
         // Make sure one file was selected
         if (!this.fileInput.files || this.fileInput.files.length !== 1) {
-            console.log(this.fileInput.files);
-            console.log(this.fileInput.files.length);
             reject('[Uploader:listen] Select only one file.');
         }
 
@@ -60,54 +56,18 @@ class Uploader {
         } else {
             // Read the image as base64 data
             reader.readAsDataURL(file);
-            console.log(file)
             // When loaded, return the file data
             reader.onload = (e) => resolve(e.target.result);
         }
         //};
     }
 
-    listen2(resolve, reject) {
-
-        chk2 = false;
-
-        let url = 'http://localhost:8080/ootd/fileupload/ootdimage/default.png'
-
-        const toDataURL = url => fetch(url)
-            .then(response => response.blob())
-            .then(blob => new Promise((resolve, reject) => {
-                const reader = new FileReader()
-                reader.onloadend = () => resolve(reader.result)
-                reader.onerror = reject
-                reader.readAsDataURL(blob)
-                
-                reader.onload = (e) => resolve(e.target.result);
-            }))
-/*
-
-        let file = this.fileInput
-        let reader = new FileReader();
-
-        reader.readAsDataURL(file);
-        console.log(file)
-        // When loaded, return the file data
-        reader.onload = (e) => resolve(e.target.result);
-*/
-
-        //};
-}
-
     /** @private */
     validFileType(filename) {
-        if (chk2) {
-            // Get the second part of the MIME type
-            let extension = filename.split('/').pop().toLowerCase();
-            console.log('익스텐션', extension)
-            // See if it is in the array of allowed types
-            return this.types.includes(extension);
-        } else {
-            return this.types.includes('png');
-        }
+        // Get the second part of the MIME type
+        let extension = filename.split('/').pop().toLowerCase();
+        // See if it is in the array of allowed types
+        return this.types.includes(extension);
     }
 }
 
@@ -217,14 +177,14 @@ class Cropper {
             // Listen for events on the canvas when the image is ready
             this.imageCanvas.onmousedown = this.clickStart.bind(this);
             //console.log(this.previewCanvas.toDataURL());
-
+            
             var apihtml = '<table border="0" class="ootdAPItable"><td class="apiresult"><img src="';
             apihtml += this.previewCanvas.toDataURL();
-            apihtml += '"width="60"></td><td><input type="text" class="apitable' + apiNum
+            apihtml += '"width="60"></td><td><input type="text" class="apitable'+apiNum
             apihtml += '"></td></table>';
-
+            
             $(".kakaoAPI").append(apihtml);
-
+            
             apiNum++;
             //img.setAttribute('src', this.previewCanvas.toDataURL());
         };

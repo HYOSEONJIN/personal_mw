@@ -12,4 +12,6 @@ public class hashtag {
 	
 	String hash;
 
+	
+
 }
