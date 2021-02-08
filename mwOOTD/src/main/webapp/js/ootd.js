@@ -13,6 +13,8 @@ window.onload = function () {
 var hashtagName = ''; // 해시태그 div 생성해주는 for문에 사용
 var hashCheck = []; // hash태그 체크 여부 저장해주는 배열
 var hashJSON = ''; // hash태그를 JSON형식의 String으로 저장
+var hashAmount = 0; // 해시태그 갯수 체크
+
 var ajax_last_num = 0;
 var pageNum = 1;
 var filebase64 = ''; // file의 사진값 저장할 base64
@@ -429,14 +431,20 @@ function hashtag(idx) {
         // 선택되어있을 때 다시 눌러서 선택을 해제함
         $('#ootd_hashtag' + idx).removeClass('ootd_hasktag_true');
         $('#ootd_hashtag' + idx).addClass('ootd_hashtag_false');
-        hashCheck[idx] = false;
+         hashCheck[idx] = false;
+        hashAmount = hashAmount-1;
 
     } else {
         // 선택함
+        if(hashAmount<3){
         $('#ootd_hashtag' + idx).removeClass('ootd_hashtag_false');
-        $('#ootd_hashtag' + idx).addClass('ootd_hasktag_true');
-        hashCheck[idx] = true;
-
+        $('#ootd_hashtag' + idx).addClass('ootd_hasktag_true');        
+        hashCheck[idx] = $('#ootd_hashtag' + idx).text();
+        console.log(hashCheck[idx]);
+        hashAmount++;
+        }else{
+            alert('해시태그는 3개까지만 가능합니다')
+        }
 
     }
 
@@ -472,10 +480,10 @@ function hashtagJSON() {
 
     for (i = 1; i < 9; i++) {
         hashJSON += '"hashtag' + i + '":';
-        hashJSON += hashCheck[i] + ',';
+        hashJSON += '"'+hashCheck[i]+'"' + ',';
     }
 
-    hashJSON += '"hashtag9":' + hashCheck[9];
+    hashJSON += '"hashtag9":' + '"'+ hashCheck[9]+'"';
     hashJSON += '}]';
 
     console.log(hashJSON);
@@ -567,7 +575,10 @@ function viewPost(data, idx) {
             postviewhtml += rs.ootdnic
             postviewhtml += '</pv1></td><td colspan="2"><pv2>';
             postviewhtml += rs.ootdlikecnt
-            postviewhtml += '명이 좋아합니다&nbsp&nbsp</pv2></td><td><img src="image/icon/heart.png" width="20"></td><td></td></tr><tr><td></td>';
+            postviewhtml += '명이 좋아합니다&nbsp&nbsp</pv2></td><td><img src="image/icon/heart.png" width="20"></td><td></td></tr>';
+            
+            
+            postviewhtml += '<tr><td></td>';
             postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
             postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
             postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
