@@ -7,6 +7,8 @@
  */
 
 /** Class used for uploading images. */
+var chk2 = true;
+
 class Uploader {
     /**
      * <p>Creates an Uploader instance with parameters passed as an object.</p>
@@ -45,6 +47,8 @@ class Uploader {
 
         // Make sure one file was selected
         if (!this.fileInput.files || this.fileInput.files.length !== 1) {
+            console.log(this.fileInput.files);
+            console.log(this.fileInput.files.length);
             reject('[Uploader:listen] Select only one file.');
         }
 
@@ -63,29 +67,73 @@ class Uploader {
         //};
     }
 
-    listen2(resolve, reject) {
-
-        let file = this.fileInput.files[0];
-        let reader = new FileReader();
-        // Make sure the file is of the correct type
-        if (!this.validFileType(file.type)) {
-            reject(`[Uploader:listen] Invalid file type: ${file.type}`);
-        } else {
-            // Read the image as base64 data
-            reader.readAsDataURL(file);
-            console.log(file)
-            // When loaded, return the file data
-            reader.onload = (e) => resolve(e.target.result);
-        }
-        //};
-    }
 
     /** @private */
     validFileType(filename) {
-        // Get the second part of the MIME type
-        let extension = filename.split('/').pop().toLowerCase();
-        // See if it is in the array of allowed types
-        return this.types.includes(extension);
+        if (chk2) {
+            // Get the second part of the MIME type
+            let extension = filename.split('/').pop().toLowerCase();
+            console.log('익스텐션', extension)
+            // See if it is in the array of allowed types
+            return this.types.includes(extension);
+        } else {
+            return this.types.includes('png');
+        }
+    }
+}
+
+
+
+
+class Uploader2 {
+    /**
+     * <p>Creates an Uploader instance with parameters passed as an object.</p>
+     * <p>Available parameters are:</p>
+     * <ul>
+     *  <li>exceptions {function}: the exceptions handler to use, function that takes a string.</li>
+     *  <li>input {HTMLElement} (required): the file input element. Instantiation fails if not provided.</li>
+     *  <li>types {array}: the file types accepted by the uploader.</li>
+     * </ul>
+     *
+     * @example
+     * var uploader = new Uploader({
+     *  input: document.querySelector('.js-fileinput'),
+     *  types: [ 'gif', 'jpg', 'jpeg', 'png' ]
+     * });
+     * *
+     * @param {object} options the parameters to be passed for instantiation
+     */
+    constructor(options) {
+        
+        this.input = options.input;
+        console.log('업로드2 옵션 시작', options.input);
+        let file =  this.input;
+        
+    }
+
+    /**
+     * Listen for an image file to be uploaded, then validate it and resolve with the image data.
+     */
+    listen(resolve, reject) {
+            let reader = new FileReader();
+            reader.readAsDataURL(this.input);
+            console.log(this.input);
+            // When loaded, return the file data
+            reader.onload = (e) => resolve(e.target.result);
+        }
+       
+    
+    /** @private */
+    validFileType(filename) {
+        if (chk2) {
+            // Get the second part of the MIME type
+            let extension = filename.split('/').pop().toLowerCase();
+            console.log('익스텐션', extension)
+            // See if it is in the array of allowed types
+            return this.types.includes(extension);
+        } else {
+            return this.types.includes('png');
+        }
     }
 }
 
@@ -97,6 +145,8 @@ function squareContains(square, coordinate) {
         coordinate.y >= square.pos.y &&
         coordinate.y <= square.pos.y + square.size.y;
 }
+
+
 
 /** Class for cropping an image. */
 class Cropper {
@@ -194,7 +244,7 @@ class Cropper {
             this.render();
             // Listen for events on the canvas when the image is ready
             this.imageCanvas.onmousedown = this.clickStart.bind(this);
-            //console.log(this.previewCanvas.toDataURL());
+            console.log(this.previewCanvas.toDataURL());
 
             var apihtml = '<table border="0" class="ootdAPItable"><td class="apiresult"><img src="';
             apihtml += this.previewCanvas.toDataURL();

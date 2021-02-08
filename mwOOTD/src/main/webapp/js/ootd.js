@@ -37,8 +37,8 @@ var dimensions = {
 var xyarr = [];
 //입력받은 상품 정보
 var apiProductInput = [];
-
 var fileData = '';
+var fileArr = [];
 
 // 메인 출력
 function ootdMain() {
@@ -829,6 +829,43 @@ function callProduct(imgname, xyarr, apiproductinfo) {
             reader.onloadend = () => resolve(reader.result)
             reader.onerror = reject
             reader.readAsDataURL(blob)
+
+            function exceptionHandler(message) {
+                alert('에러메세지', message);
+            }
+
+
+            try {
+                // alert('try1');
+                var uploader2 = new Uploader2({
+                    input: blob,
+                    types: ['gif', 'jpg', 'jpeg', 'png']
+
+                });
+                // alert('try2');
+                var editor = new Cropper({
+                    size: dimensions,
+                    canvas: document.querySelector('.js-editorcanvas'),
+                    preview: document.querySelector('.js-previewcanvas')
+                });
+
+                // Make sure both were initialised correctly
+                if (uploader2 && editor) {
+                    //alert('try3');
+                    // Start the uploader, which will launch the editor
+                    uploader2.listen(editor.setImageSource.bind(editor), (error) => {
+                        throw error;
+                    });
+                }
+
+            } catch (error) {
+                console.log("에러", error);
+                exceptionHandler(error.message);
+            }
+
+
+
+
         }))
 
     /***  * for converting "Base64" to javascript "File Object". ** **/
@@ -848,46 +885,13 @@ function callProduct(imgname, xyarr, apiproductinfo) {
     /**** Calling both  function *****/
     toDataURL(url)
         .then(dataUrl => {
-            console.log('RESULT:', dataUrl)
+            //console.log('RESULT:', dataUrl)
             fileData = dataURLtoFile(dataUrl, "imageName.jpg");
-            //fileArr.push(fileData)
+            // fileArr.push(fileData)
             console.log(fileData)
         })
 
 
-
-    function exceptionHandler(message) {
-        alert('에러메세지', message);
-    }
-
-
-    try {
-        // alert('try1');
-        var uploader = new Uploader({
-            input: fileData,
-            types: ['gif', 'jpg', 'jpeg', 'png']
-
-        });
-        // alert('try2');
-        var editor = new Cropper({
-            size: dimensions,
-            canvas: document.querySelector('.js-editorcanvas'),
-            preview: document.querySelector('.js-previewcanvas')
-        });
-
-        // Make sure both were initialised correctly
-        if (uploader && editor) {
-            //alert('try3');
-            // Start the uploader, which will launch the editor
-            uploader.listen2(editor.setImageSource.bind(editor), (error) => {
-                throw error;
-            });
-        }
-
-    } catch (error) {
-        console.log("에러", error);
-        exceptionHandler(error.message);
-    }
 
 
 }

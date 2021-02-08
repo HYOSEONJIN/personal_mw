@@ -863,8 +863,8 @@ function callProduct(imgname, xyarr, apiproductinfo) {
 
     try {
         // alert('try1');
-        var uploader = new Uploader({
-            input: fileData,
+        var uploader2 = new Uploader2({
+            input : fileData,
             types: ['gif', 'jpg', 'jpeg', 'png']
 
         });
@@ -876,10 +876,10 @@ function callProduct(imgname, xyarr, apiproductinfo) {
         });
 
         // Make sure both were initialised correctly
-        if (uploader && editor) {
+        if (uploader2 && editor) {
             //alert('try3');
             // Start the uploader, which will launch the editor
-            uploader.listen2(editor.setImageSource.bind(editor), (error) => {
+            uploader2.listen(editor.setImageSource.bind(editor), (error) => {
                 throw error;
             });
         }
