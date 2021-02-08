@@ -70,4 +70,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deletPost">
 		DELETE FROM ootd WHERE ootdidx = #{ootdidx}
 	</delete>
+	
+	
+	<!-- 좋아요 했는지 여부 -->
+	<select id="likeChk" resultType="int">
+	select count(*) from ootdlike where ootdidx=#{param1} AND memidx= #{param2}	
+	</select>
+	
 </mapper>

@@ -326,7 +326,7 @@ function reg() {
         if (file1.type == 'image/jpeg' || (file1.type == 'image/png') || file1.type == "undefined") {
 
 
-           // hashtagJSON();
+            // hashtagJSON();
 
             var text = $('#ootdtext').val();
             console.log(text);
@@ -402,8 +402,8 @@ function reg() {
             })
 
         } else {
-           // hashJSON = '';
-           //console.log(hashJSON);
+            // hashJSON = '';
+            //console.log(hashJSON);
             dataReset();
             alert('JPG 또는 PNG 형식의 파일만 첨부해주세요 ');
         }
@@ -544,7 +544,38 @@ function pageView(idx) {
 /*게시물 출력*/
 function viewPost(data, idx) {
 
+
+    var likeheart = '';
+
+    $.ajax({
+        url: 'http://localhost:8080/ootd/like/chk',
+        type: 'get',
+        data: {
+            ootdidx: data,
+            memidx: idx
+        },
+        success: function (result) {
+
+
+            if (result == 1) {
+                likeheart = '<img src="image/icon/heart.png" width="20" onclick="ootdlike(0,' + data + ',' + idx + '); this.onclick=null;">';
+            } else {
+                likeheart = '<img src="image/icon/emptyheart.png" width="20" onclick="ootdlike(1,' + data + ',' + idx + '); this.onclick=null;">';
+            }
+
+            console.log('하트여부', likeheart);
+
+        },
+        error: function (e) {
+            console.log('좋아요 정보 ajax 에러', e)
+        }
+    });
+
+
+
+
     var postviewhtml = '';
+
     $(".bottomArea").remove();
     $.ajax({
         url: 'http://localhost:8080/ootd/postview',
@@ -576,16 +607,28 @@ function viewPost(data, idx) {
             postviewhtml += rs.ootdnic
             postviewhtml += '</pv1></td><td colspan="2"><pv2>';
             postviewhtml += rs.ootdlikecnt
-            postviewhtml += '명이 좋아합니다&nbsp&nbsp</pv2></td><td><img src="image/icon/heart.png" width="20"></td><td></td></tr>';
+            postviewhtml += '명이 좋아합니다&nbsp&nbsp</pv2></td><td><div class="likediv">';
 
 
-            var strArray=rs.ootdhashtag.split(',');
+            postviewhtml += likeheart;
+
+            postviewhtml += '</div></td><td></td></tr><tr><td class="ootdposthashtag" colspan="7">';
+
+
+            var strArray = rs.ootdhashtag.split(',');
             console.log(strArray);
 
+            var hash = '';
+
+            for (i = 0; i < 10; i++) {
+                if (strArray[i] != 'false') {
+                    hash += '#' + strArray[i] + ' '
+                }
+            }
+            postviewhtml += hash
 
 
-
-            postviewhtml += '<tr><td></td>';
+            postviewhtml += '</td><tr><td></td>';
             postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
             postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
             postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
@@ -595,7 +638,7 @@ function viewPost(data, idx) {
             postviewhtml += rs.ootdtext
             postviewhtml += '</pv3></td><td ></td></tr><tr><td></td><td class="ootdcommenttd" colspan="4"><img src="image/icon/comment.png" width="20">&nbsp&nbsp';
             postviewhtml += rs.ootdcmtcnt
-            postviewhtml += '</td><td><img src="image/icon/bookmarkon.png" width="30"></td><td></td></tr></table>';
+            postviewhtml += '</td><td></td><td></td></tr></table>';
             postviewhtml += '<div class="bottomArea"><img src="/ootd/image/background.PNG" width="90"></div>';
 
 
@@ -646,4 +689,29 @@ function ootdPostDelete(idx) {
 
         });
     }
+}
+
+
+function ootdlike(chk, ootdidx, memidx) {
+
+    $.ajax({
+        url: 'http://localhost:8080/ootd/like/onoff',
+        type: 'get',
+        data: {
+            chk: chk,
+            ootdidx : ootdidx,
+            memidx : memidx
+
+        },
+        success: function (result) {
+
+
+        },
+        error: function (e) {
+            console.log('좋아요 더하기 빼기 ajax 에러', e)
+        }
+    });
+
+
+
 }

@@ -36,6 +36,9 @@ public interface ootdInterfaceDao {
 	// ootdidx값에 따른 글 삭제
 	int deletPost(int ootdidx);
 
+	// 해당 글에 좋아요 했는지 안했는지 여부
+	int likeChk(int ootdidx, int memidx);
+
 
 
 }
