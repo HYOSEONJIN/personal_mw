@@ -611,7 +611,7 @@ function viewPost(data, idx) {
                 postviewhtml += '" width="100%"></td></tr><tr class="ootdpostviewlinethree"><td></td><td colspan="2"><pv1>';
                 postviewhtml += rs.ootdnic
                 postviewhtml += '</pv1></td><td colspan="2"><pv2>';
-                postviewhtml += likeCnt 
+                postviewhtml += likeCnt
                 postviewhtml += '명이 좋아합니다&nbsp&nbsp</pv2></td><td><div class="ootdlikediv">';
 
 
@@ -721,18 +721,18 @@ function ootdlike(chk, ootdidx, memidx) {
 
         },
         success: function (result) {
-            
+
             console.log(result)
             console.log(result.likeChk)
             var pv2html = '';
             pv2html += result.likeAmount
             pv2html += '명이 좋아합니다&nbsp&nbsp';
-                
-            var pv2= document.querySelector('pv2');
+
+            var pv2 = document.querySelector('pv2');
             pv2.innerHTML = pv2html
-            
-            
-            
+
+
+
             if (result.likeOnOff == 1) {
                 likeheart = '<img src="image/icon/heart.png" width="20" onclick="ootdlike(0,' + ootdidx + ',' + memidx + '); this.onclick=null;">';
 
@@ -760,77 +760,129 @@ function callProduct(imgname, xyarr, apiproductinfo) {
 
 
     /* Here is the codefor converting "image source to "Base64 ".****/
-    let url = 'http://localhost:8080/ootd/fileupload/ootdimage/default.png'
-
-    const toDataURL = url => fetch(url)
-        .then(response => response.blob())
-        .then(blob => new Promise((resolve, reject) => {
-            const reader = new FileReader()
-            reader.onloadend = () => resolve(reader.result)
-            reader.onerror = reject
-            reader.readAsDataURL(blob)
-
-            function exceptionHandler(message) {
-                alert('에러메세지', message);
-            }
+    let url = 'http://localhost:8080/ootd/fileupload/ootdimage/'
+    url += imgname;
 
 
-            try {
-                // alert('try1');
-                var uploader2 = new Uploader2({
-                    input: blob,
-                    types: ['gif', 'jpg', 'jpeg', 'png']
+    var xyArray = xyarr.split(',');
+    console.log(xyArray);
 
-                });
-                // alert('try2');
-                var editor = new Cropper({
-                    size: dimensions,
-                    canvas: document.querySelector('.js-editorcanvas'),
-                    preview: document.querySelector('.js-previewcanvas')
-                });
+    var productInfo = apiproductinfo.split(',');
+    console.log(productInfo);
 
-                // Make sure both were initialised correctly
-                if (uploader2 && editor) {
-                    //alert('try3');
-                    // Start the uploader, which will launch the editor
-                    uploader2.listen(editor.setImageSource.bind(editor), (error) => {
-                        throw error;
-                    });
+
+    var base64var = 0;
+
+    for (i = 0; i < productInfo.length; i++) {
+
+
+        // 0 1 2 3 / 4 5 6 7 / 8 9 10 11 / 12 13 14 15
+
+/*
+
+
+            var xyvar = i * 4
+            x = xyArray[xyvar]
+            y = xyArray[xyvar + 1]
+            w = xyArray[xyvar + 2]
+            h = xyArray[xyvar + 3]
+*/
+
+       
+
+
+        const toDataURL = url => fetch(url)
+            .then(response => response.blob())
+            .then(blob => new Promise((resolve, reject) => {
+                const reader = new FileReader()
+                reader.onloadend = () => resolve(reader.result)
+                reader.onerror = reject
+                reader.readAsDataURL(blob)
+
+                function exceptionHandler(message) {
+                    alert('에러메세지', message);
                 }
 
-            } catch (error) {
-                console.log("에러", error);
-                exceptionHandler(error.message);
+
+                try {
+                    
+                
+                    var xyvar = base64var * 4
+                    x = xyArray[xyvar]
+                    y = xyArray[xyvar + 1]
+                    w = xyArray[xyvar + 2]
+                    h = xyArray[xyvar + 3]
+       
+                    
+                    // alert('try1');
+                    var uploader2 = new Uploader2({
+                        input: blob,
+                        types: ['gif', 'jpg', 'jpeg', 'png']
+
+                    });
+
+                    // alert('try2');
+                    var editor = new Cropper({
+                        size: {
+                            x: x,
+                            y: y
+                        },
+                        pos: {
+                            x: w,
+                            y: h
+                        },
+                        size: dimensions,
+                        canvas: document.querySelector('.js-editorcanvas'),
+                        preview: document.querySelector('.js-previewcanvas')
+                    });
+
+                    // Make sure both were initialised correctly
+                    if (uploader2 && editor) {
+                        //alert('try3');
+                        // Start the uploader, which will launch the editor
+                        uploader2.listen(editor.setImageSource.bind(editor), (error) => {
+                            throw error;
+                        });
+                        
+                        base64var++;
+                    }
+
+                } catch (error) {
+                    console.log("에러", error);
+                    exceptionHandler(error.message);
+                }
+
+
+
+
+            }))
+
+        /***  * for converting "Base64" to javascript "File Object". ** **/
+        function dataURLtoFile(dataurl, filename) {
+            var arr = dataurl.split(','),
+                mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]),
+                n = bstr.length,
+                u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
             }
-
-
-
-
-        }))
-
-    /***  * for converting "Base64" to javascript "File Object". ** **/
-    function dataURLtoFile(dataurl, filename) {
-        var arr = dataurl.split(','),
-            mime = arr[0].match(/:(.*?);/)[1],
-            bstr = atob(arr[1]),
-            n = bstr.length,
-            u8arr = new Uint8Array(n);
-        while (n--) {
-            u8arr[n] = bstr.charCodeAt(n);
+            return new File([u8arr], filename, {
+                type: mime
+            });
         }
-        return new File([u8arr], filename, {
-            type: mime
-        });
-    }
-    /**** Calling both  function *****/
-    toDataURL(url)
-        .then(dataUrl => {
-            //console.log('RESULT:', dataUrl)
-            fileData = dataURLtoFile(dataUrl, "imageName.jpg");
-            // fileArr.push(fileData)
-            console.log(fileData)
-        })
+        /**** Calling both  function *****/
+        toDataURL(url)
+            .then(dataUrl => {
+                //console.log('RESULT:', dataUrl)
+                fileData = dataURLtoFile(dataUrl, "imageName.jpg");
+                // fileArr.push(fileData)
+                console.log(fileData)
+            })
 
+        console.log(x, y, w, h)
+
+    }
 
 
 

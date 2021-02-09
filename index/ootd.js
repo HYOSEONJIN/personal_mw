@@ -546,7 +546,7 @@ function pageView(idx) {
 /*게시물 출력*/
 function viewPost(data, idx) {
 
-
+    var likeCnt
     var likeheart = '';
 
     $.ajax({
@@ -558,15 +558,16 @@ function viewPost(data, idx) {
         },
         success: function (result) {
 
-            console.log('좋아요 결과값', result)
 
-            if (result.Chk == 1) {
+
+            if (result.likeChk > 0) {
                 likeheart = '<img src="image/icon/heart.png" width="20" onclick="ootdlike(0,' + data + ',' + idx + '); this.onclick=null;">';
             } else {
                 likeheart = '<img src="image/icon/emptyheart.png" width="20" onclick="ootdlike(1,' + data + ',' + idx + '); this.onclick=null;">';
             }
 
-            console.log('하트여부', likeheart);
+            likeCnt = result.likeAmount
+
 
         },
         error: function (e) {
@@ -610,7 +611,7 @@ function viewPost(data, idx) {
                 postviewhtml += '" width="100%"></td></tr><tr class="ootdpostviewlinethree"><td></td><td colspan="2"><pv1>';
                 postviewhtml += rs.ootdnic
                 postviewhtml += '</pv1></td><td colspan="2"><pv2>';
-                postviewhtml += rs.ootdlikecnt
+                postviewhtml += likeCnt
                 postviewhtml += '명이 좋아합니다&nbsp&nbsp</pv2></td><td><div class="ootdlikediv">';
 
 
@@ -655,83 +656,9 @@ function viewPost(data, idx) {
                 callProduct(rs.ootdphotoname, rs.xyarr, rs.apiproductinfo);
 
 
-                /*                const url = 'ttp://localhost:8080/ootd/fileupload/ootdimage/default.png'
-                                const fileName = 'myFile'
-                                fetch(url)
-                                    .then(response => response.blob())
-                                    .then(bob => {
-                                        const file = new File([blob], fileName, {
-                                            contentType: 'image/jpeg'
-                                        })
-                                        // access file here
-                                    })*/
-
-
-                /*
-                                function readTextFile(file) {
-                                    var rawFile = new XMLHttpRequest();
-                                    rawFile.open("GET", file, false);
-                                    rawFile.onreadystatechange = function () {
-                                        if (rawFile.readyState === 4) {
-                                            if (rawFile.status === 200 || rawFile.status == 0) {
-                                                
-                                                console.log(rawFile)
-                                                //var allText = rawFile.responseText;
-                                                //alert(allText);
-                                            }
-                                        }
-                                    };
-                                    rawFile.send(null);
-                                }
-                            readTextFile("http://localhost:8080/ootd/fileupload/ootdimage/default.png");
-
-                */
-
-
             }
         });
     }, 100)
-
-
-
-
-
-
-    /*
-        function readTextFile(file) {
-            var rawFile = new XMLHttpRequest();
-            rawFile.open("GET", file, false);
-            rawFile.onreadystatechange = function () {
-                if (rawFile.readyState === 4) {
-                    if (rawFile.status === 200 || rawFile.status == 0) {
-                        var allText = rawFile.responseText;
-                        alert(allText);
-                    }
-                }
-            }
-            rawFile.send(null);
-        }
-    */
-
-    /*
-        function loadFile(filePath) {
-            var result = null;
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.open("GET", filePath, false);
-            xmlhttp.send();
-            if (xmlhttp.status == 200) {
-                result = xmlhttp.responseText;
-            }
-            return result;
-        }
-        
-        var filepath = 'file:///C:\Users\bit\Documents\GitHub\personal_mw\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\mwOOTD\fileupload\ootdimage\'
-        filepath += rs.ootdphotoname
-
-        loadFile(filepath);
-    */
-
-
 
 
 
@@ -794,11 +721,23 @@ function ootdlike(chk, ootdidx, memidx) {
 
         },
         success: function (result) {
-            if (result == 1) {
+
+            console.log(result)
+            console.log(result.likeChk)
+            var pv2html = '';
+            pv2html += result.likeAmount
+            pv2html += '명이 좋아합니다&nbsp&nbsp';
+
+            var pv2 = document.querySelector('pv2');
+            pv2.innerHTML = pv2html
+
+
+
+            if (result.likeOnOff == 1) {
                 likeheart = '<img src="image/icon/heart.png" width="20" onclick="ootdlike(0,' + ootdidx + ',' + memidx + '); this.onclick=null;">';
 
 
-            } else if (result == 0) {
+            } else if (result.likeOnOff == 0) {
 
                 likeheart = '<img src="image/icon/emptyheart.png" width="20" onclick="ootdlike(1,' + ootdidx + ',' + memidx + '); this.onclick=null;">';
             }
@@ -821,77 +760,116 @@ function callProduct(imgname, xyarr, apiproductinfo) {
 
 
     /* Here is the codefor converting "image source to "Base64 ".****/
-    let url = 'http://localhost:8080/ootd/fileupload/ootdimage/default.png'
-
-    const toDataURL = url => fetch(url)
-        .then(response => response.blob())
-        .then(blob => new Promise((resolve, reject) => {
-            const reader = new FileReader()
-            reader.onloadend = () => resolve(reader.result)
-            reader.onerror = reject
-            reader.readAsDataURL(blob)
-
-            function exceptionHandler(message) {
-                alert('에러메세지', message);
-            }
+    let url = 'http://localhost:8080/ootd/fileupload/ootdimage/'
+    url += imgname;
 
 
-            try {
-                // alert('try1');
-                var uploader2 = new Uploader2({
-                    input: blob,
-                    types: ['gif', 'jpg', 'jpeg', 'png']
+    var xyArray = xyarr.split(',');
+    console.log(xyArray);
 
-                });
-                // alert('try2');
-                var editor = new Cropper({
-                    size: dimensions,
-                    canvas: document.querySelector('.js-editorcanvas'),
-                    preview: document.querySelector('.js-previewcanvas')
-                });
+    var productInfo = apiproductinfo.split(',');
+    console.log(productInfo);
 
-                // Make sure both were initialised correctly
-                if (uploader2 && editor) {
-                    //alert('try3');
-                    // Start the uploader, which will launch the editor
-                    uploader2.listen(editor.setImageSource.bind(editor), (error) => {
-                        throw error;
-                    });
+
+    for (i = 0; i < productInfo.length; i++) {
+
+
+        // 0 1 2 3 / 4 5 6 7 / 8 9 10 11 / 12 13 14 15
+
+        var xyvar = i * 4
+
+        x = xyArray[xyvar]
+        y = xyArray[xyvar + 1]
+        w = xyArray[xyvar + 2]
+        h = xyArray[xyvar + 3]
+
+
+
+
+        const toDataURL = url => fetch(url)
+            .then(response => response.blob())
+            .then(blob => new Promise((resolve, reject) => {
+                const reader = new FileReader()
+                reader.onloadend = () => resolve(reader.result)
+                reader.onerror = reject
+                reader.readAsDataURL(blob)
+
+                function exceptionHandler(message) {
+                    alert('에러메세지', message);
                 }
 
-            } catch (error) {
-                console.log("에러", error);
-                exceptionHandler(error.message);
+
+
+
+                try {
+
+                    var xyvar = i * 4
+
+                    x = xyArray[xyvar]
+                    y = xyArray[xyvar + 1]
+                    w = xyArray[xyvar + 2]
+                    h = xyArray[xyvar + 3]
+
+                    // alert('try1');
+                    var uploader2 = new Uploader2({
+                        input: blob,
+                        types: ['gif', 'jpg', 'jpeg', 'png']
+
+                    });
+
+
+                    // alert('try2');
+                    var editor = new Cropper({
+                        size: dimensions,
+                        canvas: document.querySelector('.js-editorcanvas'),
+                        preview: document.querySelector('.js-previewcanvas')
+                    });
+
+                    // Make sure both were initialised correctly
+                    if (uploader2 && editor) {
+                        //alert('try3');
+                        // Start the uploader, which will launch the editor
+                        uploader2.listen(editor.setImageSource.bind(editor), (error) => {
+                            throw error;
+                        });
+                    }
+
+                } catch (error) {
+                    console.log("에러", error);
+                    exceptionHandler(error.message);
+                }
+
+
+
+
+            }))
+
+        /***  * for converting "Base64" to javascript "File Object". ** **/
+        function dataURLtoFile(dataurl, filename) {
+            var arr = dataurl.split(','),
+                mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]),
+                n = bstr.length,
+                u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
             }
-
-
-
-
-        }))
-
-    /***  * for converting "Base64" to javascript "File Object". ** **/
-    function dataURLtoFile(dataurl, filename) {
-        var arr = dataurl.split(','),
-            mime = arr[0].match(/:(.*?);/)[1],
-            bstr = atob(arr[1]),
-            n = bstr.length,
-            u8arr = new Uint8Array(n);
-        while (n--) {
-            u8arr[n] = bstr.charCodeAt(n);
+            return new File([u8arr], filename, {
+                type: mime
+            });
         }
-        return new File([u8arr], filename, {
-            type: mime
-        });
-    }
-    /**** Calling both  function *****/
-    toDataURL(url)
-        .then(dataUrl => {
-            //console.log('RESULT:', dataUrl)
-            fileData = dataURLtoFile(dataUrl, "imageName.jpg");
-            // fileArr.push(fileData)
-            console.log(fileData)
-        })
+        /**** Calling both  function *****/
+        toDataURL(url)
+            .then(dataUrl => {
+                //console.log('RESULT:', dataUrl)
+                fileData = dataURLtoFile(dataUrl, "imageName.jpg");
+                // fileArr.push(fileData)
+                console.log(fileData)
+            })
 
+        console.log(x, y, w, h)
+
+    }
 
 
 
