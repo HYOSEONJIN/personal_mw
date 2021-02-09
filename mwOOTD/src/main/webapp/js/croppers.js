@@ -103,6 +103,7 @@ class Uploader2 {
      */
     constructor(options) {
         
+        chk = false;
         this.input = options.input;
         console.log('업로드2 옵션 시작', options.input);
         let file =  this.input;
@@ -231,9 +232,9 @@ class Cropper {
             this.render();
             // Listen for events on the canvas when the image is ready
             this.imageCanvas.onmousedown = this.clickStart.bind(this);
-            console.log(this.previewCanvas.toDataURL());
+        //console.log(this.previewCanvas.toDataURL());
             
-            if(chk){
+         
 
             var apihtml = '<table border="0" class="ootdAPItable"><td class="apiresult"><img src="';
             apihtml += this.previewCanvas.toDataURL();
@@ -241,11 +242,34 @@ class Cropper {
             apihtml += '"></td></table>';
 
             $(".kakaoAPI").append(apihtml);
-			}
+
+         
             apiNum++;
             //img.setAttribute('src', this.previewCanvas.toDataURL());
         };
     }
+    
+        setImageSource2(source) {
+        this.image = new Image();
+        this.image.src = source;
+        this.image.onload = (e) => {
+            // Perform an initial render
+            this.render();
+            // Listen for events on the canvas when the image is ready
+            this.imageCanvas.onmousedown = this.clickStart.bind(this);
+        //console.log(this.previewCanvas.toDataURL());
+            
+            var apiproduct = '<img src="';
+                apiproduct += this.previewCanvas.toDataURL();
+                apiproduct += '" onclick="viewproductinfo('+apiNum;
+                apiproduct += ') this.onclick=null;">'  
+            
+             $(".ootdproductdiv").append(apiproduct);
+            apiNum++;
+            //img.setAttribute('src', this.previewCanvas.toDataURL());
+        };
+    }
+
 
     /**
      * Export the result to a given image tag.

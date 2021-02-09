@@ -33,9 +33,7 @@ public class ootdPostController {
 	public int ootdPostDel(
 			@RequestParam("ootdidx") int ootdidx){
 		
-		System.out.println(ootdidx);
-	
-		
+		System.out.println("삭제"+ ootdidx);		
 		return postService.deletPost(ootdidx);
 		
 	}

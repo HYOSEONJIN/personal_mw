@@ -48,6 +48,9 @@ public interface ootdInterfaceDao {
 	// 좋아요 갯수
 	int likeAmount(int ootdidx);
 
+	// 좋아요 값 삽입
+	void ootdLikeCntInsert(int likeAmount, int ootdidx);
+
 
 
 }

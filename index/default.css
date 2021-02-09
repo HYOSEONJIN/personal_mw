@@ -162,7 +162,7 @@ footer {
 
 .postthumnail {
     width: 100%;
-    height: width;
+    max-height: 240px;
     border-radius: 3px;
     margin-bottom: 6px;
 }
@@ -359,4 +359,17 @@ pv2 {
     border : 0px;
     width: 80%;
     border-bottom: 1px solid #424242;
+}
+
+
+.ootdproductdiv img{
+    width: 20%;
+    max-width: 80px;
+    margin-right: 10px;
+}
+
+
+.ootdproductdiv{
+	margin-left : 20px;
+    
 }

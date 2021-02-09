@@ -50,6 +50,7 @@ public class ootdLikeService {
 		// 좋아요해주기
 		if(chk==1) {
 			dao.onheart(ootdidx, memidx);
+			
 			result=1;
 		}else if (chk==0) {
 			// 좋아요 삭제
@@ -58,6 +59,7 @@ public class ootdLikeService {
 		}
 		
 		int likeAmount = dao.likeAmount(ootdidx);
+		dao.ootdLikeCntInsert(likeAmount,ootdidx);
 		like.setLikeOnOff(result);
 		like.setLikeAmount(likeAmount);
 		

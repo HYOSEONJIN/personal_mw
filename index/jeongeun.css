@@ -20,26 +20,8 @@ body {
 
 }
 
-.frame{
-    width: 100%;
-    max-width: 800px;
-    margin:  0 auto
-    background-color: cornflowerblue;
-}
-
-.innerframe{
-    padding : 0 10px;
-    background-color: palegoldenrod;
-}
-.one{
-    background-color: aqua;
-}
-
-.two{
-    width: 100%;
-    background-color: red;
+button{
+    width: 240px;
+    max-height: 240px;
     
-}
-
-.two button{
 }

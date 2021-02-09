@@ -96,4 +96,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select count(*) from ootdlike where ootdidx=#{ootdidx}	
 	</select>
 	
+	<update id="ootdLikeCntInsert">
+		UPDATE ootd 
+		SET ootdlikecnt = #{param1} 
+		WHERE ootdidx = #{param2}		
+	</update>
+	
 </mapper>

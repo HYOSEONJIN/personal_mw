@@ -8,6 +8,12 @@ window.onload = function () {
 
 };
 
+$(window).resize(function () {
+
+    $('.postthumnai').each(function () {
+        $(this).height($(this).width());
+    });
+}).resize();
 
 
 var hashtagName = ''; // 해시태그 div 생성해주는 for문에 사용
@@ -516,7 +522,9 @@ function pageView(idx) {
                 /*나중에멤버 현재 로그인된 idx받아줘야함, 현재 헤더안에 있는 값으로 하고 있음*/
                 listhtml += '<div onclick="viewPost(' + data[i].ootdidx + ',' + $('#memidxsession').val() + '); this.onclick=null;">';
                 listhtml += '<table class="ootdposttable">';
-                listhtml += '<tr><td><img src="https://media.allure.com/photos/58657e62327f28075707a5ca/1:1/w_354%2Cc_limit/slack-imgs.com.jpeg" class="postthumnail"></td></tr>';
+                listhtml += '<tr><td class="thumnailtd"><img src="http://localhost:8080/ootd/fileupload/ootdimage/';
+                listhtml += data[i].ootdphotoname;
+                listhtml += '" class="postthumnail"></td></tr>';
                 listhtml += '<tr><td><a1 class="ootdwriter">' + data[i].ootdnic + '</a1></td></tr>';
                 listhtml += '<tr><td><a1 class="ootdlocation">' + data[i].ootdloc + '</a1></td></tr>';
                 listhtml += '<tr><td><a1 class="ootdlistlike">♥ ' + data[i].ootdlikecnt + '</a1></td></tr></table></div>';
@@ -631,19 +639,16 @@ function viewPost(data, idx) {
                     }
                 }
                 postviewhtml += hash
+                postviewhtml += '</td></tr></table>';
 
+                postviewhtml += '<div class="ootdproductdiv"></div>'
 
-                postviewhtml += '</td><tr><td></td>';
-                postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
-                postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
-                postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
-                postviewhtml += '<td><img src="image/icon/closet.png" width="80"></td>';
-                postviewhtml += '<td></td><td class="ootdposttable_side"></td></tr>';
-                postviewhtml += '<tr class="ootdpostviewtext"><td></td><td class="needborder" colspan="5"><pv3>';
+                postviewhtml += '<table class="ootdpostviewtable"  width="100%">';
+                postviewhtml += '<tr class="ootdpostviewtext"><td class="ootdposttable_side"></td><td class="needborder" colspan="5"><pv3>';
                 postviewhtml += rs.ootdtext
                 postviewhtml += '</pv3></td><td ></td></tr><tr><td></td><td class="ootdcommenttd" colspan="4"><img src="image/icon/comment.png" width="20">&nbsp&nbsp';
                 postviewhtml += rs.ootdcmtcnt
-                postviewhtml += '</td><td></td><td></td></tr></table>';
+                postviewhtml += '</td><td></td><td class="ootdposttable_side"></td></tr></table>';
                 postviewhtml += '<canvas class="js-editorcanvas" style="display: none"></canvas>';
                 postviewhtml += '<canvas class="js-previewcanvas" style="display: none"></canvas>';
                 postviewhtml += '<div class="bottomArea"><img src="/ootd/image/background.PNG" width="90"></div>';
@@ -691,13 +696,15 @@ function ootdPostDelete(idx) {
     if (confirm('정말로 삭제하시겠습니까?')) {
 
         $.ajax({
-            url: 'http://localhost:8080/ootd/postview',
+            url: 'http://localhost:8080/ootd/postview/delete',
             type: 'get',
             data: {
                 ootdidx: idx
             },
             success: function (data) {
-
+                if (data = 1) {
+                    alert('삭제완료')
+                }
 
             }
 
@@ -771,17 +778,22 @@ function callProduct(imgname, xyarr, apiproductinfo) {
     console.log(productInfo);
 
 
+    var base64var = 0;
+
     for (i = 0; i < productInfo.length; i++) {
 
 
         // 0 1 2 3 / 4 5 6 7 / 8 9 10 11 / 12 13 14 15
 
-        var xyvar = i * 4
+        /*
 
-        x = xyArray[xyvar]
-        y = xyArray[xyvar + 1]
-        w = xyArray[xyvar + 2]
-        h = xyArray[xyvar + 3]
+
+                    var xyvar = i * 4
+                    x = xyArray[xyvar]
+                    y = xyArray[xyvar + 1]
+                    w = xyArray[xyvar + 2]
+                    h = xyArray[xyvar + 3]
+        */
 
 
 
@@ -799,16 +811,15 @@ function callProduct(imgname, xyarr, apiproductinfo) {
                 }
 
 
-
-
                 try {
 
-                    var xyvar = i * 4
 
+                    var xyvar = base64var * 4
                     x = xyArray[xyvar]
                     y = xyArray[xyvar + 1]
                     w = xyArray[xyvar + 2]
                     h = xyArray[xyvar + 3]
+
 
                     // alert('try1');
                     var uploader2 = new Uploader2({
@@ -817,9 +828,16 @@ function callProduct(imgname, xyarr, apiproductinfo) {
 
                     });
 
-
                     // alert('try2');
                     var editor = new Cropper({
+                        size: {
+                            x: x,
+                            y: y
+                        },
+                        pos: {
+                            x: w,
+                            y: h
+                        },
                         size: dimensions,
                         canvas: document.querySelector('.js-editorcanvas'),
                         preview: document.querySelector('.js-previewcanvas')
@@ -829,9 +847,11 @@ function callProduct(imgname, xyarr, apiproductinfo) {
                     if (uploader2 && editor) {
                         //alert('try3');
                         // Start the uploader, which will launch the editor
-                        uploader2.listen(editor.setImageSource.bind(editor), (error) => {
+                        uploader2.listen(editor.setImageSource2.bind(editor), (error) => {
                             throw error;
                         });
+
+                        base64var++;
                     }
 
                 } catch (error) {
