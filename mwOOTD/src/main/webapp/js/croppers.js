@@ -8,6 +8,7 @@
 
 /** Class used for uploading images. */
 var chk2 = true;
+var apiNum =0;
 
 class Uploader {
     /**
