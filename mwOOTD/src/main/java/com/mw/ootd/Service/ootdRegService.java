@@ -70,10 +70,10 @@ public class ootdRegService {
 			dao = template.getMapper(ootdInterfaceDao.class);
 			result = dao.ootdDocInsert(ootd);
 			// 글번호값 리턴
-			int ootdidx = dao.ootdidxReturn(ootdphotoname);
-			System.out.println(ootdidx);
+			//int ootdidx = dao.ootdidxReturn(ootdphotoname);
+			//System.out.println(ootdidx);
 			//ootdidx에 맞는 좋아요 칼럼 생성
-			dao.makeLikeCol(ootdidx);
+			//dao.makeLikeCol(ootdidx);
 
 		} catch (Exception e) {
 			e.printStackTrace();

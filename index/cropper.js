@@ -107,7 +107,7 @@ class Uploader2 {
         
         this.input = options.input;
         console.log('업로드2 옵션 시작', options.input);
-        let file =  this.input;
+        
         
     }
 

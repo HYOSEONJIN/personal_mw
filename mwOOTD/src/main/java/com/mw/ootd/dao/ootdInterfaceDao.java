@@ -44,6 +44,9 @@ public interface ootdInterfaceDao {
 
 	// 좋아요 삭제
 	int offheart(int ootdidx, int memidx);
+	
+	// 좋아요 갯수
+	int likeAmount(int ootdidx);
 
 
 

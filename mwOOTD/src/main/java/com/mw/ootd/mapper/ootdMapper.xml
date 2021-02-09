@@ -91,4 +91,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from ootdlike where ootdidx=#{param1} and memidx=#{param2}
 	</delete>
 	
+	<!-- 좋아요 갯수 -->
+	<select id="likeAmount" resultType="int">
+	select count(*) from ootdlike where ootdidx=#{ootdidx}	
+	</select>
+	
 </mapper>

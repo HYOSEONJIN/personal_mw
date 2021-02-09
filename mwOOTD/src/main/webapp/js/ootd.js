@@ -546,7 +546,7 @@ function pageView(idx) {
 /*게시물 출력*/
 function viewPost(data, idx) {
 
-
+    var likeCnt
     var likeheart = '';
 
     $.ajax({
@@ -559,13 +559,15 @@ function viewPost(data, idx) {
         success: function (result) {
 
 
-            if (result == 1) {
+
+            if (result.likeChk > 0) {
                 likeheart = '<img src="image/icon/heart.png" width="20" onclick="ootdlike(0,' + data + ',' + idx + '); this.onclick=null;">';
             } else {
                 likeheart = '<img src="image/icon/emptyheart.png" width="20" onclick="ootdlike(1,' + data + ',' + idx + '); this.onclick=null;">';
             }
 
-            console.log('하트여부', likeheart);
+            likeCnt = result.likeAmount
+
 
         },
         error: function (e) {
@@ -609,7 +611,7 @@ function viewPost(data, idx) {
                 postviewhtml += '" width="100%"></td></tr><tr class="ootdpostviewlinethree"><td></td><td colspan="2"><pv1>';
                 postviewhtml += rs.ootdnic
                 postviewhtml += '</pv1></td><td colspan="2"><pv2>';
-                postviewhtml += rs.ootdlikecnt
+                postviewhtml += likeCnt 
                 postviewhtml += '명이 좋아합니다&nbsp&nbsp</pv2></td><td><div class="ootdlikediv">';
 
 
@@ -654,83 +656,9 @@ function viewPost(data, idx) {
                 callProduct(rs.ootdphotoname, rs.xyarr, rs.apiproductinfo);
 
 
-                /*                const url = 'ttp://localhost:8080/ootd/fileupload/ootdimage/default.png'
-                                const fileName = 'myFile'
-                                fetch(url)
-                                    .then(response => response.blob())
-                                    .then(bob => {
-                                        const file = new File([blob], fileName, {
-                                            contentType: 'image/jpeg'
-                                        })
-                                        // access file here
-                                    })*/
-
-
-                /*
-                                function readTextFile(file) {
-                                    var rawFile = new XMLHttpRequest();
-                                    rawFile.open("GET", file, false);
-                                    rawFile.onreadystatechange = function () {
-                                        if (rawFile.readyState === 4) {
-                                            if (rawFile.status === 200 || rawFile.status == 0) {
-                                                
-                                                console.log(rawFile)
-                                                //var allText = rawFile.responseText;
-                                                //alert(allText);
-                                            }
-                                        }
-                                    };
-                                    rawFile.send(null);
-                                }
-                            readTextFile("http://localhost:8080/ootd/fileupload/ootdimage/default.png");
-
-                */
-
-
             }
         });
     }, 100)
-
-
-
-
-
-
-    /*
-        function readTextFile(file) {
-            var rawFile = new XMLHttpRequest();
-            rawFile.open("GET", file, false);
-            rawFile.onreadystatechange = function () {
-                if (rawFile.readyState === 4) {
-                    if (rawFile.status === 200 || rawFile.status == 0) {
-                        var allText = rawFile.responseText;
-                        alert(allText);
-                    }
-                }
-            }
-            rawFile.send(null);
-        }
-    */
-
-    /*
-        function loadFile(filePath) {
-            var result = null;
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.open("GET", filePath, false);
-            xmlhttp.send();
-            if (xmlhttp.status == 200) {
-                result = xmlhttp.responseText;
-            }
-            return result;
-        }
-        
-        var filepath = 'file:///C:\Users\bit\Documents\GitHub\personal_mw\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\mwOOTD\fileupload\ootdimage\'
-        filepath += rs.ootdphotoname
-
-        loadFile(filepath);
-    */
-
-
 
 
 
@@ -793,11 +721,23 @@ function ootdlike(chk, ootdidx, memidx) {
 
         },
         success: function (result) {
-            if (result == 1) {
+            
+            console.log(result)
+            console.log(result.likeChk)
+            var pv2html = '';
+            pv2html += result.likeAmount
+            pv2html += '명이 좋아합니다&nbsp&nbsp';
+                
+            var pv2= document.querySelector('pv2');
+            pv2.innerHTML = pv2html
+            
+            
+            
+            if (result.likeOnOff == 1) {
                 likeheart = '<img src="image/icon/heart.png" width="20" onclick="ootdlike(0,' + ootdidx + ',' + memidx + '); this.onclick=null;">';
 
 
-            } else if (result == 0) {
+            } else if (result.likeOnOff == 0) {
 
                 likeheart = '<img src="image/icon/emptyheart.png" width="20" onclick="ootdlike(1,' + ootdidx + ',' + memidx + '); this.onclick=null;">';
             }
