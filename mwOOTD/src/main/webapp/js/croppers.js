@@ -7,7 +7,7 @@
  */
 
 /** Class used for uploading images. */
-var chk2 = true;
+var chk = true;
 var apiNum =0;
 
 class Uploader {
@@ -71,15 +71,12 @@ class Uploader {
 
     /** @private */
     validFileType(filename) {
-        if (chk2) {
+        
             // Get the second part of the MIME type
             let extension = filename.split('/').pop().toLowerCase();
-            console.log('익스텐션', extension)
             // See if it is in the array of allowed types
             return this.types.includes(extension);
-        } else {
-            return this.types.includes('png');
-        }
+        
     }
 }
 
@@ -124,18 +121,7 @@ class Uploader2 {
         }
        
     
-    /** @private */
-    validFileType(filename) {
-        if (chk2) {
-            // Get the second part of the MIME type
-            let extension = filename.split('/').pop().toLowerCase();
-            console.log('익스텐션', extension)
-            // See if it is in the array of allowed types
-            return this.types.includes(extension);
-        } else {
-            return this.types.includes('png');
-        }
-    }
+
 }
 
 
@@ -246,6 +232,8 @@ class Cropper {
             // Listen for events on the canvas when the image is ready
             this.imageCanvas.onmousedown = this.clickStart.bind(this);
             console.log(this.previewCanvas.toDataURL());
+            
+            if(chk){
 
             var apihtml = '<table border="0" class="ootdAPItable"><td class="apiresult"><img src="';
             apihtml += this.previewCanvas.toDataURL();
@@ -253,7 +241,7 @@ class Cropper {
             apihtml += '"></td></table>';
 
             $(".kakaoAPI").append(apihtml);
-
+			}
             apiNum++;
             //img.setAttribute('src', this.previewCanvas.toDataURL());
         };
