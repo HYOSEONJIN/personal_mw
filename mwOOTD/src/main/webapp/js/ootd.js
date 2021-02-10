@@ -522,7 +522,7 @@ function pageView(idx) {
                 /*나중에멤버 현재 로그인된 idx받아줘야함, 현재 헤더안에 있는 값으로 하고 있음*/
                 listhtml += '<div onclick="viewPost(' + data[i].ootdidx + ',' + $('#memidxsession').val() + '); this.onclick=null;">';
                 listhtml += '<table class="ootdposttable">';
-                listhtml += '<tr><td><img src="http://localhost:8080/ootd/fileupload/ootdimage/';
+                listhtml += '<tr><td><img src="http://localhost:8080/ootd/fileupload/ootdimage/THUMB_';
                 listhtml += data[i].ootdphotoname;
                 listhtml += '" class="postthumnail"></td></tr>';
                 listhtml += '<tr><td><a1 class="ootdwriter">' + data[i].ootdnic + '</a1></td></tr>';
@@ -704,6 +704,7 @@ function ootdPostDelete(idx) {
             success: function (data) {
                 if (data = 1) {
                     alert('삭제완료')
+                    ootdMain()
                 }
 
             }

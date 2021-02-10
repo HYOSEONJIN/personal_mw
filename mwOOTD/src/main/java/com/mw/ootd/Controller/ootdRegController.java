@@ -25,7 +25,7 @@ public class ootdRegController {
 	public int ootdReg(
 			@ModelAttribute("regData") ootdBoard ootd,
 			HttpServletRequest request		
-			) {
+			) throws Exception {
 		
 		
 		
