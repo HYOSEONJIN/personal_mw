@@ -373,3 +373,28 @@ pv2 {
 	margin-left : 20px;
     
 }
+
+
+.ootdcmtphoto {
+    float: left;
+    width: 10%;
+}
+
+.ootdcmttable{
+    width: 100%;
+}
+.ootdcmttable img{
+    width: 40px;
+}
+
+.ootdcmttable td:nth-child(1){
+    width: 42px;    
+    
+}
+
+
+.ootdcmttable td:nth-child(2){
+    padding-left: 10px;
+    font-weight: bold;
+    
+}
