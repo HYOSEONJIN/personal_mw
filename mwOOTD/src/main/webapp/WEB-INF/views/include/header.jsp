@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <% session.setAttribute("memidx", "1");
-session.setAttribute("memnic", "메이웨더TEST"); %>
+session.setAttribute("memnic", "메이웨더TEST세션"); %>
  
      
     <header>
