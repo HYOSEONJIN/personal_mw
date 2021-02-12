@@ -275,7 +275,7 @@ pv2 {
     width: 50px;
 }
 
-.ootdposthashtag{
+.ootdposthashtag {
     padding-bottom: 10px;
     padding-left: 20px;
 }
@@ -332,46 +332,46 @@ pv2 {
 
 
 
-.ootdregTable{
+.ootdregTable {
     width: 100%;
 }
 
-.kakaoAPI{
+.kakaoAPI {
     width: 100;
     overflow: hidden;
     text-align: center;
-    
+
 }
 
-.ootdAPItable{
+.ootdAPItable {
     width: 50%;
     float: left;
     margin-bottom: 10px;
 }
 
-.ootdAPItable td:nth-child(1){
+.ootdAPItable td:nth-child(1) {
     width: 70px;
     padding-left: 10px;
 }
 
-.ootdAPItable input[type=text]{
+.ootdAPItable input[type=text] {
     margin-left: 10px;
-    border : 0px;
+    border: 0px;
     width: 80%;
     border-bottom: 1px solid #424242;
 }
 
 
-.ootdproductdiv img{
+.ootdproductdiv img {
     width: 20%;
     max-width: 80px;
     margin-right: 10px;
 }
 
 
-.ootdproductdiv{
-	margin-left : 20px;
-    
+.ootdproductdiv {
+    margin-left: 20px;
+
 }
 
 
@@ -380,21 +380,66 @@ pv2 {
     width: 10%;
 }
 
-.ootdcmttable{
+.ootdcmttable {
     width: 100%;
 }
-.ootdcmttable img{
-    width: 40px;
+
+.ootdcmttable img {
+    width:40px;
+    
 }
 
-.ootdcmttable td:nth-child(1){
-    width: 42px;    
+.ootdcmttable td:nth-child(1) {
+    width: 42px;
     
 }
 
 
-.ootdcmttable td:nth-child(2){
+.ootdcmttable td:nth-child(2) {
     padding-left: 10px;
     font-weight: bold;
-    
+    overflow: hidden;
+}
+
+.ootdcmttable td:nth-child(4) {
+    float : right;
+    font-size: 10px;
+    overflow: hidden;
+}
+
+
+.ootdcmttext {
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
+
+.modal-body {
+    height: 500px;
+    overflow: scroll;
+}
+
+.ootdcomment{
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+
+.oocdcmtinput{
+    width:80%;
+    height: 50px;
+    border: 1px solid #ddd;
+    float : left;    
+}
+
+.ootdcmntsubmit{
+    border : 0px;
+    width:18%;
+    height: 50px;
+    background-color: #ddd;
+    border-radius: 5px;
+}
+
+.ootdclose{
+    float: right;
+    overflow: hidden;
 }

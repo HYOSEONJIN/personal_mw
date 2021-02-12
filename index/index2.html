@@ -52,40 +52,53 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">COMMENT </h5>
-                        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true"><img src="image/icon/heart.png"></span>
-                        </button>-->
+
+                        <table width="100%">
+                            <tr>
+                                <td>
+                                    <h5 class="modal-title" id="exampleModalLabel">COMMENT</h5>
+                                </td>
+                                <td>
+                                    <h5 class="ootdclose" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">X</span>
+                                    </h5>
+                                </td>
+                            </tr>
+
+                        </table>
                     </div>
                     <div class="modal-body">
                         <div class="ootdcomment">
 
-                            <table class="ootdcmttable" border="1">
+                            <table class="ootdcmttable">
 
                                 <tr>
-                                    <td rowspan="2" class="ootdcmtimage"><img src="https://bitterbetter.kr/web/product/big/201902/2e83f4014460bab0a9cf24404440231d.jpg"></td>
-                                    <td>글쓴이</td>
-                                    <td>22</td>
-                                    <td>11</td>
+                                    <td rowspan="2" valign="top" lass="ootdcmtimage"><img src="https://bitterbetter.kr/web/product/big/201902/2e83f4014460bab0a9cf24404440231d.jpg"></td>
+                                    <td>글쓴이1</td>
+                                    <td></td>
+                                    <td>수정 | 삭제 </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="3">에헤라디야~</td>
+                                    <td class="ootdcmttext" colspan="3">안녕하세요 ㅎㅎ 하고싶지않구만 댓글을 이렇게 쭉 쓰면 왜 프로필이 사진이 내려가고 ㅈ랄이지??? 또 고쳐야겠네 족같아</td>
                                 </tr>
 
                             </table>
 
 
                         </div>
+
+
+
                     </div>
-                </div>
-                <div class="modal-footer">
-                    여기에 댓글 입력할 것
-                    <!--              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                        <button type="button" class="btn btn-primary" id="close_modal">다른 방식으로 모달 닫기</button>-->
+                    <div class="modal-footer">
+                        <input type="text" class="oocdcmtinput" id="ootdcmtinput">
+                        <button class="ootdcmntsubmit">등록</button>
+
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
 
     <!--모달끝-->
