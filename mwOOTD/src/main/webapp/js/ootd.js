@@ -147,7 +147,7 @@ function addregButton() {
 
     regModalHtml += '</div></div></form></div><div class="modal-footer">';
     regModalHtml += '<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="dataReset()">닫기</button>'
-    regModalHtml += '<button type="button" class="btn btn-primary" id="close_modal" onclick="reg(); this.onclick=null;">등록</button>'
+    regModalHtml += '<button type="button" class="btn btn-primary" data-dismiss="modal"  id="close_modal" onclick="reg(); this.onclick=null;">등록</button>'
     regModalHtml += '</div></div></div></div></div></div>';
     regModalHtml += '<canvas class="js-editorcanvas" style="display: none"></canvas>';
     regModalHtml += '<canvas class="js-previewcanvas" style="display: none"></canvas>';
@@ -322,7 +322,7 @@ function kakaoCall() {
 // 모달창 닫는버튼 (데이터 전송)
 function reg() {
     //모달창끄기
-    $(".modal-footer").on('click', '#close_modal', function () {
+    //$(".modal-footer").on('click', '#close_modal', function () {
 
 
 
@@ -421,7 +421,7 @@ function reg() {
             alert('JPG 또는 PNG 형식의 파일만 첨부해주세요 ');
         }
 
-    });
+    //});
 }
 
 

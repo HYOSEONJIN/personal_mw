@@ -147,7 +147,7 @@ function addregButton() {
 
     regModalHtml += '</div></div></form></div><div class="modal-footer">';
     regModalHtml += '<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="dataReset()">닫기</button>'
-    regModalHtml += '<button type="button" class="btn btn-primary" id="close_modal" onclick="reg(); this.onclick=null;">등록</button>'
+    regModalHtml += '<button type="button" class="btn btn-primary"  data-dismiss="modal" id="close_modal" onclick="reg(); this.onclick=null;">등록</button>'
     regModalHtml += '</div></div></div></div></div></div>';
     regModalHtml += '<canvas class="js-editorcanvas" style="display: none"></canvas>';
     regModalHtml += '<canvas class="js-previewcanvas" style="display: none"></canvas>';
@@ -321,108 +321,116 @@ function kakaoCall() {
 
 // 모달창 닫는버튼 (데이터 전송)
 function reg() {
+
+
+    $(document).ready(function () {
+        $(".modal-footer").on('click', '#close_modal', function () {
+            $("#ootdRegModal").modal("hide");
+
+        });
+    });
     //모달창끄기
-    $(".modal-footer").on('click', '#close_modal', function () {
+    //$(".modal-footer").on('click', '#close_modal', function () {
 
 
 
-        var current_ajax_num = ajax_last_num;
+    var current_ajax_num = ajax_last_num;
 
-        var photoFile = $('#ootdphoto');
-        var file1 = photoFile[0].files[0];
-        
-        console.log(photoFile[0].files.length==0);
-        
-        if(photoFile[0].files.length==0){
-            alert('파일을 첨부해주세요')
-            return false;
+    var photoFile = $('#ootdphoto');
+    var file1 = photoFile[0].files[0];
+
+    console.log(photoFile[0].files.length == 0);
+
+    if (photoFile[0].files.length == 0) {
+        alert('파일을 첨부해주세요')
+        return false;
+    }
+
+    if (file1.type == 'image/jpeg' || (file1.type == 'image/png') || file1.type == "undefined") {
+
+
+        // hashtagJSON();
+
+        var text = $('#ootdtext').val();
+        console.log(text);
+
+        var formData = new FormData();
+        formData.append('ootdtext', $('#ootdtext').val());
+        formData.append("ootdphoto", file1);
+        formData.append('ootdhashtag', hashCheck.toString());
+        formData.append('xyarr', xyarr.toString());
+        for (i = 0; i < apiNum; i++) {
+            // 값에 ,이 들어가있으면 생략해줘야함 (처리) var result = test.replace( /가/gi, '나');
+            var result = $('.apitable' + i).val().replace(/,/gi, '');
+            console.log('변경결과', result);
+            apiProductInput.push(result);
+
         }
 
-        if (file1.type == 'image/jpeg' || (file1.type == 'image/png') || file1.type == "undefined") {
+        console.log(apiProductInput);
+        formData.append('apiproductinfo', apiProductInput);
 
-
-            // hashtagJSON();
-
-            var text = $('#ootdtext').val();
-            console.log(text);
-
-            var formData = new FormData();
-            formData.append('ootdtext', $('#ootdtext').val());
-            formData.append("ootdphoto", file1);
-            formData.append('ootdhashtag', hashCheck.toString());
-            formData.append('xyarr', xyarr.toString());
-            for (i = 0; i < apiNum; i++) {
-                // 값에 ,이 들어가있으면 생략해줘야함 (처리) var result = test.replace( /가/gi, '나');
-                var result = $('.apitable' + i).val().replace(/,/gi, '');
-                console.log('변경결과', result);
-                apiProductInput.push(result);
-
-            }
-
-            console.log(apiProductInput);
-            formData.append('apiproductinfo', apiProductInput);
-
-            //임시값
-            formData.append('ootdnic', $('#ootdnic').val());
-            formData.append('memidx', $('#memidx').val());
+        //임시값
+        formData.append('ootdnic', $('#ootdnic').val());
+        formData.append('memidx', $('#memidx').val());
 
 
 
-            $.ajax({
+        $.ajax({
 
-                url: 'http://localhost:8080/ootd/reg',
-                type: 'POST',
-                data: formData,
-                enctype: 'multipart/form-data',
-                processData: false,
-                contentType: false,
-                cache: false,
-                beforeSend: function (request) {
-                    ajax_last_num = ajax_last_num + 1;
-                },
-                success: function (data) {
-                    if (current_ajax_num == ajax_last_num - 1) {
+            url: 'http://localhost:8080/ootd/reg',
+            type: 'POST',
+            data: formData,
+            enctype: 'multipart/form-data',
+            processData: false,
+            contentType: false,
+            cache: false,
+            beforeSend: function (request) {
+                ajax_last_num = ajax_last_num + 1;
+            },
+            success: function (data) {
+                if (current_ajax_num == ajax_last_num - 1) {
 
 
 
-                        if (data == 1) {
-                            dataReset();
-                            alert("등록완료");
-                            ootdMain();
+                    if (data == 1) {
+                        dataReset();
+                        alert("등록완료");
+                        ootdMain();
 
-                    
-                        } else if (data == 0) {
-                      
 
-                           
-                            dataReset();
-                            alert("사진은 필수항목입니다");
-                        } else if (data == 2) {
-                            hashJSON = '';
-                  
-                            dataReset();
-                            alert('내용을 입력하세요');
-                        } else {
-                            hashJSON = '';
-                         
-                            dataReset();
-                            alert("알수없는 에러가 발생했습니다. 다시시도해주세요");
+                    } else if (data == 0) {
 
-                        }
+
+                        dataReset();
+                        alert("사진은 필수항목입니다");
+                    } else if (data == 2) {
+                        hashJSON = '';
+
+                        dataReset();
+                        alert('내용을 입력하세요');
+                    } else {
+                        hashJSON = '';
+
+                        dataReset();
+                        alert("알수없는 에러가 발생했습니다. 다시시도해주세요");
 
                     }
+
                 }
+            }
 
-            })
+        })
 
-        } else {
-            // hashJSON = '';
-            //console.log(hashJSON);
-            dataReset();
-            alert('JPG 또는 PNG 형식의 파일만 첨부해주세요 ');
-        }
+    } else {
+        // hashJSON = '';
+        //console.log(hashJSON);
+        dataReset();
+        alert('JPG 또는 PNG 형식의 파일만 첨부해주세요 ');
+    }
 
-    });
+    //}
+);
 }
 
 
@@ -983,8 +991,8 @@ function viewCommnetList(ootdidx) {
                 cmtlisthtml += '<div class="ootdcomment"><table class="ootdcmttable"><tr><td rowspan="2" valign="top" lass="ootdcmtimage">';
                 cmtlisthtml += '<img src="https://bitterbetter.kr/web/product/big/201902/2e83f4014460bab0a9cf24404440231d.jpg"></td>'
                 cmtlisthtml += '<td>' + data[i].ootdcmtnic + '</td><td></td>';
-                cmtlisthtml += '<td><a onclick="ootdModifyCmt('+data[i]+');">수정 </a>| <a onclick="ootdDeleteCmt(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">삭제</a></td>';
-                cmtlisthtml += '</tr><tr><td style="padding-left: 10px"class="ootdcmttext'+data[i].ootdcmtidx+'" colspan="3">';
+                cmtlisthtml += '<td><a onclick="ootdModifyCmt(' + data[i] + ');">수정 </a>| <a onclick="ootdDeleteCmt(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">삭제</a></td>';
+                cmtlisthtml += '</tr><tr><td style="padding-left: 10px"class="ootdcmttext' + data[i].ootdcmtidx + '" colspan="3">';
                 cmtlisthtml += data[i].ootdcmttext
                 cmtlisthtml += '</td></tr></table></div>'
             }
@@ -1047,7 +1055,7 @@ function ootdModifyCmt(data) {
     var ootdcmttexthtml = '<textarea> class="ootdmodifycmt"><textarea>';
     ootdcmttexthtml += '<button class="ootdcmtmodibutton">수정</button>';
 
-    var ootdcmttext = document.querySelector('.ootdcmttext'+ootdcmtidx);
+    var ootdcmttext = document.querySelector('.ootdcmttext' + ootdcmtidx);
     ootdcmttext.innerHTML = ootdcmttexthtml;
 
 
