@@ -474,7 +474,7 @@ button:link, button:visited, button:active, button:hover, button:focus{
 
 
 .ootdmodifycmt{
-    
+    width:75%;
     height: 50px;
     border: 1px solid #ddd;
     float : left; 

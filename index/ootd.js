@@ -147,7 +147,7 @@ function addregButton() {
 
     regModalHtml += '</div></div></form></div><div class="modal-footer">';
     regModalHtml += '<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="dataReset()">닫기</button>'
-    regModalHtml += '<button type="button" class="btn btn-primary"  data-dismiss="modal" id="close_modal" onclick="reg(); this.onclick=null;">등록</button>'
+    regModalHtml += '<button type="button" class="btn btn-primary" data-dismiss="modal"  id="close_modal" onclick="reg(); this.onclick=null;">등록</button>'
     regModalHtml += '</div></div></div></div></div></div>';
     regModalHtml += '<canvas class="js-editorcanvas" style="display: none"></canvas>';
     regModalHtml += '<canvas class="js-previewcanvas" style="display: none"></canvas>';
@@ -321,14 +321,6 @@ function kakaoCall() {
 
 // 모달창 닫는버튼 (데이터 전송)
 function reg() {
-
-
-    $(document).ready(function () {
-        $(".modal-footer").on('click', '#close_modal', function () {
-            $("#ootdRegModal").modal("hide");
-
-        });
-    });
     //모달창끄기
     //$(".modal-footer").on('click', '#close_modal', function () {
 
@@ -429,8 +421,7 @@ function reg() {
         alert('JPG 또는 PNG 형식의 파일만 첨부해주세요 ');
     }
 
-    //}
-);
+    //});
 }
 
 
@@ -681,7 +672,7 @@ function viewPost(data, idx) {
 
 
                 callProduct(rs.ootdphotoname, rs.xyarr, rs.apiproductinfo);
-                viewCommnetList(ootdidx);
+                viewCommnetList(rs.ootdidx);
 
 
             }
@@ -991,8 +982,8 @@ function viewCommnetList(ootdidx) {
                 cmtlisthtml += '<div class="ootdcomment"><table class="ootdcmttable"><tr><td rowspan="2" valign="top" lass="ootdcmtimage">';
                 cmtlisthtml += '<img src="https://bitterbetter.kr/web/product/big/201902/2e83f4014460bab0a9cf24404440231d.jpg"></td>'
                 cmtlisthtml += '<td>' + data[i].ootdcmtnic + '</td><td></td>';
-                cmtlisthtml += '<td><a onclick="ootdModifyCmt(' + data[i] + ');">수정 </a>| <a onclick="ootdDeleteCmt(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">삭제</a></td>';
-                cmtlisthtml += '</tr><tr><td style="padding-left: 10px"class="ootdcmttext' + data[i].ootdcmtidx + '" colspan="3">';
+                cmtlisthtml += '<td class="cmtmodifytd"><a onclick="ootdModifyView(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">수정 </a>| <a onclick="ootdDeleteCmt(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">삭제</a></td>';
+                cmtlisthtml += '</tr><tr><td style="padding-left: 10px" class="ootdcmttext' + data[i].ootdcmtidx + '" colspan="3">';
                 cmtlisthtml += data[i].ootdcmttext
                 cmtlisthtml += '</td></tr></table></div>'
             }
@@ -1048,15 +1039,22 @@ function ootdDeleteCmt(ootdcmtidx, memidx, ootdidx) {
 }
 
 
-function ootdModifyCmt(data) {
+function ootdModifyView(ootdcmtidx, memidx, ootdidx) {
+    var loginmemidx = $('#memidxsession').val();
+    if (memidx == loginmemidx) {
+        var ootdcmttexthtml = '<input type="text" class="ootdmodifycmt">';
 
+        var ootdcmttext = document.querySelector('.ootdcmttext' + ootdcmtidx);
+        ootdcmttext.innerHTML = ootdcmttexthtml;
 
+        var cancel = '<a onlick="ootdModifyCmt()">수정</a>';
+        cancel += ' | <a onclick="viewCommnetList(' + ootdidx + ')">취소</a>';
 
-    var ootdcmttexthtml = '<textarea> class="ootdmodifycmt"><textarea>';
-    ootdcmttexthtml += '<button class="ootdcmtmodibutton">수정</button>';
-
-    var ootdcmttext = document.querySelector('.ootdcmttext' + ootdcmtidx);
-    ootdcmttext.innerHTML = ootdcmttexthtml;
+        var cmtmodifytd = document.querySelector('.cmtmodifytd');
+        cmtmodifytd.innerHTML = cancel;
+    }else if (memidx != loginmemidx) {
+            alert('댓글의 작성자만 수정할 수 있습니다.')
+        }
 
 
 }

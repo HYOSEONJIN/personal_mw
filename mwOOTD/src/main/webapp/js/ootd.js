@@ -982,7 +982,7 @@ function viewCommnetList(ootdidx) {
                 cmtlisthtml += '<div class="ootdcomment"><table class="ootdcmttable"><tr><td rowspan="2" valign="top" lass="ootdcmtimage">';
                 cmtlisthtml += '<img src="https://bitterbetter.kr/web/product/big/201902/2e83f4014460bab0a9cf24404440231d.jpg"></td>'
                 cmtlisthtml += '<td>' + data[i].ootdcmtnic + '</td><td></td>';
-                cmtlisthtml += '<td class="cmtmodifytd"><a onclick="ootdModifyCmt(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">수정 </a>| <a onclick="ootdDeleteCmt(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">삭제</a></td>';
+                cmtlisthtml += '<td class="cmtmodifytd"><a onclick="ootdModifyView(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">수정 </a>| <a onclick="ootdDeleteCmt(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">삭제</a></td>';
                 cmtlisthtml += '</tr><tr><td style="padding-left: 10px" class="ootdcmttext' + data[i].ootdcmtidx + '" colspan="3">';
                 cmtlisthtml += data[i].ootdcmttext
                 cmtlisthtml += '</td></tr></table></div>'
@@ -1039,19 +1039,22 @@ function ootdDeleteCmt(ootdcmtidx, memidx, ootdidx) {
 }
 
 
-function ootdModifyCmt(ootdcmtidx, memidx, ootdidx) {
+function ootdModifyView(ootdcmtidx, memidx, ootdidx) {
+    var loginmemidx = $('#memidxsession').val();
+    if (memidx == loginmemidx) {
+        var ootdcmttexthtml = '<input type="text" class="ootdmodifycmt">';
 
+        var ootdcmttext = document.querySelector('.ootdcmttext' + ootdcmtidx);
+        ootdcmttext.innerHTML = ootdcmttexthtml;
 
+        var cancel = '<a onlick="ootdModifyCmt()">수정</a>';
+        cancel += ' | <a onclick="viewCommnetList(' + ootdidx + ')">취소</a>';
 
-    var ootdcmttexthtml = '<input type="text" class="ootdmodifycmt">';
+        var cmtmodifytd = document.querySelector('.cmtmodifytd');
+        cmtmodifytd.innerHTML = cancel;
+    }else if (memidx != loginmemidx) {
+            alert('댓글의 작성자만 수정할 수 있습니다.')
+        }
 
-    var ootdcmttext = document.querySelector('.ootdcmttext' + ootdcmtidx);
-    ootdcmttext.innerHTML = ootdcmttexthtml;
-
-    var cancel = '<a onlick="">수정</a>';
-    cancel += ' | <a onclick="viewCommnetList(' +ootdidx + ')">취소</a>';
-
-    var cmtmodifytd = document.querySelector('.cmtmodifytd');
-    cmtmodifytd.innerHTML = cancel;
 
 }
