@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.mw.ootd.Domain.hashtag;
 import com.mw.ootd.Domain.ootdBoard;
+import com.mw.ootd.Domain.ootdComment;
 
 public interface ootdInterfaceDao {
 
@@ -50,6 +51,18 @@ public interface ootdInterfaceDao {
 
 	// 좋아요 값 삽입
 	void ootdLikeCntInsert(int likeAmount, int ootdidx);
+
+	// 댓글 등록
+	int ootdCmtInsert(ootdComment ootdcmt);
+
+	// 댓글 갯수
+	int cmtAmount(int ootdidx);
+
+	// 댓글 갯수 삽입
+	void ootdCmtCntInsert(int cmtAmount, int ootdidx);
+
+	// 댓글 리스트 반환
+	List<ootdComment> getCmtList(int ootdidx);
 
 
 

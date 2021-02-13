@@ -648,7 +648,7 @@ function viewPost(data, idx) {
                 postviewhtml += rs.ootdtext
                 postviewhtml += '</pv3></td><td ></td></tr><tr><td></td><td class="ootdcommenttd" colspan="4"';
                 postviewhtml += 'data-toggle="modal" data-target="#ootdcmtmodal" data-what="hello">'
-                postviewhtml += '<img src="image/icon/comment.png" width="20">&nbsp&nbsp';
+                postviewhtml += '<img src="image/icon/comment.png" width="20" onclick="viewCommnetList(' + rs.ootdidx + ')">&nbsp&nbsp';
                 postviewhtml += rs.ootdcmtcnt
                 postviewhtml += '</td><td></td><td class="ootdposttable_side"></td></tr></table>';
                 postviewhtml += '<canvas class="js-editorcanvas" style="display: none"></canvas>';
@@ -656,19 +656,19 @@ function viewPost(data, idx) {
                 postviewhtml += '<div class="bottomArea"><img src="/ootd/image/background.PNG" width="90"></div>';
 
                 postviewhtml += ' <div class="modal fade" id="ootdcmtmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header">';
-                
-                
-                postviewhtml += '<table width="100%"><tr><td><h5 class="modal-title" id="exampleModalLabel">COMMENT</h5></td><td> <h5 class="ootdclose" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></h5></td></tr></table>';
-                
-                postviewhtml += '<div class="modal-body"><div class="ootdcomment">';
-                postviewhtml += '<table class="ootdcmttable"><tr><td rowspan="2" valign="top" lass="ootdcmtimage"><img src="https://bitterbetter.kr/web/product/big/201902/2e83f4014460bab0a9cf24404440231d.jpg"></td><td>글쓴이1</td><td></td><td>수정 | 삭제 </td> </tr><tr><td class="ootdcmttext" colspan="3">안녕하세요 ㅎㅎ 하고싶지않구만 댓글을 이렇게 쭉 쓰면 왜 프로필이 사진이 내려가고 ㅈ랄이지??? 또 고쳐야겠네 족같아</td> </tr></table></div></div><div class="modal-footer"><input type="text" class="oocdcmtinput" id="ootdcmtinput">';
-                postviewhtml += '<button class="ootdcmntsubmit" onclick="ootdCmgReg('+$('#memidxsession').val()+','+rs.ootdidx+')">등록</button></div></div></div></div>';
+
+
+                postviewhtml += '<table width="100%"><tr><td><h5 class="modal-title" id="exampleModalLabel">COMMENT</h5></td><td> <h5 class="ootdclose" data-dismiss="modal" aria-label="Close"><span onclick="cmtClose();" aria-hidden="true" class="ootdclosespan">X</span></h5></td></tr></table>';
+
+                postviewhtml += '<div class="modal-body"></div><div class="modal-footer"><input type="text" class="ootdcmtinput" id="ootdcmtinput" required>';
+                postviewhtml += '<button class="ootdcmntsubmit" onclick="ootdCmgReg(' + $('#memidxsession').val() + ',' + rs.ootdidx + ')">등록</button></div></div></div></div>';
 
                 var content = document.querySelector('.content');
                 content.innerHTML = postviewhtml;
 
 
                 callProduct(rs.ootdphotoname, rs.xyarr, rs.apiproductinfo);
+                viewCommnetList(ootdidx);
 
 
             }
@@ -679,7 +679,10 @@ function viewPost(data, idx) {
 
 
 
+}
 
+function cmtClose() {
+    $('#ootdcmtinput').val(null);
 }
 
 
@@ -907,8 +910,90 @@ function callProduct(imgname, xyarr, apiproductinfo) {
 }
 
 
-function ootdCmgReg(memidx,ootdidx){
-    //console.log('로그인', memidx,'글번호',ootdidx,'닉네임',memnic)
-    console.log($('#memnicsession').val());
-    
+/*댓글등록*/
+function ootdCmgReg(memidx, ootdidx) {
+
+
+
+    var formData = new FormData();
+    formData.append('ootdcmttext', $('#ootdcmtinput').val());
+    formData.append('memidx', memidx);
+    formData.append('ootdidx', ootdidx);
+    console.log('memnicsession값있음 나중에 삭제')
+    formData.append('ootdcmtnic', $('#memnicsession').val());
+
+    $.ajax({
+        url: 'http://localhost:8080/ootd/cmt/reg',
+        type: 'POST',
+        data: formData,
+        enctype: 'multipart/form-data',
+        processData: false,
+        contentType: false,
+        cache: false,
+        success: function (result) {
+
+            if (result > 0) {
+                alert('댓글이 등록되었습니다.')
+
+                var cmtcount = '<img src="image/icon/comment.png" width="20" onclick="viewCommnetList(' + ootdidx + ')">&nbsp&nbsp';
+                cmtcount += result;
+                var ootdcommenttd = document.querySelector('.ootdcommenttd');
+                ootdcommenttd.innerHTML = cmtcount
+                $('#ootdcmtinput').val(null);
+                viewCommnetList(ootdidx);
+
+            } else {
+                alert('등록실패')
+            }
+
+
+        },
+        error: function (e) {
+            console.log('댓글등록에러', e)
+        }
+    })
+
+
+
+}
+
+/*댓글 리스트 출력*/
+function viewCommnetList(ootdidx) {
+
+    $.ajax({
+        url: 'http://localhost:8080/ootd/cmt/list',
+        type: 'GET',
+        data: {
+            ootdidx: ootdidx
+        },
+        success: function (data) {
+
+            console.log(data);
+            // 0: {ootdcmtidx: 1, ootdidx: 174, memidx: 1, ootdcmtnic: "메이웨더TEST세션", ootdcmttext: "이쁘네염!"}
+
+            var cmtlisthtml = '';
+
+            for (i = 0; i < data.length; i++) {
+
+                cmtlisthtml += '<div class="ootdcomment"><table class="ootdcmttable"><tr><td rowspan="2" valign="top" lass="ootdcmtimage">';
+                cmtlisthtml += '<img src="https://bitterbetter.kr/web/product/big/201902/2e83f4014460bab0a9cf24404440231d.jpg"></td>'
+                cmtlisthtml += '<td>' + data[i].ootdcmtnic + '</td><td></td>';
+                cmtlisthtml += '<td>수정 | 삭제 </td>';
+                cmtlisthtml += '</tr><tr><td class="ootdcmttext" colspan="3">';
+                cmtlisthtml += data[i].ootdcmttext
+                cmtlisthtml += '</td></tr></table></div>'
+            }
+
+            var ootdcmtmodal = document.querySelector('.modal-body');
+            ootdcmtmodal.innerHTML = cmtlisthtml;
+
+
+
+        },
+        error: function (e) {
+            console.log('댓글 리스트 불러오기 에러', e);
+        }
+    })
+
+
 }

@@ -42,9 +42,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where ootdphotoname = #{ootdphotoname}
 	</select>
 
-	<insert id="makeLikeCol" parameterType="int"
-		>
-		INSERT INTO ootdlike
+	<insert id="makeLikeCol" parameterType="int">
+		INSERT INTO
+		ootdlike
 		(ootdidx)
 		VALUES
 		(#{ootdidx})
@@ -70,36 +70,77 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deletPost">
 		DELETE FROM ootd WHERE ootdidx = #{ootdidx}
 	</delete>
-	
-	
+
+
 	<!-- 좋아요 했는지 여부 -->
 	<select id="likeChk" resultType="int">
-	select count(*) from ootdlike where ootdidx=#{param1} AND memidx= #{param2}	
+		select count(*) from ootdlike
+		where ootdidx=#{param1} AND memidx= #{param2}
 	</select>
-	
-	
- 	<!-- 좋아요 해주기 -->
- 	<insert id="onheart" parameterType="int">
+
+
+	<!-- 좋아요 해주기 -->
+	<insert id="onheart" parameterType="int">
 		INSERT INTO ootdlike
 		(ootdidx, memidx)
 		VALUES
-		(#{param1}, #{param2})		
+		(#{param1}, #{param2})
 	</insert>
-	
+
 	<!-- 좋아요삭제 -->
 	<delete id="offheart" parameterType="int">
-		delete from ootdlike where ootdidx=#{param1} and memidx=#{param2}
+		delete from ootdlike where
+		ootdidx=#{param1} and memidx=#{param2}
 	</delete>
-	
+
 	<!-- 좋아요 갯수 -->
 	<select id="likeAmount" resultType="int">
-	select count(*) from ootdlike where ootdidx=#{ootdidx}	
+		select count(*) from ootdlike
+		where ootdidx=#{ootdidx}
 	</select>
-	
+
+	<!-- 좋아요 갯수 업데이트해주기 -->
 	<update id="ootdLikeCntInsert">
-		UPDATE ootd 
-		SET ootdlikecnt = #{param1} 
-		WHERE ootdidx = #{param2}		
+		UPDATE ootd
+		SET ootdlikecnt = #{param1}
+		WHERE ootdidx =
+		#{param2}
 	</update>
-	
+
+
+
+	<!-- 댓글쓰기 -->
+	<insert id="ootdCmtInsert"
+		parameterType="com.mw.ootd.Domain.ootdComment" useGeneratedKeys="true"
+		keyProperty="ootdcmtidx">
+
+		INSERT INTO ootdcmt
+		(ootdidx, memidx, ootdcmtnic,
+		ootdcmttext)
+		VALUES
+		(#{ootdidx},#{memidx},#{ootdcmtnic},#{ootdcmttext})
+	</insert>
+
+	<!-- 댓글 갯수 -->
+	<select id="cmtAmount" resultType="int">
+		select count(*) from ootdcmt
+		where ootdidx=#{ootdidx}
+	</select>
+
+
+	<!-- 댓글 갯수 업데이트 해주기 -->
+	<update id="ootdCmtCntInsert">
+		UPDATE ootd
+		SET ootdcmtcnt = #{param1}
+		WHERE ootdidx =
+		#{param2}
+	</update>
+
+	<!-- 댓글리스트 반환 시간순 -->
+	<select id="getCmtList"
+		resultType="com.mw.ootd.Domain.ootdComment">
+		select * from ootdcmt where ootdidx = ${ootdidx}
+		order by ootdcmtdate;
+	</select>
+
 </mapper>
