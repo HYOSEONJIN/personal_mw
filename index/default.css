@@ -443,3 +443,19 @@ pv2 {
     float: right;
     overflow: hidden;
 }
+
+a{
+    text-decoration: none;
+    color: #757575;
+}
+
+a:link, a:visited, a:active, a:hover{
+	 text-decoration: none;
+	 color: #757575;
+}
+
+
+button:link, button:visited, button:active, button:hover, button:focus{
+     text-decoration: none;
+	 color: #757575;        
+}
