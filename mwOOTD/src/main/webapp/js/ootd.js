@@ -1044,13 +1044,12 @@ function ootdModifyCmt(ootdcmtidx, memidx, ootdidx) {
 
 
     var ootdcmttexthtml = '<input type="text" class="ootdmodifycmt">';
-    ootdcmttexthtml += '<button class="ootdcmtmodibutton">수정</button>';
 
     var ootdcmttext = document.querySelector('.ootdcmttext' + ootdcmtidx);
     ootdcmttext.innerHTML = ootdcmttexthtml;
 
-
-    var cancel = '<a onclick="viewCommnetList(' +ootdidx + ')">취소</a>';
+    var cancel = '<a onlick="">수정</a>';
+    cancel += ' | <a onclick="viewCommnetList(' +ootdidx + ')">취소</a>';
 
     var cmtmodifytd = document.querySelector('.cmtmodifytd');
     cmtmodifytd.innerHTML = cancel;

@@ -438,7 +438,7 @@ pv2 {
     width:80%;
     height: 50px;
     border: 1px solid #ddd;
-    float : left;    
+    float : left;
 }
 
 .ootdcmntsubmit{
@@ -474,18 +474,13 @@ button:link, button:visited, button:active, button:hover, button:focus{
 
 
 .ootdmodifycmt{
-        width:80%;
+    width:100%;
     height: 50px;
     border: 1px solid #ddd;
-    float : left;    
+    float : left; 
+    
+    margin-right : 10px;   
 }
 
 
-.ootdcmtmodibutton{
-    border : 0px;
-    width:18%;
-    height: 50px;
-    background-color: #ddd;
-    border-radius: 5px;
-}
 
