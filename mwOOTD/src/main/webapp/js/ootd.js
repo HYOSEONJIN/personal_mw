@@ -127,7 +127,7 @@ function addregButton() {
     /* regModalHtml += '<form id="photoform" method="POST" enctype="multipart/form-data">'*/
     regModalHtml += '<div class="ootdfilebox"><label class="img-upload-label"><input type="file" class="ootdphoto img-upload" accept="image/jpeg,image/png,image/gif" id="ootdphoto" name="ootdphoto"></label></div></td>' /*</form>*/
     regModalHtml += '</div><td><div class="form-group">'
-    regModalHtml += '<input type="text" id="ootdtext" name="ootdtext" required> </div></td></table></form>'
+    regModalHtml += '<textarea id="ootdtext" name="ootdtext" required></textarea></div></td></table></form>'
 
     regModalHtml += '<div class="kakaoAPI"></div>'
 
@@ -330,6 +330,13 @@ function reg() {
 
         var photoFile = $('#ootdphoto');
         var file1 = photoFile[0].files[0];
+        
+        console.log(photoFile[0].files.length==0);
+        
+        if(photoFile[0].files.length==0){
+            alert('파일을 첨부해주세요')
+            return false;
+        }
 
         if (file1.type == 'image/jpeg' || (file1.type == 'image/png') || file1.type == "undefined") {
 
@@ -383,22 +390,20 @@ function reg() {
                             alert("등록완료");
                             ootdMain();
 
-                            /////////// 원래 저장값 날려주는 처리 할 부분/////////////////
-                            $("#ootdRegModal").modal("hide");
-                        } else if (data == 0) {
-                            //hashJSON = '';
+                    
+                        } else if (data == 0) {                     
 
-                            //console.log(hashJSON);
+                           
                             dataReset();
                             alert("사진은 필수항목입니다");
                         } else if (data == 2) {
                             hashJSON = '';
-                            //console.log(hashJSON);
+                  
                             dataReset();
                             alert('내용을 입력하세요');
                         } else {
                             hashJSON = '';
-                            //console.log(hashJSON);
+                         
                             dataReset();
                             alert("알수없는 에러가 발생했습니다. 다시시도해주세요");
 
@@ -659,7 +664,7 @@ function viewPost(data, idx) {
 
                 postviewhtml += '<table width="100%"><tr><td><h5 class="modal-title" id="exampleModalLabel">COMMENT</h5></td><td> <h5 class="ootdclose" data-dismiss="modal" aria-label="Close"><span onclick="cmtClose();" aria-hidden="true" class="ootdclosespan">X</span></h5></td></tr></table>';
 
-                postviewhtml += '<div class="modal-body"></div><div class="modal-footer"><input type="text" class="ootdcmtinput" id="ootdcmtinput" required>';
+                postviewhtml += '<div class="modal-body"></div><div class="modal-footer"><textarea rows="10" cols="5" class="ootdcmtinput" id="ootdcmtinput" required></textarea>';
                 postviewhtml += '<button class="ootdcmntsubmit" onclick="ootdCmgReg(' + $('#memidxsession').val() + ',' + rs.ootdidx + ')">등록</button></div></div></div></div>';
 
                 var content = document.querySelector('.content');
@@ -977,8 +982,8 @@ function viewCommnetList(ootdidx) {
                 cmtlisthtml += '<div class="ootdcomment"><table class="ootdcmttable"><tr><td rowspan="2" valign="top" lass="ootdcmtimage">';
                 cmtlisthtml += '<img src="https://bitterbetter.kr/web/product/big/201902/2e83f4014460bab0a9cf24404440231d.jpg"></td>'
                 cmtlisthtml += '<td>' + data[i].ootdcmtnic + '</td><td></td>';
-                cmtlisthtml += '<td><a onclick="ootdModifyCmt(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx+ ')">수정 </a>| <a onclick="ootdDeleteCmt(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">삭제</a></td>';
-                cmtlisthtml += '</tr><tr><td class="ootdcmttext'+data[i].ootdcmtidx+'" colspan="3">';
+                cmtlisthtml += '<td><a onclick="ootdModifyCmt('+data[i]+');">수정 </a>| <a onclick="ootdDeleteCmt(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">삭제</a></td>';
+                cmtlisthtml += '</tr><tr><td style="padding-left: 10px"class="ootdcmttext'+data[i].ootdcmtidx+'" colspan="3">';
                 cmtlisthtml += data[i].ootdcmttext
                 cmtlisthtml += '</td></tr></table></div>'
             }
@@ -1034,11 +1039,11 @@ function ootdDeleteCmt(ootdcmtidx, memidx, ootdidx) {
 }
 
 
-function ootdModifyCmt(ootdcmtidx, memidx, ootdidx) {
+function ootdModifyCmt(data) {
 
 
 
-    var ootdcmttexthtml = '<input type="text" class="ootdmodifycmt">';
+    var ootdcmttexthtml = '<textarea> class="ootdmodifycmt"><textarea>';
     ootdcmttexthtml += '<button class="ootdcmtmodibutton">수정</button>';
 
     var ootdcmttext = document.querySelector('.ootdcmttext'+ootdcmtidx);

@@ -126,6 +126,8 @@ footer {
     border: 1px solid #757575;
     width: 100%;
     height: 100px;
+    overflow: scroll;
+    white-space: normal;
 }
 
 .ootd_hasktag_true {
@@ -160,9 +162,14 @@ footer {
 }
 
 
+.thumnailtr{
+    max-height: 240px;
+
+}
+
 .postthumnail {
     width: 100%;
-    max-height: 240px;
+    height: width;
     border-radius: 3px;
     margin-bottom: 6px;
 }
@@ -275,7 +282,7 @@ pv2 {
     width: 50px;
 }
 
-.ootdposthashtag {
+.ootdposthashtag{
     padding-bottom: 10px;
     padding-left: 20px;
 }
@@ -332,46 +339,46 @@ pv2 {
 
 
 
-.ootdregTable {
+.ootdregTable{
     width: 100%;
 }
 
-.kakaoAPI {
+.kakaoAPI{
     width: 100;
     overflow: hidden;
     text-align: center;
-
+    
 }
 
-.ootdAPItable {
+.ootdAPItable{
     width: 50%;
     float: left;
     margin-bottom: 10px;
 }
 
-.ootdAPItable td:nth-child(1) {
+.ootdAPItable td:nth-child(1){
     width: 70px;
     padding-left: 10px;
 }
 
-.ootdAPItable input[type=text] {
+.ootdAPItable input[type=text]{
     margin-left: 10px;
-    border: 0px;
+    border : 0px;
     width: 80%;
     border-bottom: 1px solid #424242;
 }
 
 
-.ootdproductdiv img {
+.ootdproductdiv img{
     width: 20%;
     max-width: 80px;
     margin-right: 10px;
 }
 
 
-.ootdproductdiv {
-    margin-left: 20px;
-
+.ootdproductdiv{
+	margin-left : 20px;
+    
 }
 
 
@@ -408,13 +415,15 @@ pv2 {
 }
 
 
+
+
 .ootdcmttext {
     padding-left: 10px;
     padding-bottom: 10px;
+    overflow : scroll;    
 }
 
 .modal-body {
-    height: 500px;
     overflow: scroll;
 }
 
@@ -439,6 +448,7 @@ pv2 {
     border-radius: 5px;
 }
 
+
 .ootdclose{
     float: right;
     overflow: hidden;
@@ -454,8 +464,27 @@ a:link, a:visited, a:active, a:hover{
 	 color: #757575;
 }
 
-
 button:link, button:visited, button:active, button:hover, button:focus{
-     text-decoration: none;
-	 color: #757575;        
+    border: none;
+    outline:none;     
 }
+
+
+
+
+.ootdmodifycmt{
+        width:80%;
+    height: 50px;
+    border: 1px solid #ddd;
+    float : left;    
+}
+
+
+.ootdcmtmodibutton{
+        border : 0px;
+    width:18%;
+    height: 50px;
+    background-color: #ddd;
+    border-radius: 5px;
+}
+
