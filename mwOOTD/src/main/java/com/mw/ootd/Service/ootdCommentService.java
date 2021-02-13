@@ -42,7 +42,7 @@ public class ootdCommentService {
 		return cmtAmount;
 	}
 
-	
+	//코멘트 리스트
 	public List<ootdComment> getCmtList(int ootdidx){
 		
 		List<ootdComment> ootdCmt = null;
@@ -58,5 +58,22 @@ public class ootdCommentService {
 		
 		
 		return ootdCmt;
+	}
+
+	//코멘트 삭제	
+	public int deleteComment(int ootdcmtidx, int ootdidx) {
+		
+		
+		dao = template.getMapper(ootdInterfaceDao.class);
+		//댓글삭제
+		dao.deleteCommentByIdx(ootdcmtidx);
+		//댓글 갯수 반환
+		int cmtAmount = dao.cmtAmount(ootdidx);
+		//댓글 갯수 재등록
+		dao.ootdCmtCntInsert(cmtAmount, ootdidx);
+		
+		
+		
+		return cmtAmount;
 	}
 }

@@ -142,5 +142,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from ootdcmt where ootdidx = ${ootdidx}
 		order by ootdcmtdate;
 	</select>
+	
+		<!-- 댓글 삭제 -->
+	<delete id="deleteCommentByIdx">
+		DELETE FROM ootdcmt WHERE ootdcmtidx = #{ootdcmtidx};
+	</delete>
 
 </mapper>

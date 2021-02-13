@@ -646,8 +646,7 @@ function viewPost(data, idx) {
                 postviewhtml += '<table class="ootdpostviewtable"  width="100%">';
                 postviewhtml += '<tr class="ootdpostviewtext"><td class="ootdposttable_side"></td><td class="needborder" colspan="5"><pv3>';
                 postviewhtml += rs.ootdtext
-                postviewhtml += '</pv3></td><td ></td></tr><tr><td></td><td class="ootdcommenttd" colspan="4"';
-                postviewhtml += '>'
+                postviewhtml += '</pv3></td><td ></td></tr><tr><td></td><td class="ootdcommenttd" colspan="4">';
                 postviewhtml += '<img src="image/icon/comment.png" data-toggle="modal" data-target="#ootdcmtmodal" data-what="hello" width="20" onclick="viewCommnetList(' + rs.ootdidx + ')">&nbsp&nbsp';
                 postviewhtml += rs.ootdcmtcnt
                 postviewhtml += '</td><td></td><td class="ootdposttable_side"></td></tr></table>';
@@ -935,7 +934,7 @@ function ootdCmgReg(memidx, ootdidx) {
             if (result > 0) {
                 alert('댓글이 등록되었습니다.')
 
-                var cmtcount = '<img src="image/icon/comment.png" width="20" onclick="viewCommnetList(' + ootdidx + ')">&nbsp&nbsp';
+                var cmtcount = '<img src="image/icon/comment.png" data-toggle="modal" data-target="#ootdcmtmodal" data-what="hello" width="20" onclick="viewCommnetList(' + ootdidx + ')">&nbsp&nbsp';
                 cmtcount += result;
                 var ootdcommenttd = document.querySelector('.ootdcommenttd');
                 ootdcommenttd.innerHTML = cmtcount
@@ -978,7 +977,7 @@ function viewCommnetList(ootdidx) {
                 cmtlisthtml += '<div class="ootdcomment"><table class="ootdcmttable"><tr><td rowspan="2" valign="top" lass="ootdcmtimage">';
                 cmtlisthtml += '<img src="https://bitterbetter.kr/web/product/big/201902/2e83f4014460bab0a9cf24404440231d.jpg"></td>'
                 cmtlisthtml += '<td>' + data[i].ootdcmtnic + '</td><td></td>';
-                cmtlisthtml += '<td><a onclick="fsd()">수정 </a>| 삭제</td>';
+                cmtlisthtml += '<td><a onclick="fsd()">수정 </a>| <a onclick="ootdDeleteCmt(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">삭제</a></td>';
                 cmtlisthtml += '</tr><tr><td class="ootdcmttext" colspan="3">';
                 cmtlisthtml += data[i].ootdcmttext
                 cmtlisthtml += '</td></tr></table></div>'
@@ -995,5 +994,41 @@ function viewCommnetList(ootdidx) {
         }
     })
 
+
+}
+
+function ootdDeleteCmt(ootdcmtidx, memidx, ootdidx) {
+
+    if(confirm('정말로 삭제하시겠습니까?')) {
+        var loginmemidx = $('#memidxsession').val();
+
+        if (memidx == loginmemidx) {
+
+            $.ajax({
+                url: 'http://localhost:8080/ootd/cmt/delete',
+                type: 'GET',
+                data: {
+                    ootdcmtidx: ootdcmtidx,
+                    ootdidx: ootdidx
+                },
+                success: function (data) {
+                    alert('삭제완료')
+                    
+                    // 현재 댓글의 갯수를 반환
+                    var cmtcount = '<img src="image/icon/comment.png" data-toggle="modal" data-target="#ootdcmtmodal" data-what="hello" width="20" onclick="viewCommnetList(' + ootdidx + ')">&nbsp&nbsp';
+                    cmtcount += data;
+                    var ootdcommenttd = document.querySelector('.ootdcommenttd');
+                    ootdcommenttd.innerHTML = cmtcount
+                    $('#ootdcmtinput').val(null);
+                    viewCommnetList(ootdidx);
+                }
+
+            });
+
+        } else if (memidx != loginmemidx) {
+            alert('댓글의 작성자만 삭제할 수 있습니다.')
+        }
+
+    }
 
 }

@@ -22,7 +22,7 @@ public class ootdCommentController {
 	@Autowired
 	private ootdCommentService cmtService;
 	
-	//등록
+	//등록 - 현재 댓글의 갯수를 반환해준다
 	@PostMapping("/reg")
 	public int cmtReg(
 			@ModelAttribute("ootdcmt") ootdComment ootdcmt) {
@@ -39,6 +39,17 @@ public class ootdCommentController {
 			@RequestParam("ootdidx") int ootdidx){
 		
 		return cmtService.getCmtList(ootdidx);
+	}
+	
+	// 코멘트 삭제 - 현재 댓글의 갯수를 반환해준다
+	@GetMapping("/delete")
+	public int delCmt(
+			@RequestParam("ootdcmtidx") int ootdcmtidx,
+			@RequestParam("ootdidx") int ootdidx) {
+		
+		
+		return cmtService.deleteComment(ootdcmtidx, ootdidx);
+		
 	}
 
 }

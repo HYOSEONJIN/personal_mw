@@ -64,6 +64,9 @@ public interface ootdInterfaceDao {
 	// 댓글 리스트 반환
 	List<ootdComment> getCmtList(int ootdidx);
 
+	// 댓글 삭제 (해당IDX)
+	int deleteCommentByIdx(int ootdcmtidx);
+
 
 
 }
