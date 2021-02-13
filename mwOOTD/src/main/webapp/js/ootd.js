@@ -672,7 +672,7 @@ function viewPost(data, idx) {
 
 
                 callProduct(rs.ootdphotoname, rs.xyarr, rs.apiproductinfo);
-                viewCommnetList(ootdidx);
+                viewCommnetList(rs.ootdidx);
 
 
             }
@@ -982,8 +982,8 @@ function viewCommnetList(ootdidx) {
                 cmtlisthtml += '<div class="ootdcomment"><table class="ootdcmttable"><tr><td rowspan="2" valign="top" lass="ootdcmtimage">';
                 cmtlisthtml += '<img src="https://bitterbetter.kr/web/product/big/201902/2e83f4014460bab0a9cf24404440231d.jpg"></td>'
                 cmtlisthtml += '<td>' + data[i].ootdcmtnic + '</td><td></td>';
-                cmtlisthtml += '<td><a onclick="ootdModifyCmt('+data[i]+');">수정 </a>| <a onclick="ootdDeleteCmt(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">삭제</a></td>';
-                cmtlisthtml += '</tr><tr><td style="padding-left: 10px"class="ootdcmttext'+data[i].ootdcmtidx+'" colspan="3">';
+                cmtlisthtml += '<td class="cmtmodifytd"><a onclick="ootdModifyCmt('+data[i]+');">수정 </a>| <a onclick="ootdDeleteCmt(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">삭제</a></td>';
+                cmtlisthtml += '</tr><tr><td style="padding-left: 10px" class="ootdcmttext'+data[i].ootdcmtidx+'" colspan="3">';
                 cmtlisthtml += data[i].ootdcmttext
                 cmtlisthtml += '</td></tr></table></div>'
             }
@@ -1046,8 +1046,12 @@ function ootdModifyCmt(data) {
     var ootdcmttexthtml = '<textarea> class="ootdmodifycmt"><textarea>';
     ootdcmttexthtml += '<button class="ootdcmtmodibutton">수정</button>';
 
-    var ootdcmttext = document.querySelector('.ootdcmttext'+ootdcmtidx);
+    var ootdcmttext = document.querySelector('.ootdcmttext'+data.ootdcmtidx);
     ootdcmttext.innerHTML = ootdcmttexthtml;
-
+    
+    var cancel = '<a onclick="viewCommnetList('+data.ootdidx+')">취소</a>';
+    
+    var cmtmodifytd = document.querySelector('cmtmodifytd');
+    cmtmodifytd.innerHTML = cancel;
 
 }
