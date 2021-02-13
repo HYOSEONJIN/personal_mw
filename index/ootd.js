@@ -977,8 +977,8 @@ function viewCommnetList(ootdidx) {
                 cmtlisthtml += '<div class="ootdcomment"><table class="ootdcmttable"><tr><td rowspan="2" valign="top" lass="ootdcmtimage">';
                 cmtlisthtml += '<img src="https://bitterbetter.kr/web/product/big/201902/2e83f4014460bab0a9cf24404440231d.jpg"></td>'
                 cmtlisthtml += '<td>' + data[i].ootdcmtnic + '</td><td></td>';
-                cmtlisthtml += '<td><a onclick="fsd()">수정 </a>| <a onclick="ootdDeleteCmt(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">삭제</a></td>';
-                cmtlisthtml += '</tr><tr><td class="ootdcmttext" colspan="3">';
+                cmtlisthtml += '<td><a onclick="ootdModifyCmt(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx+ ')">수정 </a>| <a onclick="ootdDeleteCmt(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">삭제</a></td>';
+                cmtlisthtml += '</tr><tr><td class="ootdcmttext'+data[i].ootdcmtidx+'" colspan="3">';
                 cmtlisthtml += data[i].ootdcmttext
                 cmtlisthtml += '</td></tr></table></div>'
             }
@@ -999,7 +999,7 @@ function viewCommnetList(ootdidx) {
 
 function ootdDeleteCmt(ootdcmtidx, memidx, ootdidx) {
 
-    if(confirm('정말로 삭제하시겠습니까?')) {
+    if (confirm('정말로 삭제하시겠습니까?')) {
         var loginmemidx = $('#memidxsession').val();
 
         if (memidx == loginmemidx) {
@@ -1013,7 +1013,7 @@ function ootdDeleteCmt(ootdcmtidx, memidx, ootdidx) {
                 },
                 success: function (data) {
                     alert('삭제완료')
-                    
+
                     // 현재 댓글의 갯수를 반환
                     var cmtcount = '<img src="image/icon/comment.png" data-toggle="modal" data-target="#ootdcmtmodal" data-what="hello" width="20" onclick="viewCommnetList(' + ootdidx + ')">&nbsp&nbsp';
                     cmtcount += data;
@@ -1030,5 +1030,19 @@ function ootdDeleteCmt(ootdcmtidx, memidx, ootdidx) {
         }
 
     }
+
+}
+
+
+function ootdModifyCmt(ootdcmtidx, memidx, ootdidx) {
+
+
+
+    var ootdcmttexthtml = '<input type="text" class="ootdmodifycmt" value="어쩌라구">'
+    ootdcmttexthtml += '<button class="ootdcmtmodibutton">수정</button>';
+
+    var ootdcmttext = document.querySelector('.ootdcmttext'+ootdcmtidx);
+    ootdcmttext.innerHTML = ootdcmttexthtml;
+
 
 }
