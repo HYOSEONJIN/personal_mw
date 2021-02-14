@@ -67,6 +67,9 @@ public interface ootdInterfaceDao {
 	// 댓글 삭제 (해당IDX)
 	int deleteCommentByIdx(int ootdcmtidx);
 
+	// 댓글 수정
+	int modifyComment(String oodtcmttext, int ootdcmtidx);
+
 
 
 }

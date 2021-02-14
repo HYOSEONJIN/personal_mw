@@ -51,5 +51,16 @@ public class ootdCommentController {
 		return cmtService.deleteComment(ootdcmtidx, ootdidx);
 		
 	}
+	
+	// 코멘트 수정
+	@PostMapping("/modify")
+	public int cmtModify(
+			@RequestParam("ootdcmtidx") int ootdcmtidx,
+			@RequestParam("ootdcmttext") String ootdcmttext) {
+		
+		
+		System.out.println(ootdcmttext);
+		return cmtService.modifyComment(ootdcmtidx, ootdcmttext);
+	}
 
 }

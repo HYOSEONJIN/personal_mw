@@ -76,4 +76,23 @@ public class ootdCommentService {
 		
 		return cmtAmount;
 	}
+	
+	// 코멘트 수정
+	public int modifyComment(int ootdcmtidx, String ootdcmttext) {
+		
+		
+		int result=0;	
+		
+		try {
+			dao = template.getMapper(ootdInterfaceDao.class);
+			// 댓글 수정
+			result = dao.modifyComment(ootdcmttext, ootdcmtidx);			
+			
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+		
+	}
 }

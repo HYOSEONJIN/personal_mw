@@ -982,7 +982,8 @@ function viewCommnetList(ootdidx) {
                 cmtlisthtml += '<div class="ootdcomment"><table class="ootdcmttable"><tr><td rowspan="2" valign="top" lass="ootdcmtimage">';
                 cmtlisthtml += '<img src="https://bitterbetter.kr/web/product/big/201902/2e83f4014460bab0a9cf24404440231d.jpg"></td>'
                 cmtlisthtml += '<td>' + data[i].ootdcmtnic + '</td><td></td>';
-                cmtlisthtml += '<td class="cmtmodifytd"><a onclick="ootdModifyView(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">수정 </a>| <a onclick="ootdDeleteCmt(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">삭제</a></td>';
+                cmtlisthtml += '<td class="cmtmodifytd"><a onclick="ootdModifyView(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">수정 </a>'
+                cmtlisthtml += '| <a onclick="ootdDeleteCmt(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">삭제</a></td>';
                 cmtlisthtml += '</tr><tr><td style="padding-left: 10px" class="ootdcmttext' + data[i].ootdcmtidx + '" colspan="3">';
                 cmtlisthtml += data[i].ootdcmttext
                 cmtlisthtml += '</td></tr></table></div>'
@@ -1039,22 +1040,55 @@ function ootdDeleteCmt(ootdcmtidx, memidx, ootdidx) {
 }
 
 
+
+// 수정창 보여주기
 function ootdModifyView(ootdcmtidx, memidx, ootdidx) {
+
     var loginmemidx = $('#memidxsession').val();
     if (memidx == loginmemidx) {
-        var ootdcmttexthtml = '<input type="text" class="ootdmodifycmt">';
+        var ootdcmttexthtml = '<textarea class="ootdmodifycmt"></textarea>';
 
         var ootdcmttext = document.querySelector('.ootdcmttext' + ootdcmtidx);
         ootdcmttext.innerHTML = ootdcmttexthtml;
 
-        var cancel = '<a onlick="ootdModifyCmt()">수정</a>';
+        var cancel = '<a onclick="ootdModifyCmt(' + ootdcmtidx +','+ ootdidx + ')">수정</a>';
         cancel += ' | <a onclick="viewCommnetList(' + ootdidx + ')">취소</a>';
 
         var cmtmodifytd = document.querySelector('.cmtmodifytd');
         cmtmodifytd.innerHTML = cancel;
-    }else if (memidx != loginmemidx) {
-            alert('댓글의 작성자만 수정할 수 있습니다.')
+    } else if (memidx != loginmemidx) {
+        alert('댓글의 작성자만 수정할 수 있습니다.')
+    }
+
+
+}
+
+// 댓글 수정
+function ootdModifyCmt(ootdcmtidx, ootdidx) {
+
+    var modifycmttext = $('.ootdmodifycmt').val();
+    console.log(modifycmttext)
+
+    $.ajax({
+        url: 'http://localhost:8080/ootd/cmt/modify',
+        type: 'post',
+        data: {
+            ootdcmtidx: ootdcmtidx,
+            ootdcmttext: modifycmttext
+        },
+        success: function (data) {
+            if (data == 1) {
+                alert('수정완료')
+                viewCommnetList(ootdidx);
+                
+            } else if (data == 0) {
+                alert('수정실패 다시 시도해주세요')
+            }
+        },
+        error: function (e) {
+            console.log('댓글 수정 에러', e);
         }
 
 
+    });
 }

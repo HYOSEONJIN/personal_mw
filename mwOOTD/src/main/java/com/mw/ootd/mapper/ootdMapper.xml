@@ -140,12 +140,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getCmtList"
 		resultType="com.mw.ootd.Domain.ootdComment">
 		select * from ootdcmt where ootdidx = ${ootdidx}
-		order by ootdcmtdate;
+		order by
+		ootdcmtdate;
 	</select>
-	
-		<!-- 댓글 삭제 -->
+
+	<!-- 댓글 삭제 -->
 	<delete id="deleteCommentByIdx">
 		DELETE FROM ootdcmt WHERE ootdcmtidx = #{ootdcmtidx};
 	</delete>
 
+
+	<!-- 댓글수정 -->
+	<update id="modifyComment">
+		UPDATE ootdcmt
+		SET ootdcmttext = #{param1}
+		WHERE ootdcmtidx =
+		#{param2}
+	</update>
 </mapper>
