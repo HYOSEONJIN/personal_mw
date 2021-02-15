@@ -487,10 +487,11 @@ button:link, button:visited, button:active, button:hover, button:focus{
     width:100%;
     height: 50px;
     border: 1px solid #ddd;
-    float : left; 
-    
+    float : left;     
     margin-right : 10px;   
 }
 
-
+.ootd_cmt_align_check {
+    color : #64c2eb;    
+}
 

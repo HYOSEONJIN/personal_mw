@@ -4,7 +4,7 @@ window.onload = function () {
     hashFalse();
 
     var file1
-
+    var ootdlistScroll = true;
 
 };
 
@@ -15,7 +15,7 @@ $(document).ready(function () {
         var maxHeight = $(document).height();
         var currentScroll = $(window).scrollTop() + $(window).height();
 
-        if (maxHeight <= currentScroll) {
+        if (maxHeight <= currentScroll && ootdlistScroll) {
 
             if (scrollchk) {
                 setTimeout(function () {
@@ -32,7 +32,7 @@ $(document).ready(function () {
 
 
 // 무한스크롤 변수
-var scrollchk = true;
+//var scrollchk = true;
 var scrollchk2 = true;
 
 var hashtagName = ''; // 해시태그 div 생성해주는 for문에 사용
@@ -71,11 +71,13 @@ function ootdMain() {
 
 
 
-
+    
     var content = document.querySelector('.content');
     content.innerHTML = '';
     pageNum = 1;
-    scrollchk = true;
+    //scrollchk = true;
+    scrollchk2 = true;
+    ootdlistScroll = true;
     //hashJSON = '';
     pageView(pageNum);
     addregButton();
@@ -598,6 +600,8 @@ function pageView(idx) {
 
 /*게시물 출력*/
 function viewPost(data, idx) {
+    
+    ootdlistScroll = false;
 
     var likeCnt
     var likeheart = '';
@@ -703,7 +707,7 @@ function viewPost(data, idx) {
 
 
                 postviewhtml += '<table width="100%"><tr><td> <h5 class="modal-title" id="exampleModalLabel">';
-                postviewhtml += '<a onclick="viewCommnetList('+rs.ootdidx+',1)">·시간순</a> <a onclick=" viewCommnetList('+rs.ootdidx+',2)">·최신순</a></h5>';
+                postviewhtml += '<a onclick="viewCommnetList('+rs.ootdidx+',1)">시간순</a> <a onclick=" viewCommnetList('+rs.ootdidx+',2)">최신순</a></h5>';
                 postviewhtml += '</td><td> <h5 class="ootdclose" data-dismiss="modal" aria-label="Close"><span onclick="cmtClose();" aria-hidden="true" class="ootdclosespan">X</span></h5></td></tr></table>';
 
                 postviewhtml += '<div class="modal-body"></div><div class="modal-footer"><textarea rows="10" cols="5" class="ootdcmtinput" id="ootdcmtinput" required></textarea>';
@@ -987,7 +991,7 @@ function ootdCmgReg(memidx, ootdidx) {
                 var ootdcommenttd = document.querySelector('.ootdcommenttd');
                 ootdcommenttd.innerHTML = cmtcount
                 $('#ootdcmtinput').val(null);
-                viewCommnetList(ootdidx);
+                viewCommnetList(ootdidx,1);
 
             } else {
                 alert('등록실패')
@@ -1071,7 +1075,7 @@ function ootdDeleteCmt(ootdcmtidx, memidx, ootdidx) {
                     var ootdcommenttd = document.querySelector('.ootdcommenttd');
                     ootdcommenttd.innerHTML = cmtcount
                     $('#ootdcmtinput').val(null);
-                    viewCommnetList(ootdidx);
+                    viewCommnetList(ootdidx,1);
                 }
 
             });
