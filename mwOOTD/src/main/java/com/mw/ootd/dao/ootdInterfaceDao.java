@@ -64,11 +64,15 @@ public interface ootdInterfaceDao {
 	// 댓글 리스트 반환
 	List<ootdComment> getCmtList(int ootdidx);
 
+	// 댓글 리스트 반환 - 최신순
+	List<ootdComment> getCmtListDesc(int ootdidx);
+
 	// 댓글 삭제 (해당IDX)
 	int deleteCommentByIdx(int ootdcmtidx);
 
 	// 댓글 수정
 	int modifyComment(String oodtcmttext, int ootdcmtidx);
+
 
 
 

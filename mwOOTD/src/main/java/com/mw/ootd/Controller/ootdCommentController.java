@@ -36,9 +36,10 @@ public class ootdCommentController {
 	//코멘트 리스트 출력
 	@GetMapping("/list")
 	public List<ootdComment> ootdCmtList(
-			@RequestParam("ootdidx") int ootdidx){
+			@RequestParam("ootdidx") int ootdidx,
+			@RequestParam("align") int align){
 		
-		return cmtService.getCmtList(ootdidx);
+		return cmtService.getCmtList(ootdidx,align);
 	}
 	
 	// 코멘트 삭제 - 현재 댓글의 갯수를 반환해준다

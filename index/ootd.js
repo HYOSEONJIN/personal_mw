@@ -702,7 +702,9 @@ function viewPost(data, idx) {
                 postviewhtml += ' <div class="modal fade" id="ootdcmtmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header">';
 
 
-                postviewhtml += '<table width="100%"><tr><td><h5 class="modal-title" id="exampleModalLabel">COMMENT</h5></td><td> <h5 class="ootdclose" data-dismiss="modal" aria-label="Close"><span onclick="cmtClose();" aria-hidden="true" class="ootdclosespan">X</span></h5></td></tr></table>';
+                postviewhtml += '<table width="100%"><tr><td> <h5 class="modal-title" id="exampleModalLabel">';
+                postviewhtml += '<a onclick="viewCommnetList('+rs.ootdidx+',1)">·시간순</a> <a onclick=" viewCommnetList('+rs.ootdidx+',2)">·최신순</a></h5>';
+                postviewhtml += '</td><td> <h5 class="ootdclose" data-dismiss="modal" aria-label="Close"><span onclick="cmtClose();" aria-hidden="true" class="ootdclosespan">X</span></h5></td></tr></table>';
 
                 postviewhtml += '<div class="modal-body"></div><div class="modal-footer"><textarea rows="10" cols="5" class="ootdcmtinput" id="ootdcmtinput" required></textarea>';
                 postviewhtml += '<button class="ootdcmntsubmit" onclick="ootdCmgReg(' + $('#memidxsession').val() + ',' + rs.ootdidx + ')">등록</button></div></div></div></div>';
@@ -712,7 +714,7 @@ function viewPost(data, idx) {
 
 
                 callProduct(rs.ootdphotoname, rs.xyarr, rs.apiproductinfo);
-                viewCommnetList(rs.ootdidx);
+                viewCommnetList(rs.ootdidx,1);
 
 
             }
@@ -1003,13 +1005,14 @@ function ootdCmgReg(memidx, ootdidx) {
 }
 
 /*댓글 리스트 출력*/
-function viewCommnetList(ootdidx) {
+function viewCommnetList(ootdidx, num) {
 
     $.ajax({
         url: 'http://localhost:8080/ootd/cmt/list',
         type: 'GET',
         data: {
-            ootdidx: ootdidx
+            ootdidx: ootdidx,
+            align : num
         },
         success: function (data) {
 
@@ -1134,3 +1137,5 @@ function ootdModifyCmt(ootdcmtidx, ootdidx) {
 
     });
 }
+
+
