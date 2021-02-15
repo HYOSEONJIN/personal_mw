@@ -821,6 +821,7 @@ function ootdlike(chk, ootdidx, memidx) {
 
 }
 
+// 상품 정보 불러오기
 function callProduct(imgname, xyarr, apiproductinfo) {
 
 
@@ -855,7 +856,7 @@ function callProduct(imgname, xyarr, apiproductinfo) {
 
 
 
-
+        // 이미지(url) BASE64>FILE로 바꿔주는 중
         const toDataURL = url => fetch(url)
             .then(response => response.blob())
             .then(blob => new Promise((resolve, reject) => {
@@ -1043,6 +1044,7 @@ function viewCommnetList(ootdidx) {
 
 }
 
+//댓글삭제
 function ootdDeleteCmt(ootdcmtidx, memidx, ootdidx) {
 
     if (confirm('정말로 삭제하시겠습니까?')) {
