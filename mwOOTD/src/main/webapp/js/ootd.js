@@ -8,13 +8,32 @@ window.onload = function () {
 
 };
 
-$(window).resize(function () {
+$(document).ready(function () {
 
-    $('.postthumnai').each(function () {
-        $(this).height($(this).width());
-    });
-}).resize();
+    // 무한스크롤
+    $(document).scroll(function () {
+        var maxHeight = $(document).height();
+        var currentScroll = $(window).scrollTop() + $(window).height();
 
+        if (maxHeight <= currentScroll) {
+
+            if (scrollchk) {
+                setTimeout(function () {
+                    // $(".bottomArea").remove();
+                    pageView(pageNum);
+                }, 200)
+            }
+        }
+
+    })
+})
+
+
+
+
+// 무한스크롤 변수
+var scrollchk = true;
+var scrollchk2 = true;
 
 var hashtagName = ''; // 해시태그 div 생성해주는 for문에 사용
 var hashCheck = []; // hash태그 체크 여부 저장해주는 배열
@@ -49,12 +68,19 @@ var fileArr = [];
 // 메인 출력
 function ootdMain() {
 
+
+
+
+
     var content = document.querySelector('.content');
     content.innerHTML = '';
     pageNum = 1;
+    scrollchk = true;
     //hashJSON = '';
     pageView(pageNum);
     addregButton();
+
+
 
 
 
@@ -112,8 +138,6 @@ function addregButton() {
 
 
     var regModalHtml = '';
-    regModalHtml += '<button type="button" class="test" onclick="pageView(pageNum)">ㅇㅇ</button>'
-
 
     regModalHtml += '<button type="button" class="regFormButton" data-toggle="modal" data-target="#ootdRegModal" data-what="hello"/>';
     regModalHtml += '<div class="modal fade" id="ootdRegModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
@@ -509,7 +533,7 @@ function dataReset() {
 // 리스트 출력 함수
 function pageView(idx) {
 
-    $(".bottomArea").remove();
+
     console.log('들어온페이지번호', idx)
     $.ajax({
         url: 'http://localhost:8080/ootd/list/paging',
@@ -520,30 +544,46 @@ function pageView(idx) {
         success: function (data) {
             console.log(data);
 
-            var listhtml = '<form><div class="ootdlistarea"><div class="ootdlistline">';
+            if (data.length != 0) {
+
+                var listhtml = '<div class="ootdlistarea">';
 
 
-            for (i = 0; i < data.length; i++) {
-                /*나중에멤버 현재 로그인된 idx받아줘야함, 현재 헤더안에 있는 값으로 하고 있음*/
-                listhtml += '<div onclick="viewPost(' + data[i].ootdidx + ',' + $('#memidxsession').val() + '); this.onclick=null;">';
-                listhtml += '<table class="ootdposttable">';
-                listhtml += '<tr><td><img src="http://localhost:8080/ootd/fileupload/ootdimage/THUMB_';
-                listhtml += data[i].ootdphotoname;
-                listhtml += '" class="postthumnail"></td></tr>';
-                listhtml += '<tr><td><a1 class="ootdwriter">' + data[i].ootdnic + '</a1></td></tr>';
-                listhtml += '<tr><td><a1 class="ootdlocation">' + data[i].ootdloc + '</a1></td></tr>';
-                listhtml += '<tr><td><a1 class="ootdlistlike">♥ ' + data[i].ootdlikecnt + '</a1></td></tr></table></div>';
+                for (i = 0; i < data.length; i++) {
+                    /*나중에멤버 현재 로그인된 idx받아줘야함, 현재 헤더안에 있는 값으로 하고 있음*/
+                    listhtml += '<div onclick="viewPost(' + data[i].ootdidx + ',' + $('#memidxsession').val() + '); this.onclick=null;">';
+                    listhtml += '<table class="ootdposttable">';
+                    listhtml += '<tr><td><img src="http://localhost:8080/ootd/fileupload/ootdimage/THUMB_';
+                    listhtml += data[i].ootdphotoname;
+                    listhtml += '" class="postthumnail"></td></tr>';
+                    listhtml += '<tr><td><a1 class="ootdwriter">' + data[i].ootdnic + '</a1></td></tr>';
+                    listhtml += '<tr><td><a1 class="ootdlocation">' + data[i].ootdloc + '</a1></td></tr>';
+                    listhtml += '<tr><td><a1 class="ootdlistlike">♥ ' + data[i].ootdlikecnt + '</a1></td></tr></table></div>';
 
+
+                }
+                $(".bottomArea").remove();
+                listhtml += '<div class="bottomArea"><img src="/ootd/image/background.PNG" width="90"></div></div>';
+
+                $(".content").append(listhtml);
+                pageNum++;
+                console.log('삭제할 값 있음 function pageView', pageNum);
+                
+                // 무한스크롤 : 세로길이가 길 경우 처리
+                if ($(".body").height() < $(window).height() && scrollchk2) {
+
+                    scrollchk2 = false;
+
+                    pageView(pageNum);
+                    console.log('ㅇㅇ페이지');
+
+                }
 
             }
-
-            listhtml += '</div></div></form>';
-
-            listhtml += '<div class="bottomArea"><img src="/ootd/image/background.PNG" width="90"></div>';
-
-            $(".content").append(listhtml);
-            pageNum++;
-            console.log('삭제할 값 있음 function pageView');
+            /*else if (data.length == 0) {
+                           scrollchk = false;
+                           console.log('마지막페이지')
+                       }*/
 
         },
         error: function (e) {
@@ -1051,7 +1091,7 @@ function ootdModifyView(ootdcmtidx, memidx, ootdidx) {
         var ootdcmttext = document.querySelector('.ootdcmttext' + ootdcmtidx);
         ootdcmttext.innerHTML = ootdcmttexthtml;
 
-        var cancel = '<a onclick="ootdModifyCmt(' + ootdcmtidx +','+ ootdidx + ')">수정</a>';
+        var cancel = '<a onclick="ootdModifyCmt(' + ootdcmtidx + ',' + ootdidx + ')">수정</a>';
         cancel += ' | <a onclick="viewCommnetList(' + ootdidx + ')">취소</a>';
 
         var cmtmodifytd = document.querySelector('.cmtmodifytd');
@@ -1080,7 +1120,7 @@ function ootdModifyCmt(ootdcmtidx, ootdidx) {
             if (data == 1) {
                 alert('수정완료')
                 viewCommnetList(ootdidx);
-                
+
             } else if (data == 0) {
                 alert('수정실패 다시 시도해주세요')
             }
