@@ -5,8 +5,8 @@ window.onload = function () {
 
     // ootdList에서만 무한 스크롤이 작동하도록 만드는 변수
     var ootdlistScroll = false;
-    
-    
+
+
 
 };
 
@@ -88,12 +88,12 @@ function ootdMain() {
     addregButton();
 
 
-        if($('#memidxsession').val() == ""){
+    if ($('#memidxsession').val() == "") {
         $('.regFormButton').css({
 
-        "display": "none"
+            "display": "none"
 
-    })
+        })
     }
 
 
@@ -561,7 +561,7 @@ function pageView(idx) {
 
                 for (i = 0; i < data.length; i++) {
                     /*나중에멤버 현재 로그인된 idx받아줘야함, 현재 헤더안에 있는 값으로 하고 있음*/
-                    listhtml += '<div onclick="viewPost(' + data[i].ootdidx +'); this.onclick=null;">';
+                    listhtml += '<div onclick="viewPost(' + data[i].ootdidx + '); this.onclick=null;">';
                     listhtml += '<table class="ootdposttable">';
                     listhtml += '<tr><td><img src="http://localhost:8080/ootd/fileupload/ootdimage/THUMB_';
                     listhtml += data[i].ootdphotoname;
@@ -614,16 +614,16 @@ function viewPost(data) {
     var likeCnt
     var likeheart = '';
     var idx = 0;
-    
 
-    if ($('#memidxsession').val() == ""){
+
+    if ($('#memidxsession').val() == "") {
         idx = 0;
     } else {
         idx = $('#memidxsession').val();
     }
 
     console.log(idx)
-    
+
     $.ajax({
         url: 'http://localhost:8080/ootd/like/chk',
         type: 'get',
@@ -643,7 +643,7 @@ function viewPost(data) {
 
 
             }
-            
+
             likeCnt = result.likeAmount
 
 
@@ -674,7 +674,7 @@ function viewPost(data) {
 
                 postviewhtml += '<div class="ootddrop" id="ootddrop" name="ootddrop">';
                 postviewhtml += '<div class="ootddropcontent">수정</div>';
-                postviewhtml += '<div class="ootddropcontent" onclick="ootdPostDelete(' + rs.ootdidx + ')">삭제</div></div>';
+                postviewhtml += '<div class="ootddropcontent" onclick="ootdPostDelete(' + rs.ootdidx + ',' + rs.memidx + ')">삭제</div></div>';
 
                 postviewhtml += '<div class="postviewarea" id="postviewarea" name="postviewarea">';
                 postviewhtml += '<table class="ootdpostviewtable"  width="100%">';
@@ -728,7 +728,7 @@ function viewPost(data) {
 
 
                 postviewhtml += '<table width="100%"><tr><td> <h5 class="modal-title" id="exampleModalLabel">';
-                postviewhtml += '<a class="cmtalign1" onclick="viewCommnetList(' + rs.ootdidx + ',1)">시간순</a> <a class="cmtalign2" onclick=" viewCommnetList(' + rs.ootdidx + ',2)">최신순</a></h5>';
+                postviewhtml += '<a class="cmtalign1" onclick="viewCommentList(' + rs.ootdidx + ',1)">시간순</a> <a class="cmtalign2" onclick=" viewCommentList(' + rs.ootdidx + ',2)">최신순</a></h5>';
                 postviewhtml += '</td><td> <h5 class="ootdclose" data-dismiss="modal" aria-label="Close"><span onclick="cmtClose();" aria-hidden="true" class="ootdclosespan">X</span></h5></td></tr></table>';
 
                 postviewhtml += '<div class="modal-body"></div><div class="modal-footer"><textarea rows="10" cols="5" class="ootdcmtinput" id="ootdcmtinput" required></textarea>';
@@ -739,7 +739,7 @@ function viewPost(data) {
 
 
                 callProduct(rs.ootdphotoname, rs.xyarr, rs.apiproductinfo);
-                viewCommnetList(rs.ootdidx, 1);
+                viewCommentList(rs.ootdidx, 1);
 
 
             }
@@ -776,26 +776,38 @@ function itemClick(event) {
 }
 
 /*게시글 삭제*/
-function ootdPostDelete(ootdidx) {
+function ootdPostDelete(ootdidx, memidx) {
+    // 글번호, 글쓴이 idx
 
-    if (confirm('정말로 삭제하시겠습니까?')) {
+    if ($('#memidxsession').val() != "") {
 
-        $.ajax({
-            url: 'http://localhost:8080/ootd/postview/delete',
-            type: 'get',
-            data: {
-                ootdidx: ootdidx
-            },
-            success: function (data) {
-                if (data = 1) {
-                    alert('삭제완료')
-                    ootdMain();
-                }
+        if (memidx == $('#memidxsession').val()) {
 
+            if (confirm('정말로 삭제하시겠습니까?')) {
+
+                $.ajax({
+                    url: 'http://localhost:8080/ootd/postview/delete',
+                    type: 'get',
+                    data: {
+                        ootdidx: ootdidx
+                    },
+                    success: function (data) {
+                        if (data = 1) {
+                            alert('삭제완료')
+                            ootdMain();
+                        }
+
+                    }
+
+                });
             }
-
-        });
+        } else {
+            alert('글 작성자만 가능합니다.')
+        }
+    } else {
+        alert('로그인 후에 가능합니다.')
     }
+
 }
 
 
@@ -999,7 +1011,7 @@ function ootdCmtReg(ootdidx) {
 
     var formData = new FormData();
     formData.append('ootdcmttext', $('#ootdcmtinput').val());
-    formData.append('memidx', memidx);
+    formData.append('memidx', $('#memidxsession').val());
     formData.append('ootdidx', ootdidx);
     console.log('memnicsession값있음 나중에 삭제')
     formData.append('ootdcmtnic', $('#memnicsession').val());
@@ -1015,14 +1027,17 @@ function ootdCmtReg(ootdidx) {
         success: function (result) {
 
             if (result > 0) {
-                alert('댓글이 등록되었습니다.')
 
-                var cmtcount = '<img src="image/icon/comment.png" data-toggle="modal" data-target="#ootdcmtmodal" data-what="hello" width="20" onclick="viewCommnetList(' + ootdidx + ')">&nbsp&nbsp';
+
+                var cmtcount = '<img src="image/icon/comment.png" data-toggle="modal" data-target="#ootdcmtmodal" data-what="hello" width="20" onclick="viewCommentList(' + ootdidx + ',1)">&nbsp&nbsp';
                 cmtcount += result;
                 var ootdcommenttd = document.querySelector('.ootdcommenttd');
                 ootdcommenttd.innerHTML = cmtcount
                 $('#ootdcmtinput').val(null);
-                viewCommnetList(ootdidx, 1);
+                viewCommentList(ootdidx, 1);
+
+
+                alert('댓글이 등록되었습니다.')
 
             } else {
                 alert('등록실패')
@@ -1040,7 +1055,7 @@ function ootdCmtReg(ootdidx) {
 }
 
 /*댓글 리스트 출력*/
-function viewCommnetList(ootdidx, num) {
+function viewCommentList(ootdidx, num) {
     //num = 1 : 시간순 출력
     //num = 2 : 최신순 출력
 
@@ -1054,6 +1069,7 @@ function viewCommnetList(ootdidx, num) {
         $('.cmtalign2').addClass('ootd_cmt_align_check');
 
     }
+    console.log("댓리스트출력실행")
 
 
     $.ajax({
@@ -1071,6 +1087,8 @@ function viewCommnetList(ootdidx, num) {
             var cmtlisthtml = '';
 
             for (i = 0; i < data.length; i++) {
+
+                console.log("댓리스트출력실행")
 
                 cmtlisthtml += '<div class="ootdcomment"><table class="ootdcmttable"><tr><td rowspan="2" valign="top" lass="ootdcmtimage">';
                 cmtlisthtml += '<img src="https://bitterbetter.kr/web/product/big/201902/2e83f4014460bab0a9cf24404440231d.jpg"></td>'
@@ -1112,17 +1130,20 @@ function ootdDeleteCmt(ootdcmtidx, memidx, ootdidx) {
                     ootdidx: ootdidx
                 },
                 success: function (data) {
-                    alert('삭제완료')
+                    
+                    viewCommentList(ootdidx, 1);
 
                     // 현재 댓글의 갯수를 반환
-                    var cmtcount = '<img src="image/icon/comment.png" data-toggle="modal" data-target="#ootdcmtmodal" data-what="hello" width="20" onclick="viewCommnetList(' + ootdidx + ')">&nbsp&nbsp';
+                    var cmtcount = '<img src="image/icon/comment.png" data-toggle="modal" data-target="#ootdcmtmodal" data-what="hello" width="20" onclick="viewCommentList(' + ootdidx + ',1)">&nbsp&nbsp';
                     cmtcount += data;
                     var ootdcommenttd = document.querySelector('.ootdcommenttd');
                     ootdcommenttd.innerHTML = cmtcount
                     $('#ootdcmtinput').val(null);
-                    viewCommnetList(ootdidx, 1);
-                }
+                    
 
+                    alert('삭제완료')
+
+                }
             });
 
         } else if (memidx != loginmemidx) {
@@ -1146,7 +1167,7 @@ function ootdModifyView(ootdcmtidx, memidx, ootdidx) {
         ootdcmttext.innerHTML = ootdcmttexthtml;
 
         var cancel = '<a onclick="ootdModifyCmt(' + ootdcmtidx + ',' + ootdidx + ')">수정</a>';
-        cancel += ' | <a onclick="viewCommnetList(' + ootdidx + ')">취소</a>';
+        cancel += ' | <a onclick="viewCommentList(' + ootdidx + ',1)">취소</a>';
 
         var cmtmodifytd = document.querySelector('.cmtmodifytd');
         cmtmodifytd.innerHTML = cancel;
@@ -1172,8 +1193,9 @@ function ootdModifyCmt(ootdcmtidx, ootdidx) {
         },
         success: function (data) {
             if (data == 1) {
+                viewCommentList(ootdidx, 1);
                 alert('수정완료')
-                viewCommnetList(ootdidx);
+
 
             } else if (data == 0) {
                 alert('수정실패 다시 시도해주세요')
