@@ -6,6 +6,8 @@ window.onload = function () {
     // ootdList에서만 무한 스크롤이 작동하도록 만드는 변수
     var ootdlistScroll = false;
 
+
+
 };
 
 $(document).ready(function () {
@@ -75,7 +77,6 @@ function ootdMain() {
 
 
 
-
     var content = document.querySelector('.content');
     content.innerHTML = '';
     pageNum = 1;
@@ -87,6 +88,13 @@ function ootdMain() {
     addregButton();
 
 
+    if ($('#memidxsession').val() == "") {
+        $('.regFormButton').css({
+
+            "display": "none"
+
+        })
+    }
 
 
 
@@ -167,12 +175,6 @@ function addregButton() {
 
     // 해시태그 리스트 불러오기
     regModalHtml += hashtagName;
-
-    ///////가짜로넣어주는값 나중에 지우고 ootdMain()안에 넣어서 넘겨줘야함///////
-    regModalHtml += '<input type="hidden" id="memidx" value="1"><input type="hidden" id="ootdnic" value="메이웨더TEST">';
-    console.log('ootdMain()안에 임시값있음 추후 삭제해야함')
-    /////////////////////////////////
-
 
 
     regModalHtml += '</div></div></form></div><div class="modal-footer">';
@@ -393,8 +395,8 @@ function reg() {
         formData.append('apiproductinfo', apiProductInput);
 
         //임시값
-        formData.append('ootdnic', $('#ootdnic').val());
-        formData.append('memidx', $('#memidx').val());
+        formData.append('ootdnic', $('#memnicsession').val());
+        formData.append('memidx', $('#memidxsession').val());
 
 
 
@@ -559,7 +561,7 @@ function pageView(idx) {
 
                 for (i = 0; i < data.length; i++) {
                     /*나중에멤버 현재 로그인된 idx받아줘야함, 현재 헤더안에 있는 값으로 하고 있음*/
-                    listhtml += '<div onclick="viewPost(' + data[i].ootdidx +'); this.onclick=null;">';
+                    listhtml += '<div onclick="viewPost(' + data[i].ootdidx + '); this.onclick=null;">';
                     listhtml += '<table class="ootdposttable">';
                     listhtml += '<tr><td><img src="http://localhost:8080/ootd/fileupload/ootdimage/THUMB_';
                     listhtml += data[i].ootdphotoname;
@@ -612,16 +614,16 @@ function viewPost(data) {
     var likeCnt
     var likeheart = '';
     var idx = 0;
-    
 
-    if ($('#memidxsession').val() == ""){
+
+    if ($('#memidxsession').val() == "") {
         idx = 0;
     } else {
         idx = $('#memidxsession').val();
     }
 
     console.log(idx)
-    
+
     $.ajax({
         url: 'http://localhost:8080/ootd/like/chk',
         type: 'get',
@@ -641,7 +643,7 @@ function viewPost(data) {
 
 
             }
-            
+
             likeCnt = result.likeAmount
 
 

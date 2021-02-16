@@ -5,6 +5,8 @@ window.onload = function () {
 
     // ootdList에서만 무한 스크롤이 작동하도록 만드는 변수
     var ootdlistScroll = false;
+    
+    
 
 };
 
@@ -75,7 +77,6 @@ function ootdMain() {
 
 
 
-
     var content = document.querySelector('.content');
     content.innerHTML = '';
     pageNum = 1;
@@ -87,6 +88,13 @@ function ootdMain() {
     addregButton();
 
 
+        if($('#memidxsession').val() == ""){
+        $('.regFormButton').css({
+
+        "display": "none"
+
+    })
+    }
 
 
 
