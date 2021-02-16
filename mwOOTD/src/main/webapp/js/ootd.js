@@ -673,7 +673,7 @@ function viewPost(data) {
                 var rs = data[0];
 
                 postviewhtml += '<div class="ootddrop" id="ootddrop" name="ootddrop">';
-                postviewhtml += '<div class="ootddropcontent">수정</div>';
+                postviewhtml += '<div class="ootddropcontent" onclick="ootdPostModify(' + rs.ootdidx + ',' + rs.memidx + ')">수정</div>';
                 postviewhtml += '<div class="ootddropcontent" onclick="ootdPostDelete(' + rs.ootdidx + ',' + rs.memidx + ')">삭제</div></div>';
 
                 postviewhtml += '<div class="postviewarea" id="postviewarea" name="postviewarea">';
@@ -863,7 +863,9 @@ function ootdlike(chk, ootdidx, memidx) {
 
 // 상품 정보 불러오기
 function callProduct(imgname, xyarr, apiproductinfo) {
-
+    
+    
+    apiNum = 0;
 
     /* Here is the codefor converting "image source to "Base64 ".****/
     let url = 'http://localhost:8080/ootd/fileupload/ootdimage/'
@@ -1253,7 +1255,7 @@ function viewproductinfo(num) {
                 proHtml += productData[i].lprice + '원<br>'
                 proHtml += '<a href="'
                 proHtml += productData[i].link
-                proHtml += '">구매하러가기</a></div><br></div><div class="modal-footer"></div>'
+                proHtml += '">구매하러가기</a></div><br></div>'
             }
 
 
