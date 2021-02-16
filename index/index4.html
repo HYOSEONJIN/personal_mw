@@ -62,12 +62,17 @@
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">WEATHER WEAR - OOTD 수정하기</h5>
                         <div class="modal-body">
-                            <form>
-                                <div class="form-group"><label for="recipient-name" class="col-form-label">TODAY OOTD</label><br>
+                            
+                                <div class="ootdmodifybody">
+                                    
+                                    
+                                    
+                                    <label for="recipient-name" class="col-form-label">TODAY OOTD</label><br>
                                     <table class="ootdregTable">
                                         <tbody>
                                             <tr>
                                                 <td width="100px">
+                                                    
                                                     <div class="ootdfilebox"><label class="img-upload-label"><input type="file" class="ootdphoto img-upload" accept="image/jpeg,image/png,image/gif" id="ootdphoto" name="ootdphoto"></label></div>
                                                 </td>
                                                 <td>
@@ -78,26 +83,22 @@
                                     </table>
                                     <div class="kakaoAPI"></div>
                                     <div class="form-group">
-                                        <div class="ootd_hs">undefined</div>
+                                        <div class="ootd_hs"></div>
                                     </div>
+                                    
+                                    
                                 </div>
-                            </form>
+                          
                             <div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="dataReset()">닫기</button><button type="button" class="btn btn-primary" data-dismiss="modal" id="close_modal" onclick="reg(); this.onclick=null;">등록</button></div>
+                            
+                            
                         </div>
-
-
-
-
-
-
-
-
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    </div>
+
+    
     <canvas class="js-editorcanvas" style="display: none"></canvas>
     <canvas class="js-previewcanvas" style="display: none"></canvas>
 

@@ -36,6 +36,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	</insert>
 
+
+	<!-- 글수정하기 사진있을 경우 -->
+	<update id="updatePhoto"
+		parameterType="com.mw.ootd.Domain.ootdBoard">
+		UPDATE ootd
+		SET
+		ootdphotoname = #{ootdphotoname},
+		ootdtext = #{ootdtext},
+		xyarr = #{xyarr},
+		apiproductinfo = #{apiproductinfo},
+		ootdhashtag = #{ootdhashtag}
+		WHERE
+		ootdidx = #{ootdidx}
+	</update>
+
+	<!-- 글수정하기 사진없을 경우 -->
+	<update id="updateNoPhoto"
+		parameterType="com.mw.ootd.Domain.ootdBoard">
+		UPDATE ootd
+		SET
+		ootdtext = #{ootdtext},
+		ootdhashtag = #{ootdhashtag}
+		WHERE
+		ootdidx = #{ootdidx}
+	</update>
+
+
 	<!-- 방금 쓴 글 번호 반환 -->
 	<select id="ootdidxReturn" resultType="int">
 		SELECT ootdidx FROM ootd
@@ -79,11 +106,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteLikeData">
 		DELETE FROM ootdlike WHERE ootdidx = #{ootdidx}
 	</delete>
-	
+
 	<!-- OOTDIDX에 따른 파일명 반환 -->
-	<select id="deleteFileName"
-			resultType="String">
-		SELECT ootdphotoname from ootd where ootdidx=#{ootdidx}
+	<select id="deleteFileName" resultType="String">
+		SELECT ootdphotoname from
+		ootd where ootdidx=#{ootdidx}
 	</select>
 
 	<!-- 좋아요 했는지 여부 -->

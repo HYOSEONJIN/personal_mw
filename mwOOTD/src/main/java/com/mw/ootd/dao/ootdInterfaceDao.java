@@ -80,6 +80,12 @@ public interface ootdInterfaceDao {
 	// ootdidx값의 사진파일 명 가져오기
 	String deleteFileName(int ootdidx);
 
+	// 수정시 사진이 있을 경우
+	int updatePhoto(ootdBoard ootd);
+	
+	// 수정시 사진이 없을 경우
+	int updateNoPhoto(ootdBoard ootd);
+
 
 
 
