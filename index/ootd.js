@@ -731,7 +731,7 @@ function viewPost(data) {
                 postviewhtml += '<a class="cmtalign1" onclick="viewCommentList(' + rs.ootdidx + ',1)">시간순</a> <a class="cmtalign2" onclick=" viewCommentList(' + rs.ootdidx + ',2)">최신순</a></h5>';
                 postviewhtml += '</td><td> <h5 class="ootdclose" data-dismiss="modal" aria-label="Close"><span onclick="cmtClose();" aria-hidden="true" class="ootdclosespan">X</span></h5></td></tr></table>';
 
-                postviewhtml += '<div class="modal-body"></div><div class="modal-footer"><textarea rows="10" cols="5" class="ootdcmtinput" id="ootdcmtinput" required></textarea>';
+                postviewhtml += '<div class="modal-body"><div class="ootdcmtbody"></div></div><div class="modal-footer"><textarea rows="10" cols="5" class="ootdcmtinput" id="ootdcmtinput" required></textarea>';
                 postviewhtml += '<button class="ootdcmntsubmit" onclick="ootdCmtReg(' + rs.ootdidx + ')">등록</button></div></div></div></div>';
 
                 var content = document.querySelector('.content');
@@ -1100,7 +1100,7 @@ function viewCommentList(ootdidx, num) {
                 cmtlisthtml += '</td></tr></table></div>'
             }
 
-            var ootdcmtmodal = document.querySelector('.modal-body');
+            var ootdcmtmodal = document.querySelector('.ootdcmtbody');
             ootdcmtmodal.innerHTML = cmtlisthtml;
 
 
@@ -1136,6 +1136,7 @@ function ootdDeleteCmt(ootdcmtidx, memidx, ootdidx) {
                     // 현재 댓글의 갯수를 반환
                     var cmtcount = '<img src="image/icon/comment.png" data-toggle="modal" data-target="#ootdcmtmodal" data-what="hello" width="20" onclick="viewCommentList(' + ootdidx + ',1)">&nbsp&nbsp';
                     cmtcount += data;
+                    
                     var ootdcommenttd = document.querySelector('.ootdcommenttd');
                     ootdcommenttd.innerHTML = cmtcount
                     $('#ootdcmtinput').val(null);
@@ -1252,7 +1253,7 @@ function viewproductinfo(num) {
                 proHtml += productData[i].lprice + '원<br>'
                 proHtml += '<a href="'
                 proHtml += productData[i].link
-                proHtml += '">구매하러가기</a></div><br>'
+                proHtml += '">구매하러가기</a></div><br></div>'
             }
 
 

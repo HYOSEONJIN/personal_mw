@@ -269,7 +269,7 @@ class Cropper {
             
             apiproduct += '<div class="modal fade" id="ootdproductmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
             apiproduct += '<div class="modal-dialog" role="document"><div class="modal-content">';
-            apiproduct += '<div class="modal-header"><table width="100%"><tr><td><h5 class="modal-title" id="exampleModalLabel">+ WEATHER WEAR +</h5></td><td><h5 class="ootdclose" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></h5></td></tr></table></div><div class="modal-body"><div class="ootdproductbody"></div><div class="modal-footer"></div></div></div></div>'
+            apiproduct += '<div class="modal-header"><table width="100%"><tr><td><h5 class="modal-title" id="exampleModalLabel">+ WEATHER WEAR +</h5></td><td><h5 class="ootdclose" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></h5></td></tr></table></div><div class="modal-body"><div class="ootdproductbody"></div></div><div class="modal-footer"></div></div></div>'
 
             $(".ootdproductdiv").append(apiproduct);
             apiNum++;
