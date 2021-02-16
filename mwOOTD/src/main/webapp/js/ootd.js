@@ -3,8 +3,8 @@ window.onload = function () {
     hashtagList();
     hashFalse();
 
-    var file1
-    var ootdlistScroll = true;
+    // ootdList에서만 무한 스크롤이 작동하도록 만드는 변수
+    var ootdlistScroll = false;
 
 };
 
@@ -223,7 +223,7 @@ function kakaoCall() {
     var apiUri = "https://dapi.kakao.com/v2/vision/product/detect"
 
     var photoFile = $('#ootdphoto');
-    file1 = photoFile[0].files[0];
+    var file1 = photoFile[0].files[0];
 
     //console.log("file",file1);
     var fd = new FormData();
