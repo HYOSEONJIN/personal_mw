@@ -15,6 +15,7 @@ $(document).ready(function () {
         var maxHeight = $(document).height();
         var currentScroll = $(window).scrollTop() + $(window).height();
 
+        console.log(ootdlistScroll)
         if (maxHeight <= currentScroll && ootdlistScroll) {
 
             //if (scrollchk) {
@@ -34,6 +35,7 @@ $(document).ready(function () {
 // 무한스크롤 변수
 //var scrollchk = true;
 var scrollchk2 = true;
+var contentTemp = '';
 
 var hashtagName = ''; // 해시태그 div 생성해주는 for문에 사용
 var hashCheck = []; // hash태그 체크 여부 저장해주는 배열
@@ -575,17 +577,17 @@ function pageView(idx) {
                 if ($(".body").height() < $(window).height() && scrollchk2) {
 
                     scrollchk2 = false;
-
                     pageView(pageNum);
-                    console.log('ㅇㅇ페이지');
 
                 }
 
+
             }
-            /*else if (data.length == 0) {
-                           scrollchk = false;
-                           console.log('마지막페이지')
-                       }*/
+
+            var content = document.querySelector('.content');
+            contentTemp = content.innerHTML;
+
+
 
         },
         error: function (e) {
@@ -657,8 +659,8 @@ function viewPost(data, idx) {
 
                 postviewhtml += '<div class="postviewarea" id="postviewarea" name="postviewarea">';
                 postviewhtml += '<table class="ootdpostviewtable"  width="100%">';
-                postviewhtml += '<tr><td class="ootdposttable_side"> </td>';
-                postviewhtml += ' <td colspan="2"><img src="image/icon/location.png" width="10">&nbsp&nbsp';
+                postviewhtml += '<tr><td class="ootdposttable_side">&nbsp<img onclick="ootdPageBack()" src="image/icon/back.png" width="10px"></td>';
+                postviewhtml += '<td colspan="2">&nbsp&nbsp<img src="image/icon/location.png" width="10">&nbsp&nbsp';
                 postviewhtml += rs.ootdloc
                 postviewhtml += '</td><td></td><td></td><td colspan="2" class="ootdbmk">';
                 postviewhtml += '<img src="image/icon/usefulbutton.png" onclick="itemClick(event);" ></td>';
@@ -696,7 +698,7 @@ function viewPost(data, idx) {
                 postviewhtml += '<tr class="ootdpostviewtext"><td class="ootdposttable_side"></td><td class="needborder" colspan="5"><pv3>';
                 postviewhtml += rs.ootdtext
                 postviewhtml += '</pv3></td><td ></td></tr><tr><td></td><td class="ootdcommenttd" colspan="4">';
-                postviewhtml += '<img src="image/icon/comment.png" data-toggle="modal" data-target="#ootdcmtmodal" data-what="hello" width="20" onclick="viewCommnetList(' + rs.ootdidx + ')">&nbsp&nbsp';
+                postviewhtml += '<img src="image/icon/comment.png" data-toggle="modal" data-target="#ootdcmtmodal" data-what="hello" width="20">&nbsp&nbsp';
                 postviewhtml += rs.ootdcmtcnt
                 postviewhtml += '</td><td></td><td class="ootdposttable_side"></td></tr></table>';
                 postviewhtml += '<canvas class="js-editorcanvas" style="display: none"></canvas>';
@@ -1013,6 +1015,18 @@ function viewCommnetList(ootdidx, num) {
     //num = 1 : 시간순 출력
     //num = 2 : 최신순 출력
 
+    $('.cmtalign1').removeClass('ootd_cmt_align_check');
+    $('.cmtalign2').removeClass('ootd_cmt_align_check');
+    if (num == 1) {
+
+        $('.cmtalign1').addClass('ootd_cmt_align_check');
+
+    } else if (num == 2) {
+        $('.cmtalign2').addClass('ootd_cmt_align_check');
+
+    }
+
+
     $.ajax({
         url: 'http://localhost:8080/ootd/cmt/list',
         type: 'GET',
@@ -1032,8 +1046,8 @@ function viewCommnetList(ootdidx, num) {
                 cmtlisthtml += '<div class="ootdcomment"><table class="ootdcmttable"><tr><td rowspan="2" valign="top" lass="ootdcmtimage">';
                 cmtlisthtml += '<img src="https://bitterbetter.kr/web/product/big/201902/2e83f4014460bab0a9cf24404440231d.jpg"></td>'
                 cmtlisthtml += '<td>' + data[i].ootdcmtnic + '</td><td></td>';
-                cmtlisthtml += '<td class="cmtmodifytd"><a onclick="ootdModifyView(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">수정 </a>'
-                cmtlisthtml += '| <a onclick="ootdDeleteCmt(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">삭제</a></td>';
+                cmtlisthtml += '<td class="cmtmodifytd"><a1 onclick="ootdModifyView(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">수정 </a1>'
+                cmtlisthtml += '| <a1 onclick="ootdDeleteCmt(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">삭제</a1></td>';
                 cmtlisthtml += '</tr><tr><td style="padding-left: 10px" class="ootdcmttext' + data[i].ootdcmtidx + '" colspan="3">';
                 cmtlisthtml += data[i].ootdcmttext
                 cmtlisthtml += '</td></tr></table></div>'
@@ -1047,22 +1061,6 @@ function viewCommnetList(ootdidx, num) {
         },
         error: function (e) {
             console.log('댓글 리스트 불러오기 에러', e);
-        },
-        complete: function () {
-
-
-
-            if (num == 1) {
-                $('.cmtalign2').removeClass('ootd_cmt_align_check');
-                $('.cmtalign1').addClass('ootd_cmt_align_check');
-
-            } else if (num == 2) {
-                $('.cmtalign1').removeClass('ootd_cmt_align_check');
-                $('.cmtalign2').addClass('ootd_cmt_align_check');
-
-            }
-
-
         }
     })
 
@@ -1158,4 +1156,13 @@ function ootdModifyCmt(ootdcmtidx, ootdidx) {
 
 
     });
+}
+
+// 페이지 뒤로가기
+function ootdPageBack() {
+
+    var content = document.querySelector('.content');
+    content.innerHTML = contentTemp;
+    ootdlistScroll = true;
+
 }

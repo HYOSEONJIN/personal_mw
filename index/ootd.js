@@ -15,14 +15,15 @@ $(document).ready(function () {
         var maxHeight = $(document).height();
         var currentScroll = $(window).scrollTop() + $(window).height();
 
+        console.log(ootdlistScroll)
         if (maxHeight <= currentScroll && ootdlistScroll) {
 
-            if (scrollchk) {
-                setTimeout(function () {
-                    // $(".bottomArea").remove();
-                    pageView(pageNum);
-                }, 200)
-            }
+            //if (scrollchk) {
+            setTimeout(function () {
+                // $(".bottomArea").remove();
+                pageView(pageNum);
+            }, 200)
+            // }
         }
 
     })
@@ -34,6 +35,7 @@ $(document).ready(function () {
 // 무한스크롤 변수
 //var scrollchk = true;
 var scrollchk2 = true;
+var contentTemp = '';
 
 var hashtagName = ''; // 해시태그 div 생성해주는 for문에 사용
 var hashCheck = []; // hash태그 체크 여부 저장해주는 배열
@@ -71,7 +73,7 @@ function ootdMain() {
 
 
 
-    
+
     var content = document.querySelector('.content');
     content.innerHTML = '';
     pageNum = 1;
@@ -570,22 +572,22 @@ function pageView(idx) {
                 $(".content").append(listhtml);
                 pageNum++;
                 console.log('삭제할 값 있음 function pageView', pageNum);
-                
+
                 // 무한스크롤 : 세로길이가 길 경우 처리
                 if ($(".body").height() < $(window).height() && scrollchk2) {
 
                     scrollchk2 = false;
-
                     pageView(pageNum);
-                    console.log('ㅇㅇ페이지');
 
                 }
 
+
             }
-            /*else if (data.length == 0) {
-                           scrollchk = false;
-                           console.log('마지막페이지')
-                       }*/
+
+            var content = document.querySelector('.content');
+            contentTemp = content.innerHTML;
+
+
 
         },
         error: function (e) {
@@ -600,7 +602,7 @@ function pageView(idx) {
 
 /*게시물 출력*/
 function viewPost(data, idx) {
-    
+
     ootdlistScroll = false;
 
     var likeCnt
@@ -657,8 +659,8 @@ function viewPost(data, idx) {
 
                 postviewhtml += '<div class="postviewarea" id="postviewarea" name="postviewarea">';
                 postviewhtml += '<table class="ootdpostviewtable"  width="100%">';
-                postviewhtml += '<tr><td class="ootdposttable_side"> </td>';
-                postviewhtml += ' <td colspan="2"><img src="image/icon/location.png" width="10">&nbsp&nbsp';
+                postviewhtml += '<tr><td class="ootdposttable_side">&nbsp<img onclick="ootdPageBack()" src="image/icon/back.png" width="10px"></td>';
+                postviewhtml += '<td colspan="2">&nbsp&nbsp<img src="image/icon/location.png" width="10">&nbsp&nbsp';
                 postviewhtml += rs.ootdloc
                 postviewhtml += '</td><td></td><td></td><td colspan="2" class="ootdbmk">';
                 postviewhtml += '<img src="image/icon/usefulbutton.png" onclick="itemClick(event);" ></td>';
@@ -696,7 +698,7 @@ function viewPost(data, idx) {
                 postviewhtml += '<tr class="ootdpostviewtext"><td class="ootdposttable_side"></td><td class="needborder" colspan="5"><pv3>';
                 postviewhtml += rs.ootdtext
                 postviewhtml += '</pv3></td><td ></td></tr><tr><td></td><td class="ootdcommenttd" colspan="4">';
-                postviewhtml += '<img src="image/icon/comment.png" data-toggle="modal" data-target="#ootdcmtmodal" data-what="hello" width="20" onclick="viewCommnetList(' + rs.ootdidx + ')">&nbsp&nbsp';
+                postviewhtml += '<img src="image/icon/comment.png" data-toggle="modal" data-target="#ootdcmtmodal" data-what="hello" width="20">&nbsp&nbsp';
                 postviewhtml += rs.ootdcmtcnt
                 postviewhtml += '</td><td></td><td class="ootdposttable_side"></td></tr></table>';
                 postviewhtml += '<canvas class="js-editorcanvas" style="display: none"></canvas>';
@@ -707,7 +709,7 @@ function viewPost(data, idx) {
 
 
                 postviewhtml += '<table width="100%"><tr><td> <h5 class="modal-title" id="exampleModalLabel">';
-                postviewhtml += '<a onclick="viewCommnetList('+rs.ootdidx+',1)">시간순</a> <a onclick=" viewCommnetList('+rs.ootdidx+',2)">최신순</a></h5>';
+                postviewhtml += '<a class="cmtalign1" onclick="viewCommnetList(' + rs.ootdidx + ',1)">시간순</a> <a class="cmtalign2" onclick=" viewCommnetList(' + rs.ootdidx + ',2)">최신순</a></h5>';
                 postviewhtml += '</td><td> <h5 class="ootdclose" data-dismiss="modal" aria-label="Close"><span onclick="cmtClose();" aria-hidden="true" class="ootdclosespan">X</span></h5></td></tr></table>';
 
                 postviewhtml += '<div class="modal-body"></div><div class="modal-footer"><textarea rows="10" cols="5" class="ootdcmtinput" id="ootdcmtinput" required></textarea>';
@@ -718,7 +720,7 @@ function viewPost(data, idx) {
 
 
                 callProduct(rs.ootdphotoname, rs.xyarr, rs.apiproductinfo);
-                viewCommnetList(rs.ootdidx,1);
+                viewCommnetList(rs.ootdidx, 1);
 
 
             }
@@ -991,7 +993,7 @@ function ootdCmgReg(memidx, ootdidx) {
                 var ootdcommenttd = document.querySelector('.ootdcommenttd');
                 ootdcommenttd.innerHTML = cmtcount
                 $('#ootdcmtinput').val(null);
-                viewCommnetList(ootdidx,1);
+                viewCommnetList(ootdidx, 1);
 
             } else {
                 alert('등록실패')
@@ -1010,13 +1012,27 @@ function ootdCmgReg(memidx, ootdidx) {
 
 /*댓글 리스트 출력*/
 function viewCommnetList(ootdidx, num) {
+    //num = 1 : 시간순 출력
+    //num = 2 : 최신순 출력
+
+    $('.cmtalign1').removeClass('ootd_cmt_align_check');
+    $('.cmtalign2').removeClass('ootd_cmt_align_check');
+    if (num == 1) {
+
+        $('.cmtalign1').addClass('ootd_cmt_align_check');
+
+    } else if (num == 2) {
+        $('.cmtalign2').addClass('ootd_cmt_align_check');
+
+    }
+
 
     $.ajax({
         url: 'http://localhost:8080/ootd/cmt/list',
         type: 'GET',
         data: {
             ootdidx: ootdidx,
-            align : num
+            align: num
         },
         success: function (data) {
 
@@ -1030,8 +1046,8 @@ function viewCommnetList(ootdidx, num) {
                 cmtlisthtml += '<div class="ootdcomment"><table class="ootdcmttable"><tr><td rowspan="2" valign="top" lass="ootdcmtimage">';
                 cmtlisthtml += '<img src="https://bitterbetter.kr/web/product/big/201902/2e83f4014460bab0a9cf24404440231d.jpg"></td>'
                 cmtlisthtml += '<td>' + data[i].ootdcmtnic + '</td><td></td>';
-                cmtlisthtml += '<td class="cmtmodifytd"><a onclick="ootdModifyView(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">수정 </a>'
-                cmtlisthtml += '| <a onclick="ootdDeleteCmt(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">삭제</a></td>';
+                cmtlisthtml += '<td class="cmtmodifytd"><a1 onclick="ootdModifyView(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">수정 </a1>'
+                cmtlisthtml += '| <a1 onclick="ootdDeleteCmt(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">삭제</a1></td>';
                 cmtlisthtml += '</tr><tr><td style="padding-left: 10px" class="ootdcmttext' + data[i].ootdcmtidx + '" colspan="3">';
                 cmtlisthtml += data[i].ootdcmttext
                 cmtlisthtml += '</td></tr></table></div>'
@@ -1075,7 +1091,7 @@ function ootdDeleteCmt(ootdcmtidx, memidx, ootdidx) {
                     var ootdcommenttd = document.querySelector('.ootdcommenttd');
                     ootdcommenttd.innerHTML = cmtcount
                     $('#ootdcmtinput').val(null);
-                    viewCommnetList(ootdidx,1);
+                    viewCommnetList(ootdidx, 1);
                 }
 
             });
@@ -1142,4 +1158,10 @@ function ootdModifyCmt(ootdcmtidx, ootdidx) {
     });
 }
 
+// 페이지 뒤로가기
+function ootdPageBack() {
 
+    var content = document.querySelector('.content');
+    content.innerHTML = contentTemp;
+
+}
