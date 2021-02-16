@@ -71,6 +71,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		DELETE FROM ootd WHERE ootdidx = #{ootdidx}
 	</delete>
 
+	<!-- OOTDIDX 댓글 전부삭제 -->
+	<delete id="deleteCommentData">
+		DELETE FROM ootdcmt WHERE ootdidx = #{ootdidx}
+	</delete>
+	<!-- OOTDIDX 좋아요 전부삭제 -->
+	<delete id="deleteLikeData">
+		DELETE FROM ootdlike WHERE ootdidx = #{ootdidx}
+	</delete>
 
 	<!-- 좋아요 했는지 여부 -->
 	<select id="likeChk" resultType="int">
@@ -143,7 +151,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		order by
 		ootdcmtdate;
 	</select>
-	
+
 	<!-- 댓글리스트 반환 최신순 -->
 	<select id="getCmtListDesc"
 		resultType="com.mw.ootd.Domain.ootdComment">
@@ -162,7 +170,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="modifyComment">
 		UPDATE ootdcmt
 		SET ootdcmttext = #{param1}
-		WHERE ootdcmtidx =
+		WHERE
+		ootdcmtidx =
 		#{param2}
 	</update>
 </mapper>

@@ -73,6 +73,11 @@ public interface ootdInterfaceDao {
 	// 댓글 수정
 	int modifyComment(String oodtcmttext, int ootdcmtidx);
 
+	// ootdidx 글삭제시 코멘트도 삭제 / 좋아요정보도 삭제
+	void deleteCommentData(int ootdidx);
+	void deleteLikeData(int ootdidx);
+	
+
 
 
 

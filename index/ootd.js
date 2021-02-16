@@ -168,12 +168,6 @@ function addregButton() {
     // 해시태그 리스트 불러오기
     regModalHtml += hashtagName;
 
-    ///////가짜로넣어주는값 나중에 지우고 ootdMain()안에 넣어서 넘겨줘야함///////
-    regModalHtml += '<input type="hidden" id="memidx" value="1"><input type="hidden" id="ootdnic" value="메이웨더TEST">';
-    console.log('ootdMain()안에 임시값있음 추후 삭제해야함')
-    /////////////////////////////////
-
-
 
     regModalHtml += '</div></div></form></div><div class="modal-footer">';
     regModalHtml += '<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="dataReset()">닫기</button>'
@@ -393,8 +387,8 @@ function reg() {
         formData.append('apiproductinfo', apiProductInput);
 
         //임시값
-        formData.append('ootdnic', $('#ootdnic').val());
-        formData.append('memidx', $('#memidx').val());
+        formData.append('ootdnic', $('#memnicsession').val());
+        formData.append('memidx', $('#memidxsession').val());
 
 
 
@@ -541,6 +535,8 @@ function pageView(idx) {
 
 
     console.log('들어온페이지번호', idx)
+
+
     $.ajax({
         url: 'http://localhost:8080/ootd/list/paging',
         type: 'get',
@@ -557,7 +553,7 @@ function pageView(idx) {
 
                 for (i = 0; i < data.length; i++) {
                     /*나중에멤버 현재 로그인된 idx받아줘야함, 현재 헤더안에 있는 값으로 하고 있음*/
-                    listhtml += '<div onclick="viewPost(' + data[i].ootdidx + ',' + $('#memidxsession').val() + '); this.onclick=null;">';
+                    listhtml += '<div onclick="viewPost(' + data[i].ootdidx +'); this.onclick=null;">';
                     listhtml += '<table class="ootdposttable">';
                     listhtml += '<tr><td><img src="http://localhost:8080/ootd/fileupload/ootdimage/THUMB_';
                     listhtml += data[i].ootdphotoname;
@@ -603,13 +599,23 @@ function pageView(idx) {
 }
 
 /*게시물 출력*/
-function viewPost(data, idx) {
+function viewPost(data) {
 
     ootdlistScroll = false;
 
     var likeCnt
     var likeheart = '';
+    var idx = 0;
+    
 
+    if ($('#memidxsession').val() == ""){
+        idx = 0;
+    } else {
+        idx = $('#memidxsession').val();
+    }
+
+    console.log(idx)
+    
     $.ajax({
         url: 'http://localhost:8080/ootd/like/chk',
         type: 'get',
@@ -618,15 +624,18 @@ function viewPost(data, idx) {
             memidx: idx
         },
         success: function (result) {
+            if ($('#memidxsession').val() != "") {
 
 
+                if (result.likeChk > 0) {
+                    likeheart = '<img src="image/icon/heart.png" width="20" onclick="ootdlike(0,' + data + ',' + idx + '); this.onclick=null;">';
+                } else {
+                    likeheart = '<img src="image/icon/emptyheart.png" width="20" onclick="ootdlike(1,' + data + ',' + idx + '); this.onclick=null;">';
+                }
 
-            if (result.likeChk > 0) {
-                likeheart = '<img src="image/icon/heart.png" width="20" onclick="ootdlike(0,' + data + ',' + idx + '); this.onclick=null;">';
-            } else {
-                likeheart = '<img src="image/icon/emptyheart.png" width="20" onclick="ootdlike(1,' + data + ',' + idx + '); this.onclick=null;">';
+
             }
-
+            
             likeCnt = result.likeAmount
 
 
@@ -715,7 +724,7 @@ function viewPost(data, idx) {
                 postviewhtml += '</td><td> <h5 class="ootdclose" data-dismiss="modal" aria-label="Close"><span onclick="cmtClose();" aria-hidden="true" class="ootdclosespan">X</span></h5></td></tr></table>';
 
                 postviewhtml += '<div class="modal-body"></div><div class="modal-footer"><textarea rows="10" cols="5" class="ootdcmtinput" id="ootdcmtinput" required></textarea>';
-                postviewhtml += '<button class="ootdcmntsubmit" onclick="ootdCmgReg(' + $('#memidxsession').val() + ',' + rs.ootdidx + ')">등록</button></div></div></div></div>';
+                postviewhtml += '<button class="ootdcmntsubmit" onclick="ootdCmtReg(' + rs.ootdidx + ')">등록</button></div></div></div></div>';
 
                 var content = document.querySelector('.content');
                 content.innerHTML = postviewhtml;
@@ -759,7 +768,7 @@ function itemClick(event) {
 }
 
 /*게시글 삭제*/
-function ootdPostDelete(idx) {
+function ootdPostDelete(ootdidx) {
 
     if (confirm('정말로 삭제하시겠습니까?')) {
 
@@ -767,7 +776,7 @@ function ootdPostDelete(idx) {
             url: 'http://localhost:8080/ootd/postview/delete',
             type: 'get',
             data: {
-                ootdidx: idx
+                ootdidx: ootdidx
             },
             success: function (data) {
                 if (data = 1) {
@@ -867,101 +876,101 @@ function callProduct(imgname, xyarr, apiproductinfo) {
         */
 
         // 사용자가 입력한 상품 정보가 있을 때만 보여준다
-        if(productInfo[i].length!=0){
+        if (productInfo[i].length != 0) {
 
-        // 이미지(url) BASE64>FILE로 바꿔주는 중
-        const toDataURL = url => fetch(url)
-            .then(response => response.blob())
-            .then(blob => new Promise((resolve, reject) => {
-                const reader = new FileReader()
-                reader.onloadend = () => resolve(reader.result)
-                reader.onerror = reject
-                reader.readAsDataURL(blob)
+            // 이미지(url) BASE64>FILE로 바꿔주는 중
+            const toDataURL = url => fetch(url)
+                .then(response => response.blob())
+                .then(blob => new Promise((resolve, reject) => {
+                    const reader = new FileReader()
+                    reader.onloadend = () => resolve(reader.result)
+                    reader.onerror = reject
+                    reader.readAsDataURL(blob)
 
-                function exceptionHandler(message) {
-                    alert('에러메세지', message);
-                }
-
-
-                try {
-
-
-                    var xyvar = base64var * 4
-                    x = xyArray[xyvar]
-                    y = xyArray[xyvar + 1]
-                    w = xyArray[xyvar + 2]
-                    h = xyArray[xyvar + 3]
-
-
-                    // alert('try1');
-                    var uploader2 = new Uploader2({
-                        input: blob,
-                        types: ['gif', 'jpg', 'jpeg', 'png']
-
-                    });
-
-                    // alert('try2');
-                    var editor = new Cropper({
-                        size: {
-                            x: x,
-                            y: y
-                        },
-                        pos: {
-                            x: w,
-                            y: h
-                        },
-                        size: dimensions,
-                        canvas: document.querySelector('.js-editorcanvas'),
-                        preview: document.querySelector('.js-previewcanvas')
-                    });
-
-                    // Make sure both were initialised correctly
-                    if (uploader2 && editor) {
-                        //alert('try3');
-                        // Start the uploader, which will launch the editor
-                        uploader2.listen(editor.setImageSource2.bind(editor), (error) => {
-                            throw error;
-                        });
-
-                        base64var++;
+                    function exceptionHandler(message) {
+                        alert('에러메세지', message);
                     }
 
-                } catch (error) {
-                    console.log("에러", error);
-                    exceptionHandler(error.message);
+
+                    try {
+
+
+                        var xyvar = base64var * 4
+                        x = xyArray[xyvar]
+                        y = xyArray[xyvar + 1]
+                        w = xyArray[xyvar + 2]
+                        h = xyArray[xyvar + 3]
+
+
+                        // alert('try1');
+                        var uploader2 = new Uploader2({
+                            input: blob,
+                            types: ['gif', 'jpg', 'jpeg', 'png']
+
+                        });
+
+                        // alert('try2');
+                        var editor = new Cropper({
+                            size: {
+                                x: x,
+                                y: y
+                            },
+                            pos: {
+                                x: w,
+                                y: h
+                            },
+                            size: dimensions,
+                            canvas: document.querySelector('.js-editorcanvas'),
+                            preview: document.querySelector('.js-previewcanvas')
+                        });
+
+                        // Make sure both were initialised correctly
+                        if (uploader2 && editor) {
+                            //alert('try3');
+                            // Start the uploader, which will launch the editor
+                            uploader2.listen(editor.setImageSource2.bind(editor), (error) => {
+                                throw error;
+                            });
+
+                            base64var++;
+                        }
+
+                    } catch (error) {
+                        console.log("에러", error);
+                        exceptionHandler(error.message);
+                    }
+
+
+
+
+                }))
+
+            /***  * for converting "Base64" to javascript "File Object". ** **/
+            function dataURLtoFile(dataurl, filename) {
+                var arr = dataurl.split(','),
+                    mime = arr[0].match(/:(.*?);/)[1],
+                    bstr = atob(arr[1]),
+                    n = bstr.length,
+                    u8arr = new Uint8Array(n);
+                while (n--) {
+                    u8arr[n] = bstr.charCodeAt(n);
                 }
-
-
-
-
-            }))
-
-        /***  * for converting "Base64" to javascript "File Object". ** **/
-        function dataURLtoFile(dataurl, filename) {
-            var arr = dataurl.split(','),
-                mime = arr[0].match(/:(.*?);/)[1],
-                bstr = atob(arr[1]),
-                n = bstr.length,
-                u8arr = new Uint8Array(n);
-            while (n--) {
-                u8arr[n] = bstr.charCodeAt(n);
+                return new File([u8arr], filename, {
+                    type: mime
+                });
             }
-            return new File([u8arr], filename, {
-                type: mime
-            });
+            /**** Calling both  function *****/
+            toDataURL(url)
+                .then(dataUrl => {
+                    //console.log('RESULT:', dataUrl)
+                    fileData = dataURLtoFile(dataUrl, "imageName.jpg");
+                    // fileArr.push(fileData)
+                    console.log(fileData)
+                })
+
+            console.log(x, y, w, h)
+
         }
-        /**** Calling both  function *****/
-        toDataURL(url)
-            .then(dataUrl => {
-                //console.log('RESULT:', dataUrl)
-                fileData = dataURLtoFile(dataUrl, "imageName.jpg");
-                // fileArr.push(fileData)
-                console.log(fileData)
-            })
-
-        console.log(x, y, w, h)
-
-    }
     }
 
 
@@ -969,8 +978,15 @@ function callProduct(imgname, xyarr, apiproductinfo) {
 
 
 /*댓글등록*/
-function ootdCmgReg(memidx, ootdidx) {
+function ootdCmtReg(ootdidx) {
+    //$('#memidxsession').val()
+    console.log($('#memidxsession').val());
+    if ($('#memidxsession').val() == "") {
 
+        alert('로그인이 필요합니다')
+        return false;
+
+    }
 
 
     var formData = new FormData();
@@ -1203,7 +1219,7 @@ function viewproductinfo(num) {
                 proHtml += '</b><br>';
                 proHtml += productData[i].title
                 proHtml += '<br>'
-                proHtml += productData[i].lprice +'원<br>'
+                proHtml += productData[i].lprice + '원<br>'
                 proHtml += '<a href="'
                 proHtml += productData[i].link
                 proHtml += '">구매하러가기</a></div><br>'

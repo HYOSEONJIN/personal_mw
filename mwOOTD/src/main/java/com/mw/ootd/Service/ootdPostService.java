@@ -37,6 +37,12 @@ public class ootdPostService {
 		dao = template.getMapper(ootdInterfaceDao.class);
 		int result = dao.deletPost(ootdidx);
 		
+		if(result==1) {
+			
+			dao.deleteCommentData(ootdidx);
+			dao.deleteLikeData(ootdidx);
+		}
+		
 		
 		return result;
 		
