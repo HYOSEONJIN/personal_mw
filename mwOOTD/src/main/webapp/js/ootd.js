@@ -614,6 +614,7 @@ function viewPost(data) {
     var likeCnt
     var likeheart = '';
     var idx = 0;
+    var useful = '';
 
 
     if ($('#memidxsession').val() == "") {
@@ -632,6 +633,7 @@ function viewPost(data) {
             memidx: idx
         },
         success: function (result) {
+            // 로그인 했다면
             if ($('#memidxsession').val() != "") {
 
 
@@ -640,6 +642,8 @@ function viewPost(data) {
                 } else {
                     likeheart = '<img src="image/icon/emptyheart.png" width="20" onclick="ootdlike(1,' + data + ',' + idx + '); this.onclick=null;">';
                 }
+
+                useful = '<img src="image/icon/usefulbutton.png" onclick="itemClick(event);" ></td>';
 
 
             }
@@ -682,7 +686,8 @@ function viewPost(data) {
                 postviewhtml += '<td colspan="2">&nbsp&nbsp<img src="image/icon/location.png" width="10">&nbsp&nbsp';
                 postviewhtml += rs.ootdloc
                 postviewhtml += '</td><td></td><td></td><td colspan="2" class="ootdbmk">';
-                postviewhtml += '<img src="image/icon/usefulbutton.png" onclick="itemClick(event);" ></td>';
+                postviewhtml += useful
+                //postviewhtml += '<img src="image/icon/usefulbutton.png" onclick="itemClick(event);" ></td>';
                 postviewhtml += '</tr><tr><td colspan="7">';
                 postviewhtml += '<img class="ootdpostphoto" src="http://localhost:8080/ootd/fileupload/ootdimage/';
                 postviewhtml += rs.ootdphotoname
@@ -811,6 +816,48 @@ function ootdPostDelete(ootdidx, memidx) {
 }
 
 
+
+/*게시글 수정*/
+function ootdPostModify(ootdidx, memidx) {
+    // 글번호, 글쓴이 idx
+
+    if ($('#memidxsession').val() != "") {
+
+        if (memidx == $('#memidxsession').val()) {
+
+
+
+
+
+
+
+
+
+            $.ajax({
+                url: 'http://localhost:8080/ootd/postview/delete',
+                type: 'get',
+                data: {
+                    ootdidx: ootdidx
+                },
+                success: function (data) {
+                    if (data = 1) {
+                        alert('삭제완료')
+                        ootdMain();
+                    }
+
+                }
+
+            });
+        } else {
+            alert('글 작성자만 가능합니다.')
+        }
+    } else {
+        alert('로그인 후에 가능합니다.')
+    }
+
+}
+
+
 /*좋아요 ON/OFF*/
 function ootdlike(chk, ootdidx, memidx) {
 
@@ -863,8 +910,8 @@ function ootdlike(chk, ootdidx, memidx) {
 
 // 상품 정보 불러오기
 function callProduct(imgname, xyarr, apiproductinfo) {
-    
-    
+
+
     apiNum = 0;
 
     /* Here is the codefor converting "image source to "Base64 ".****/
@@ -1132,17 +1179,17 @@ function ootdDeleteCmt(ootdcmtidx, memidx, ootdidx) {
                     ootdidx: ootdidx
                 },
                 success: function (data) {
-                    
+
                     viewCommentList(ootdidx, 1);
 
                     // 현재 댓글의 갯수를 반환
                     var cmtcount = '<img src="image/icon/comment.png" data-toggle="modal" data-target="#ootdcmtmodal" data-what="hello" width="20" onclick="viewCommentList(' + ootdidx + ',1)">&nbsp&nbsp';
                     cmtcount += data;
-                    
+
                     var ootdcommenttd = document.querySelector('.ootdcommenttd');
                     ootdcommenttd.innerHTML = cmtcount
                     $('#ootdcmtinput').val(null);
-                    
+
 
                     alert('삭제완료')
 
