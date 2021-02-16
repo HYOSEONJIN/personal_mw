@@ -7,8 +7,9 @@
  */
 
 /** Class used for uploading images. */
-var chk = true;
-var apiNum =0;
+var apiNum = 0;
+
+
 
 class Uploader {
     /**
@@ -36,6 +37,7 @@ class Uploader {
         this.fileInput = options.input;
         console.log(options);
         this.types = options.types || ['gif', 'jpg', 'jpeg', 'png'];
+
     }
 
     /**
@@ -71,12 +73,12 @@ class Uploader {
 
     /** @private */
     validFileType(filename) {
-        
-            // Get the second part of the MIME type
-            let extension = filename.split('/').pop().toLowerCase();
-            // See if it is in the array of allowed types
-            return this.types.includes(extension);
-        
+
+        // Get the second part of the MIME type
+        let extension = filename.split('/').pop().toLowerCase();
+        // See if it is in the array of allowed types
+        return this.types.includes(extension);
+
     }
 }
 
@@ -102,25 +104,25 @@ class Uploader2 {
      * @param {object} options the parameters to be passed for instantiation
      */
     constructor(options) {
-        
+
         this.input = options.input;
         console.log('업로드2 옵션 시작', options.input);
-        let file =  this.input;
-        
+        let file = this.input;
+
     }
 
     /**
      * Listen for an image file to be uploaded, then validate it and resolve with the image data.
      */
     listen(resolve, reject) {
-            let reader = new FileReader();
-            reader.readAsDataURL(this.input);
-            console.log(this.input);
-            // When loaded, return the file data
-            reader.onload = (e) => resolve(e.target.result);
-        }
-       
-    
+        let reader = new FileReader();
+        reader.readAsDataURL(this.input);
+        console.log(this.input);
+        // When loaded, return the file data
+        reader.onload = (e) => resolve(e.target.result);
+    }
+
+
 
 }
 
@@ -231,9 +233,9 @@ class Cropper {
             this.render();
             // Listen for events on the canvas when the image is ready
             this.imageCanvas.onmousedown = this.clickStart.bind(this);
-            console.log(this.previewCanvas.toDataURL());
-            
-            if(chk){
+            //console.log(this.previewCanvas.toDataURL());
+
+
 
             var apihtml = '<table border="0" class="ootdAPItable"><td class="apiresult"><img src="';
             apihtml += this.previewCanvas.toDataURL();
@@ -241,17 +243,40 @@ class Cropper {
             apihtml += '"></td></table>';
 
             $(".kakaoAPI").append(apihtml);
-			}else{
-            var apiproduct = '<img src="';
-                apiproduct += this.previewCanvas.toDataURL();
-                apiproduct += '" onclick="viewproductinfo('+apiNum;
-                apiproduct += ') this.onclick=null;">;'                
-             $(".ootdproductdiv").append(apiproduct);
-            }
+
+
             apiNum++;
             //img.setAttribute('src', this.previewCanvas.toDataURL());
         };
     }
+
+    setImageSource2(source) {
+        
+        //console.log(productData);
+        this.image = new Image();
+        this.image.src = source;
+        this.image.onload = (e) => {
+            // Perform an initial render
+            this.render();
+            // Listen for events on the canvas when the image is ready
+            this.imageCanvas.onmousedown = this.clickStart.bind(this);
+            //console.log(this.previewCanvas.toDataURL());
+
+            var apiproduct = '<img  class="apiimage' + apiNum + '" src="';
+            apiproduct += this.previewCanvas.toDataURL();
+            apiproduct += '" onclick="viewproductinfo(' + apiNum;
+            apiproduct += '); this.onclick=null;" data-toggle="modal" data-target="#ootdproductmodal" data-what="hello">';
+            
+            apiproduct += '<div class="modal fade" id="ootdproductmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+            apiproduct += '<div class="modal-dialog" role="document"><div class="modal-content">';
+            apiproduct += '<div class="modal-header"><table width="100%"><tr><td><h5 class="modal-title" id="exampleModalLabel">+ WEATHER WEAR +</h5></td><td><h5 class="ootdclose" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></h5></td></tr></table></div><div class="modal-body"><div class="ootdproductbody"></div></div></div></div>'
+
+            $(".ootdproductdiv").append(apiproduct);
+            apiNum++;
+            //img.setAttribute('src', this.previewCanvas.toDataURL());
+        };
+    }
+
 
     /**
      * Export the result to a given image tag.

@@ -434,6 +434,7 @@ pv2 {
 
 .modal-body {
     overflow: scroll;
+    max-height: 600px;
 }
 
 .ootdcomment{
@@ -493,5 +494,39 @@ button:link, button:visited, button:active, button:hover, button:focus{
 
 .ootd_cmt_align_check {
     color : #64c2eb;    
+}
+
+.ootdProductImage {
+    margin : 10px 0;
+    margin-left : 10px;
+}
+
+.ootdproduct {
+    text-align: center;
+}
+
+
+.ootdnaverapiimage {
+    float: left;
+    overflow: hidden;
+}
+
+.ootdapiproductname {
+    width: 70%;
+    padding: 0 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+}
+
+.ootdnaverapiimage img{
+    width: 100%;
+    
+}
+.apiimage {
+	width : 100%;
+    width: 80px;
+    height: 80px;
 }
 

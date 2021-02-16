@@ -60,8 +60,10 @@ var dimensions = {
     height: 128
 };
 
-//이미지의 상품 좌표 검출
+//이미지의 상품 좌표 검출 & 상품 정보
 var xyarr = [];
+var productData;
+
 //입력받은 상품 정보
 var apiProductInput = [];
 var fileData = '';
@@ -698,7 +700,7 @@ function viewPost(data, idx) {
                 postviewhtml += '<tr class="ootdpostviewtext"><td class="ootdposttable_side"></td><td class="needborder" colspan="5"><pv3>';
                 postviewhtml += rs.ootdtext
                 postviewhtml += '</pv3></td><td ></td></tr><tr><td></td><td class="ootdcommenttd" colspan="4">';
-                postviewhtml += '<img src="image/icon/comment.png" data-toggle="modal" data-target="#ootdcmtmodal" data-what="hello" width="20">&nbsp&nbsp';
+                postviewhtml += '<img class="cmticon" src="image/icon/comment.png" data-toggle="modal" data-target="#ootdcmtmodal" data-what="hello" width="20">&nbsp&nbsp';
                 postviewhtml += rs.ootdcmtcnt
                 postviewhtml += '</td><td></td><td class="ootdposttable_side"></td></tr></table>';
                 postviewhtml += '<canvas class="js-editorcanvas" style="display: none"></canvas>';
@@ -733,6 +735,7 @@ function viewPost(data, idx) {
 
 }
 
+// 코멘트 닫을 때 적어논 댓글 초기화
 function cmtClose() {
     $('#ootdcmtinput').val(null);
 }
@@ -844,6 +847,7 @@ function callProduct(imgname, xyarr, apiproductinfo) {
     var productInfo = apiproductinfo.split(',');
     console.log(productInfo);
 
+    productData = productInfo;
 
     var base64var = 0;
 
@@ -862,7 +866,8 @@ function callProduct(imgname, xyarr, apiproductinfo) {
                     h = xyArray[xyvar + 3]
         */
 
-
+        // 사용자가 입력한 상품 정보가 있을 때만 보여준다
+        if(productInfo[i].length!=0){
 
         // 이미지(url) BASE64>FILE로 바꿔주는 중
         const toDataURL = url => fetch(url)
@@ -957,7 +962,7 @@ function callProduct(imgname, xyarr, apiproductinfo) {
         console.log(x, y, w, h)
 
     }
-
+    }
 
 
 }
@@ -1164,5 +1169,55 @@ function ootdPageBack() {
     var content = document.querySelector('.content');
     content.innerHTML = contentTemp;
     ootdlistScroll = true;
+
+}
+
+// 상품 정보 페이지
+function viewproductinfo(num) {
+    var apiImage = $('.apiimage' + num).attr("src");
+    var productName = productData[num];
+
+
+    $.ajax({
+        url: 'http://localhost:8080/ootd/naverapi',
+        type: 'GET',
+        data: {
+            word: productName
+        },
+        success: function (data) {
+
+            var productData = JSON.parse(data).items;
+            console.log(productData)
+
+            var proHtml = '';
+            proHtml += '<div class="ootdproduct"><img class="ootdProductImage" src="';
+            proHtml += apiImage
+            proHtml += '" width="80px"><br>' + productName + '</div><hr>';
+
+            for (i = 0; i < productData.length; i++) {
+
+                proHtml += '<div class="ootdnaverapiimage"><img class="apiimage" src="'
+                proHtml += productData[i].image
+                proHtml += '"></div><div class="ootdapiproductname"><b>'
+                proHtml += productData[i].mallName
+                proHtml += '</b><br>';
+                proHtml += productData[i].title
+                proHtml += '<br>'
+                proHtml += productData[i].lprice +'원<br>'
+                proHtml += '<a href="'
+                proHtml += productData[i].link
+                proHtml += '">구매하러가기</a></div><br>'
+            }
+
+
+            var ootdproductbody = document.querySelector('.ootdproductbody');
+            ootdproductbody.innerHTML = proHtml;
+
+        },
+        error: function (e) {
+            console.log('네이버 API 호출 에러', e);
+        }
+    });
+
 
 }
