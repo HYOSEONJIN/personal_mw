@@ -606,6 +606,7 @@ function pageView(idx) {
 
 }
 
+
 /*게시물 출력*/
 function viewPost(data) {
 
@@ -643,7 +644,7 @@ function viewPost(data) {
                     likeheart = '<img src="image/icon/emptyheart.png" width="20" onclick="ootdlike(1,' + data + ',' + idx + '); this.onclick=null;">';
                 }
 
-                useful = '<img src="image/icon/usefulbutton.png" onclick="itemClick(event);" ></td>';
+                // useful = '<img src="image/icon/usefulbutton.png" onclick="itemClick(event);" ></td>';
 
 
             }
@@ -671,14 +672,28 @@ function viewPost(data) {
                 ootdidx: data
             },
             success: function (data) {
+
                 console.log(data);
                 console.log(data[0]);
 
                 var rs = data[0];
+                if ($('#memidxsession').val() == rs.memidx) {
+                    useful = '<img src="image/icon/usefulbutton.png" onclick="itemClick(event);" ></td>';
+
+                }
+
 
                 postviewhtml += '<div class="ootddrop" id="ootddrop" name="ootddrop">';
-                postviewhtml += '<div class="ootddropcontent" onclick="ootdPostModify(' + rs.ootdidx + ',' + rs.memidx + ')">수정</div>';
+                postviewhtml += '<div class="ootddropcontent" data-toggle="modal" data-target="#ootdModifyModal" data-what="hello" onclick="ootdPostModify(' + rs + ')">수정</div>';
                 postviewhtml += '<div class="ootddropcontent" onclick="ootdPostDelete(' + rs.ootdidx + ',' + rs.memidx + ')">삭제</div></div>';
+
+
+                postviewhtml += '<div class="modal fade" id="ootdModifyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"></div>';
+                postviewhtml += '<canvas class="js-editorcanvas" style="display: none"></canvas>';
+                postviewhtml += '<canvas class="js-previewcanvas" style="display: none"></canvas>';
+
+
+
 
                 postviewhtml += '<div class="postviewarea" id="postviewarea" name="postviewarea">';
                 postviewhtml += '<table class="ootdpostviewtable"  width="100%">';
@@ -757,6 +772,7 @@ function viewPost(data) {
 
 }
 
+
 // 코멘트 닫을 때 적어논 댓글 초기화
 function cmtClose() {
     $('#ootdcmtinput').val(null);
@@ -782,6 +798,26 @@ function itemClick(event) {
 
 /*게시글 삭제*/
 function ootdPostDelete(ootdidx, memidx) {
+    // 글번호, 글쓴이 idx
+
+    if ($('#memidxsession').val() != "") {
+
+        if (rs.memidx == $('#memidxsession').val()) {
+
+            if (confirm('정말로 삭제하시겠습니까?')) {
+
+
+            }
+        } else {
+            alert('글 작성자만 가능합니다.')
+        }
+    } else {
+        alert('로그인 후에 가능합니다.')
+    }
+
+}
+
+function ootdPostModify(rs) {
     // 글번호, 글쓴이 idx
 
     if ($('#memidxsession').val() != "") {
@@ -815,47 +851,6 @@ function ootdPostDelete(ootdidx, memidx) {
 
 }
 
-
-
-/*게시글 수정*/
-function ootdPostModify(ootdidx, memidx) {
-    // 글번호, 글쓴이 idx
-
-    if ($('#memidxsession').val() != "") {
-
-        if (memidx == $('#memidxsession').val()) {
-
-
-
-
-
-
-
-
-
-            $.ajax({
-                url: 'http://localhost:8080/ootd/postview/delete',
-                type: 'get',
-                data: {
-                    ootdidx: ootdidx
-                },
-                success: function (data) {
-                    if (data = 1) {
-                        alert('삭제완료')
-                        ootdMain();
-                    }
-
-                }
-
-            });
-        } else {
-            alert('글 작성자만 가능합니다.')
-        }
-    } else {
-        alert('로그인 후에 가능합니다.')
-    }
-
-}
 
 
 /*좋아요 ON/OFF*/

@@ -154,6 +154,9 @@ function addregButton() {
     var regModalHtml = '';
 
     regModalHtml += '<button type="button" class="regFormButton" data-toggle="modal" data-target="#ootdRegModal" data-what="hello"/>';
+    
+    
+    
     regModalHtml += '<div class="modal fade" id="ootdRegModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
     regModalHtml += '<div class="modal-dialog" role="document"><div class="modal-content">'
     regModalHtml += '<div class="modal-header"><h5 class="modal-title" id="exampleModalLabel">WEATHER WEAR - OOTD</h5>';
@@ -180,7 +183,11 @@ function addregButton() {
     regModalHtml += '</div></div></form></div><div class="modal-footer">';
     regModalHtml += '<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="dataReset()">닫기</button>'
     regModalHtml += '<button type="button" class="btn btn-primary" data-dismiss="modal"  id="close_modal" onclick="reg(); this.onclick=null;">등록</button>'
-    regModalHtml += '</div></div></div></div></div></div>';
+    regModalHtml += '</div></div></div></div></div>
+    
+    
+    
+    regModalHtml +='</div>';
     regModalHtml += '<canvas class="js-editorcanvas" style="display: none"></canvas>';
     regModalHtml += '<canvas class="js-previewcanvas" style="display: none"></canvas>';
 
@@ -606,7 +613,6 @@ function pageView(idx) {
 
 }
 
-
 /*게시물 출력*/
 function viewPost(data) {
 
@@ -615,7 +621,6 @@ function viewPost(data) {
     var likeCnt
     var likeheart = '';
     var idx = 0;
-    var useful = '';
 
 
     if ($('#memidxsession').val() == "") {
@@ -634,7 +639,6 @@ function viewPost(data) {
             memidx: idx
         },
         success: function (result) {
-            // 로그인 했다면
             if ($('#memidxsession').val() != "") {
 
 
@@ -643,8 +647,6 @@ function viewPost(data) {
                 } else {
                     likeheart = '<img src="image/icon/emptyheart.png" width="20" onclick="ootdlike(1,' + data + ',' + idx + '); this.onclick=null;">';
                 }
-
-                // useful = '<img src="image/icon/usefulbutton.png" onclick="itemClick(event);" ></td>';
 
 
             }
@@ -672,28 +674,23 @@ function viewPost(data) {
                 ootdidx: data
             },
             success: function (data) {
-
                 console.log(data);
                 console.log(data[0]);
 
                 var rs = data[0];
-                if ($('#memidxsession').val() == rs.memidx) {
-                    useful = '<img src="image/icon/usefulbutton.png" onclick="itemClick(event);" ></td>';
-
-                }
-
 
                 postviewhtml += '<div class="ootddrop" id="ootddrop" name="ootddrop">';
-                postviewhtml += '<div class="ootddropcontent" data-toggle="modal" data-target="#ootdModifyModal" data-what="hello" onclick="ootdPostModify(' + rs + ')">수정</div>';
+                postviewhtml += '<div class="ootddropcontent" data-toggle="modal" data-target="#ootdModifyModal" data-what="hello" onclick="ootdPostModify(' + rs.ootdidx + ',' + rs.memidx + ')">수정</div>';
                 postviewhtml += '<div class="ootddropcontent" onclick="ootdPostDelete(' + rs.ootdidx + ',' + rs.memidx + ')">삭제</div></div>';
-
-
+                
+                
                 postviewhtml += '<div class="modal fade" id="ootdModifyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"></div>';
-                postviewhtml += '<canvas class="js-editorcanvas" style="display: none"></canvas>';
-                postviewhtml += '<canvas class="js-previewcanvas" style="display: none"></canvas>';
-
-
-
+                
+                
+                
+                
+                
+                
 
                 postviewhtml += '<div class="postviewarea" id="postviewarea" name="postviewarea">';
                 postviewhtml += '<table class="ootdpostviewtable"  width="100%">';
@@ -701,8 +698,7 @@ function viewPost(data) {
                 postviewhtml += '<td colspan="2">&nbsp&nbsp<img src="image/icon/location.png" width="10">&nbsp&nbsp';
                 postviewhtml += rs.ootdloc
                 postviewhtml += '</td><td></td><td></td><td colspan="2" class="ootdbmk">';
-                postviewhtml += useful
-                //postviewhtml += '<img src="image/icon/usefulbutton.png" onclick="itemClick(event);" ></td>';
+                postviewhtml += '<img src="image/icon/usefulbutton.png" onclick="itemClick(event);" ></td>';
                 postviewhtml += '</tr><tr><td colspan="7">';
                 postviewhtml += '<img class="ootdpostphoto" src="http://localhost:8080/ootd/fileupload/ootdimage/';
                 postviewhtml += rs.ootdphotoname
@@ -772,7 +768,6 @@ function viewPost(data) {
 
 }
 
-
 // 코멘트 닫을 때 적어논 댓글 초기화
 function cmtClose() {
     $('#ootdcmtinput').val(null);
@@ -798,26 +793,6 @@ function itemClick(event) {
 
 /*게시글 삭제*/
 function ootdPostDelete(ootdidx, memidx) {
-    // 글번호, 글쓴이 idx
-
-    if ($('#memidxsession').val() != "") {
-
-        if (rs.memidx == $('#memidxsession').val()) {
-
-            if (confirm('정말로 삭제하시겠습니까?')) {
-
-
-            }
-        } else {
-            alert('글 작성자만 가능합니다.')
-        }
-    } else {
-        alert('로그인 후에 가능합니다.')
-    }
-
-}
-
-function ootdPostModify(rs) {
     // 글번호, 글쓴이 idx
 
     if ($('#memidxsession').val() != "") {
@@ -850,7 +825,6 @@ function ootdPostModify(rs) {
     }
 
 }
-
 
 
 /*좋아요 ON/OFF*/
@@ -905,8 +879,8 @@ function ootdlike(chk, ootdidx, memidx) {
 
 // 상품 정보 불러오기
 function callProduct(imgname, xyarr, apiproductinfo) {
-
-
+    
+    
     apiNum = 0;
 
     /* Here is the codefor converting "image source to "Base64 ".****/
@@ -1174,17 +1148,17 @@ function ootdDeleteCmt(ootdcmtidx, memidx, ootdidx) {
                     ootdidx: ootdidx
                 },
                 success: function (data) {
-
+                    
                     viewCommentList(ootdidx, 1);
 
                     // 현재 댓글의 갯수를 반환
                     var cmtcount = '<img src="image/icon/comment.png" data-toggle="modal" data-target="#ootdcmtmodal" data-what="hello" width="20" onclick="viewCommentList(' + ootdidx + ',1)">&nbsp&nbsp';
                     cmtcount += data;
-
+                    
                     var ootdcommenttd = document.querySelector('.ootdcommenttd');
                     ootdcommenttd.innerHTML = cmtcount
                     $('#ootdcmtinput').val(null);
-
+                    
 
                     alert('삭제완료')
 
