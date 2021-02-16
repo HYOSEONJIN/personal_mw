@@ -674,7 +674,7 @@ function viewPost(data) {
 
                 postviewhtml += '<div class="ootddrop" id="ootddrop" name="ootddrop">';
                 postviewhtml += '<div class="ootddropcontent">수정</div>';
-                postviewhtml += '<div class="ootddropcontent" onclick="ootdPostDelete(' + rs.ootdidx + ')">삭제</div></div>';
+                postviewhtml += '<div class="ootddropcontent" onclick="ootdPostDelete(' + rs.ootdidx + ',' + rs.memidx + ')">삭제</div></div>';
 
                 postviewhtml += '<div class="postviewarea" id="postviewarea" name="postviewarea">';
                 postviewhtml += '<table class="ootdpostviewtable"  width="100%">';
@@ -776,472 +776,485 @@ function itemClick(event) {
 }
 
 /*게시글 삭제*/
-function ootdPostDelete(ootdidx) {
+function ootdPostDelete(ootdidx, memidx) {
+    // 글번호, 글쓴이 idx
 
-    if (confirm('정말로 삭제하시겠습니까?')) {
+    if ($('#memidxsession').val() != "") {
+
+        if (memidx == $('#memidxsession').val()) {
+
+                if (confirm('정말로 삭제하시겠습니까?')) {
+
+                    $.ajax({
+                        url: 'http://localhost:8080/ootd/postview/delete',
+                        type: 'get',
+                        data: {
+                            ootdidx: ootdidx
+                        },
+                        success: function (data) {
+                            if (data = 1) {
+                                alert('삭제완료')
+                                ootdMain();
+                            }
+
+                        }
+
+                    });
+                }
+            } else {
+                alert('글 작성자만 가능합니다.')
+            }
+        }
+        else {
+            alert('로그인 후에 가능합니다.')
+        }
+
+    }
+
+
+    /*좋아요 ON/OFF*/
+    function ootdlike(chk, ootdidx, memidx) {
+
+
 
         $.ajax({
-            url: 'http://localhost:8080/ootd/postview/delete',
+            url: 'http://localhost:8080/ootd/like/onoff',
             type: 'get',
             data: {
-                ootdidx: ootdidx
+                chk: chk,
+                ootdidx: ootdidx,
+                memidx: memidx
+
             },
-            success: function (data) {
-                if (data = 1) {
-                    alert('삭제완료')
-                    ootdMain();
+            success: function (result) {
+
+                console.log(result)
+                console.log(result.likeChk)
+                var pv2html = '';
+                pv2html += result.likeAmount
+                pv2html += '명이 좋아합니다&nbsp&nbsp';
+
+                var pv2 = document.querySelector('pv2');
+                pv2.innerHTML = pv2html
+
+
+
+                if (result.likeOnOff == 1) {
+                    likeheart = '<img src="image/icon/heart.png" width="20" onclick="ootdlike(0,' + ootdidx + ',' + memidx + '); this.onclick=null;">';
+
+
+                } else if (result.likeOnOff == 0) {
+
+                    likeheart = '<img src="image/icon/emptyheart.png" width="20" onclick="ootdlike(1,' + ootdidx + ',' + memidx + '); this.onclick=null;">';
                 }
 
-            }
+                var ootdlikediv = document.querySelector('.ootdlikediv');
+                ootdlikediv.innerHTML = likeheart;
 
+
+            },
+            error: function (e) {
+                console.log('좋아요 더하기 빼기 ajax 에러', e)
+            }
         });
+
+
+
     }
-}
+
+    // 상품 정보 불러오기
+    function callProduct(imgname, xyarr, apiproductinfo) {
 
 
-/*좋아요 ON/OFF*/
-function ootdlike(chk, ootdidx, memidx) {
+        /* Here is the codefor converting "image source to "Base64 ".****/
+        let url = 'http://localhost:8080/ootd/fileupload/ootdimage/'
+        url += imgname;
 
 
+        var xyArray = xyarr.split(',');
+        console.log(xyArray);
 
-    $.ajax({
-        url: 'http://localhost:8080/ootd/like/onoff',
-        type: 'get',
-        data: {
-            chk: chk,
-            ootdidx: ootdidx,
-            memidx: memidx
+        var productInfo = apiproductinfo.split(',');
+        console.log(productInfo);
 
-        },
-        success: function (result) {
+        productData = productInfo;
 
-            console.log(result)
-            console.log(result.likeChk)
-            var pv2html = '';
-            pv2html += result.likeAmount
-            pv2html += '명이 좋아합니다&nbsp&nbsp';
+        var base64var = 0;
 
-            var pv2 = document.querySelector('pv2');
-            pv2.innerHTML = pv2html
+        for (i = 0; i < productInfo.length; i++) {
 
 
+            // 0 1 2 3 / 4 5 6 7 / 8 9 10 11 / 12 13 14 15
 
-            if (result.likeOnOff == 1) {
-                likeheart = '<img src="image/icon/heart.png" width="20" onclick="ootdlike(0,' + ootdidx + ',' + memidx + '); this.onclick=null;">';
-
-
-            } else if (result.likeOnOff == 0) {
-
-                likeheart = '<img src="image/icon/emptyheart.png" width="20" onclick="ootdlike(1,' + ootdidx + ',' + memidx + '); this.onclick=null;">';
-            }
-
-            var ootdlikediv = document.querySelector('.ootdlikediv');
-            ootdlikediv.innerHTML = likeheart;
+            /*
 
 
-        },
-        error: function (e) {
-            console.log('좋아요 더하기 빼기 ajax 에러', e)
-        }
-    });
-
-
-
-}
-
-// 상품 정보 불러오기
-function callProduct(imgname, xyarr, apiproductinfo) {
-
-
-    /* Here is the codefor converting "image source to "Base64 ".****/
-    let url = 'http://localhost:8080/ootd/fileupload/ootdimage/'
-    url += imgname;
-
-
-    var xyArray = xyarr.split(',');
-    console.log(xyArray);
-
-    var productInfo = apiproductinfo.split(',');
-    console.log(productInfo);
-
-    productData = productInfo;
-
-    var base64var = 0;
-
-    for (i = 0; i < productInfo.length; i++) {
-
-
-        // 0 1 2 3 / 4 5 6 7 / 8 9 10 11 / 12 13 14 15
-
-        /*
-
-
-                    var xyvar = i * 4
-                    x = xyArray[xyvar]
-                    y = xyArray[xyvar + 1]
-                    w = xyArray[xyvar + 2]
-                    h = xyArray[xyvar + 3]
-        */
-
-        // 사용자가 입력한 상품 정보가 있을 때만 보여준다
-        if (productInfo[i].length != 0) {
-
-            // 이미지(url) BASE64>FILE로 바꿔주는 중
-            const toDataURL = url => fetch(url)
-                .then(response => response.blob())
-                .then(blob => new Promise((resolve, reject) => {
-                    const reader = new FileReader()
-                    reader.onloadend = () => resolve(reader.result)
-                    reader.onerror = reject
-                    reader.readAsDataURL(blob)
-
-                    function exceptionHandler(message) {
-                        alert('에러메세지', message);
-                    }
-
-
-                    try {
-
-
-                        var xyvar = base64var * 4
+                        var xyvar = i * 4
                         x = xyArray[xyvar]
                         y = xyArray[xyvar + 1]
                         w = xyArray[xyvar + 2]
                         h = xyArray[xyvar + 3]
+            */
 
+            // 사용자가 입력한 상품 정보가 있을 때만 보여준다
+            if (productInfo[i].length != 0) {
 
-                        // alert('try1');
-                        var uploader2 = new Uploader2({
-                            input: blob,
-                            types: ['gif', 'jpg', 'jpeg', 'png']
+                // 이미지(url) BASE64>FILE로 바꿔주는 중
+                const toDataURL = url => fetch(url)
+                    .then(response => response.blob())
+                    .then(blob => new Promise((resolve, reject) => {
+                        const reader = new FileReader()
+                        reader.onloadend = () => resolve(reader.result)
+                        reader.onerror = reject
+                        reader.readAsDataURL(blob)
 
-                        });
-
-                        // alert('try2');
-                        var editor = new Cropper({
-                            size: {
-                                x: x,
-                                y: y
-                            },
-                            pos: {
-                                x: w,
-                                y: h
-                            },
-                            size: dimensions,
-                            canvas: document.querySelector('.js-editorcanvas'),
-                            preview: document.querySelector('.js-previewcanvas')
-                        });
-
-                        // Make sure both were initialised correctly
-                        if (uploader2 && editor) {
-                            //alert('try3');
-                            // Start the uploader, which will launch the editor
-                            uploader2.listen(editor.setImageSource2.bind(editor), (error) => {
-                                throw error;
-                            });
-
-                            base64var++;
+                        function exceptionHandler(message) {
+                            alert('에러메세지', message);
                         }
 
-                    } catch (error) {
-                        console.log("에러", error);
-                        exceptionHandler(error.message);
+
+                        try {
+
+
+                            var xyvar = base64var * 4
+                            x = xyArray[xyvar]
+                            y = xyArray[xyvar + 1]
+                            w = xyArray[xyvar + 2]
+                            h = xyArray[xyvar + 3]
+
+
+                            // alert('try1');
+                            var uploader2 = new Uploader2({
+                                input: blob,
+                                types: ['gif', 'jpg', 'jpeg', 'png']
+
+                            });
+
+                            // alert('try2');
+                            var editor = new Cropper({
+                                size: {
+                                    x: x,
+                                    y: y
+                                },
+                                pos: {
+                                    x: w,
+                                    y: h
+                                },
+                                size: dimensions,
+                                canvas: document.querySelector('.js-editorcanvas'),
+                                preview: document.querySelector('.js-previewcanvas')
+                            });
+
+                            // Make sure both were initialised correctly
+                            if (uploader2 && editor) {
+                                //alert('try3');
+                                // Start the uploader, which will launch the editor
+                                uploader2.listen(editor.setImageSource2.bind(editor), (error) => {
+                                    throw error;
+                                });
+
+                                base64var++;
+                            }
+
+                        } catch (error) {
+                            console.log("에러", error);
+                            exceptionHandler(error.message);
+                        }
+
+
+
+
+                    }))
+
+                /***  * for converting "Base64" to javascript "File Object". ** **/
+                function dataURLtoFile(dataurl, filename) {
+                    var arr = dataurl.split(','),
+                        mime = arr[0].match(/:(.*?);/)[1],
+                        bstr = atob(arr[1]),
+                        n = bstr.length,
+                        u8arr = new Uint8Array(n);
+                    while (n--) {
+                        u8arr[n] = bstr.charCodeAt(n);
                     }
-
-
-
-
-                }))
-
-            /***  * for converting "Base64" to javascript "File Object". ** **/
-            function dataURLtoFile(dataurl, filename) {
-                var arr = dataurl.split(','),
-                    mime = arr[0].match(/:(.*?);/)[1],
-                    bstr = atob(arr[1]),
-                    n = bstr.length,
-                    u8arr = new Uint8Array(n);
-                while (n--) {
-                    u8arr[n] = bstr.charCodeAt(n);
+                    return new File([u8arr], filename, {
+                        type: mime
+                    });
                 }
-                return new File([u8arr], filename, {
-                    type: mime
-                });
+                /**** Calling both  function *****/
+                toDataURL(url)
+                    .then(dataUrl => {
+                        //console.log('RESULT:', dataUrl)
+                        fileData = dataURLtoFile(dataUrl, "imageName.jpg");
+                        // fileArr.push(fileData)
+                        console.log(fileData)
+                    })
+
+                console.log(x, y, w, h)
+
             }
-            /**** Calling both  function *****/
-            toDataURL(url)
-                .then(dataUrl => {
-                    //console.log('RESULT:', dataUrl)
-                    fileData = dataURLtoFile(dataUrl, "imageName.jpg");
-                    // fileArr.push(fileData)
-                    console.log(fileData)
-                })
-
-            console.log(x, y, w, h)
-
         }
-    }
 
-
-}
-
-
-/*댓글등록*/
-function ootdCmtReg(ootdidx) {
-    //$('#memidxsession').val()
-    console.log($('#memidxsession').val());
-    if ($('#memidxsession').val() == "") {
-
-        alert('로그인이 필요합니다')
-        return false;
 
     }
 
 
-    var formData = new FormData();
-    formData.append('ootdcmttext', $('#ootdcmtinput').val());
-    formData.append('memidx', memidx);
-    formData.append('ootdidx', ootdidx);
-    console.log('memnicsession값있음 나중에 삭제')
-    formData.append('ootdcmtnic', $('#memnicsession').val());
+    /*댓글등록*/
+    function ootdCmtReg(ootdidx) {
+        //$('#memidxsession').val()
+        console.log($('#memidxsession').val());
+        if ($('#memidxsession').val() == "") {
 
-    $.ajax({
-        url: 'http://localhost:8080/ootd/cmt/reg',
-        type: 'POST',
-        data: formData,
-        enctype: 'multipart/form-data',
-        processData: false,
-        contentType: false,
-        cache: false,
-        success: function (result) {
+            alert('로그인이 필요합니다')
+            return false;
 
-            if (result > 0) {
-                alert('댓글이 등록되었습니다.')
-
-                var cmtcount = '<img src="image/icon/comment.png" data-toggle="modal" data-target="#ootdcmtmodal" data-what="hello" width="20" onclick="viewCommnetList(' + ootdidx + ')">&nbsp&nbsp';
-                cmtcount += result;
-                var ootdcommenttd = document.querySelector('.ootdcommenttd');
-                ootdcommenttd.innerHTML = cmtcount
-                $('#ootdcmtinput').val(null);
-                viewCommnetList(ootdidx, 1);
-
-            } else {
-                alert('등록실패')
-            }
-
-
-        },
-        error: function (e) {
-            console.log('댓글등록에러', e)
         }
-    })
 
 
+        var formData = new FormData();
+        formData.append('ootdcmttext', $('#ootdcmtinput').val());
+        formData.append('memidx', memidx);
+        formData.append('ootdidx', ootdidx);
+        console.log('memnicsession값있음 나중에 삭제')
+        formData.append('ootdcmtnic', $('#memnicsession').val());
 
-}
+        $.ajax({
+            url: 'http://localhost:8080/ootd/cmt/reg',
+            type: 'POST',
+            data: formData,
+            enctype: 'multipart/form-data',
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function (result) {
 
-/*댓글 리스트 출력*/
-function viewCommnetList(ootdidx, num) {
-    //num = 1 : 시간순 출력
-    //num = 2 : 최신순 출력
+                if (result > 0) {
+                    alert('댓글이 등록되었습니다.')
 
-    $('.cmtalign1').removeClass('ootd_cmt_align_check');
-    $('.cmtalign2').removeClass('ootd_cmt_align_check');
-    if (num == 1) {
-
-        $('.cmtalign1').addClass('ootd_cmt_align_check');
-
-    } else if (num == 2) {
-        $('.cmtalign2').addClass('ootd_cmt_align_check');
-
-    }
-
-
-    $.ajax({
-        url: 'http://localhost:8080/ootd/cmt/list',
-        type: 'GET',
-        data: {
-            ootdidx: ootdidx,
-            align: num
-        },
-        success: function (data) {
-
-            console.log(data);
-            // 0: {ootdcmtidx: 1, ootdidx: 174, memidx: 1, ootdcmtnic: "메이웨더TEST세션", ootdcmttext: "이쁘네염!"}
-
-            var cmtlisthtml = '';
-
-            for (i = 0; i < data.length; i++) {
-
-                cmtlisthtml += '<div class="ootdcomment"><table class="ootdcmttable"><tr><td rowspan="2" valign="top" lass="ootdcmtimage">';
-                cmtlisthtml += '<img src="https://bitterbetter.kr/web/product/big/201902/2e83f4014460bab0a9cf24404440231d.jpg"></td>'
-                cmtlisthtml += '<td>' + data[i].ootdcmtnic + '</td><td></td>';
-                cmtlisthtml += '<td class="cmtmodifytd"><a1 onclick="ootdModifyView(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">수정 </a1>'
-                cmtlisthtml += '| <a1 onclick="ootdDeleteCmt(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">삭제</a1></td>';
-                cmtlisthtml += '</tr><tr><td style="padding-left: 10px" class="ootdcmttext' + data[i].ootdcmtidx + '" colspan="3">';
-                cmtlisthtml += data[i].ootdcmttext
-                cmtlisthtml += '</td></tr></table></div>'
-            }
-
-            var ootdcmtmodal = document.querySelector('.modal-body');
-            ootdcmtmodal.innerHTML = cmtlisthtml;
-
-
-
-        },
-        error: function (e) {
-            console.log('댓글 리스트 불러오기 에러', e);
-        }
-    })
-
-
-}
-
-//댓글삭제
-function ootdDeleteCmt(ootdcmtidx, memidx, ootdidx) {
-
-    if (confirm('정말로 삭제하시겠습니까?')) {
-        var loginmemidx = $('#memidxsession').val();
-
-        if (memidx == loginmemidx) {
-
-            $.ajax({
-                url: 'http://localhost:8080/ootd/cmt/delete',
-                type: 'GET',
-                data: {
-                    ootdcmtidx: ootdcmtidx,
-                    ootdidx: ootdidx
-                },
-                success: function (data) {
-                    alert('삭제완료')
-
-                    // 현재 댓글의 갯수를 반환
                     var cmtcount = '<img src="image/icon/comment.png" data-toggle="modal" data-target="#ootdcmtmodal" data-what="hello" width="20" onclick="viewCommnetList(' + ootdidx + ')">&nbsp&nbsp';
-                    cmtcount += data;
+                    cmtcount += result;
                     var ootdcommenttd = document.querySelector('.ootdcommenttd');
                     ootdcommenttd.innerHTML = cmtcount
                     $('#ootdcmtinput').val(null);
                     viewCommnetList(ootdidx, 1);
+
+                } else {
+                    alert('등록실패')
                 }
 
-            });
 
+            },
+            error: function (e) {
+                console.log('댓글등록에러', e)
+            }
+        })
+
+
+
+    }
+
+    /*댓글 리스트 출력*/
+    function viewCommnetList(ootdidx, num) {
+        //num = 1 : 시간순 출력
+        //num = 2 : 최신순 출력
+
+        $('.cmtalign1').removeClass('ootd_cmt_align_check');
+        $('.cmtalign2').removeClass('ootd_cmt_align_check');
+        if (num == 1) {
+
+            $('.cmtalign1').addClass('ootd_cmt_align_check');
+
+        } else if (num == 2) {
+            $('.cmtalign2').addClass('ootd_cmt_align_check');
+
+        }
+
+
+        $.ajax({
+            url: 'http://localhost:8080/ootd/cmt/list',
+            type: 'GET',
+            data: {
+                ootdidx: ootdidx,
+                align: num
+            },
+            success: function (data) {
+
+                console.log(data);
+                // 0: {ootdcmtidx: 1, ootdidx: 174, memidx: 1, ootdcmtnic: "메이웨더TEST세션", ootdcmttext: "이쁘네염!"}
+
+                var cmtlisthtml = '';
+
+                for (i = 0; i < data.length; i++) {
+
+                    cmtlisthtml += '<div class="ootdcomment"><table class="ootdcmttable"><tr><td rowspan="2" valign="top" lass="ootdcmtimage">';
+                    cmtlisthtml += '<img src="https://bitterbetter.kr/web/product/big/201902/2e83f4014460bab0a9cf24404440231d.jpg"></td>'
+                    cmtlisthtml += '<td>' + data[i].ootdcmtnic + '</td><td></td>';
+                    cmtlisthtml += '<td class="cmtmodifytd"><a1 onclick="ootdModifyView(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">수정 </a1>'
+                    cmtlisthtml += '| <a1 onclick="ootdDeleteCmt(' + data[i].ootdcmtidx + ',' + data[i].memidx + ',' + data[i].ootdidx + ')">삭제</a1></td>';
+                    cmtlisthtml += '</tr><tr><td style="padding-left: 10px" class="ootdcmttext' + data[i].ootdcmtidx + '" colspan="3">';
+                    cmtlisthtml += data[i].ootdcmttext
+                    cmtlisthtml += '</td></tr></table></div>'
+                }
+
+                var ootdcmtmodal = document.querySelector('.modal-body');
+                ootdcmtmodal.innerHTML = cmtlisthtml;
+
+
+
+            },
+            error: function (e) {
+                console.log('댓글 리스트 불러오기 에러', e);
+            }
+        })
+
+
+    }
+
+    //댓글삭제
+    function ootdDeleteCmt(ootdcmtidx, memidx, ootdidx) {
+
+        if (confirm('정말로 삭제하시겠습니까?')) {
+            var loginmemidx = $('#memidxsession').val();
+
+            if (memidx == loginmemidx) {
+
+                $.ajax({
+                    url: 'http://localhost:8080/ootd/cmt/delete',
+                    type: 'GET',
+                    data: {
+                        ootdcmtidx: ootdcmtidx,
+                        ootdidx: ootdidx
+                    },
+                    success: function (data) {
+                        alert('삭제완료')
+
+                        // 현재 댓글의 갯수를 반환
+                        var cmtcount = '<img src="image/icon/comment.png" data-toggle="modal" data-target="#ootdcmtmodal" data-what="hello" width="20" onclick="viewCommnetList(' + ootdidx + ')">&nbsp&nbsp';
+                        cmtcount += data;
+                        var ootdcommenttd = document.querySelector('.ootdcommenttd');
+                        ootdcommenttd.innerHTML = cmtcount
+                        $('#ootdcmtinput').val(null);
+                        viewCommnetList(ootdidx, 1);
+                    }
+
+                });
+
+            } else if (memidx != loginmemidx) {
+                alert('댓글의 작성자만 삭제할 수 있습니다.')
+            }
+
+        }
+
+    }
+
+
+
+    // 수정창 보여주기
+    function ootdModifyView(ootdcmtidx, memidx, ootdidx) {
+
+        var loginmemidx = $('#memidxsession').val();
+        if (memidx == loginmemidx) {
+            var ootdcmttexthtml = '<textarea class="ootdmodifycmt"></textarea>';
+
+            var ootdcmttext = document.querySelector('.ootdcmttext' + ootdcmtidx);
+            ootdcmttext.innerHTML = ootdcmttexthtml;
+
+            var cancel = '<a onclick="ootdModifyCmt(' + ootdcmtidx + ',' + ootdidx + ')">수정</a>';
+            cancel += ' | <a onclick="viewCommnetList(' + ootdidx + ')">취소</a>';
+
+            var cmtmodifytd = document.querySelector('.cmtmodifytd');
+            cmtmodifytd.innerHTML = cancel;
         } else if (memidx != loginmemidx) {
-            alert('댓글의 작성자만 삭제할 수 있습니다.')
+            alert('댓글의 작성자만 수정할 수 있습니다.')
         }
+
 
     }
 
-}
+    // 댓글 수정
+    function ootdModifyCmt(ootdcmtidx, ootdidx) {
+
+        var modifycmttext = $('.ootdmodifycmt').val();
+        console.log(modifycmttext)
+
+        $.ajax({
+            url: 'http://localhost:8080/ootd/cmt/modify',
+            type: 'post',
+            data: {
+                ootdcmtidx: ootdcmtidx,
+                ootdcmttext: modifycmttext
+            },
+            success: function (data) {
+                if (data == 1) {
+                    alert('수정완료')
+                    viewCommnetList(ootdidx);
+
+                } else if (data == 0) {
+                    alert('수정실패 다시 시도해주세요')
+                }
+            },
+            error: function (e) {
+                console.log('댓글 수정 에러', e);
+            }
 
 
-
-// 수정창 보여주기
-function ootdModifyView(ootdcmtidx, memidx, ootdidx) {
-
-    var loginmemidx = $('#memidxsession').val();
-    if (memidx == loginmemidx) {
-        var ootdcmttexthtml = '<textarea class="ootdmodifycmt"></textarea>';
-
-        var ootdcmttext = document.querySelector('.ootdcmttext' + ootdcmtidx);
-        ootdcmttext.innerHTML = ootdcmttexthtml;
-
-        var cancel = '<a onclick="ootdModifyCmt(' + ootdcmtidx + ',' + ootdidx + ')">수정</a>';
-        cancel += ' | <a onclick="viewCommnetList(' + ootdidx + ')">취소</a>';
-
-        var cmtmodifytd = document.querySelector('.cmtmodifytd');
-        cmtmodifytd.innerHTML = cancel;
-    } else if (memidx != loginmemidx) {
-        alert('댓글의 작성자만 수정할 수 있습니다.')
+        });
     }
 
+    // 페이지 뒤로가기
+    function ootdPageBack() {
 
-}
+        var content = document.querySelector('.content');
+        content.innerHTML = contentTemp;
+        ootdlistScroll = true;
 
-// 댓글 수정
-function ootdModifyCmt(ootdcmtidx, ootdidx) {
+    }
 
-    var modifycmttext = $('.ootdmodifycmt').val();
-    console.log(modifycmttext)
+    // 상품 정보 페이지
+    function viewproductinfo(num) {
+        var apiImage = $('.apiimage' + num).attr("src");
+        var productName = productData[num];
 
-    $.ajax({
-        url: 'http://localhost:8080/ootd/cmt/modify',
-        type: 'post',
-        data: {
-            ootdcmtidx: ootdcmtidx,
-            ootdcmttext: modifycmttext
-        },
-        success: function (data) {
-            if (data == 1) {
-                alert('수정완료')
-                viewCommnetList(ootdidx);
 
-            } else if (data == 0) {
-                alert('수정실패 다시 시도해주세요')
+        $.ajax({
+            url: 'http://localhost:8080/ootd/naverapi',
+            type: 'GET',
+            data: {
+                word: productName
+            },
+            success: function (data) {
+
+                var productData = JSON.parse(data).items;
+                console.log(productData)
+
+                var proHtml = '';
+                proHtml += '<div class="ootdproduct"><img class="ootdProductImage" src="';
+                proHtml += apiImage
+                proHtml += '" width="80px"><br>' + productName + '</div><hr>';
+
+                for (i = 0; i < productData.length; i++) {
+
+                    proHtml += '<div class="ootdnaverapiimage"><img class="apiimage" src="'
+                    proHtml += productData[i].image
+                    proHtml += '"></div><div class="ootdapiproductname"><b>'
+                    proHtml += productData[i].mallName
+                    proHtml += '</b><br>';
+                    proHtml += productData[i].title
+                    proHtml += '<br>'
+                    proHtml += productData[i].lprice + '원<br>'
+                    proHtml += '<a href="'
+                    proHtml += productData[i].link
+                    proHtml += '">구매하러가기</a></div><br>'
+                }
+
+
+                var ootdproductbody = document.querySelector('.ootdproductbody');
+                ootdproductbody.innerHTML = proHtml;
+
+            },
+            error: function (e) {
+                console.log('네이버 API 호출 에러', e);
             }
-        },
-        error: function (e) {
-            console.log('댓글 수정 에러', e);
-        }
+        });
 
 
-    });
-}
-
-// 페이지 뒤로가기
-function ootdPageBack() {
-
-    var content = document.querySelector('.content');
-    content.innerHTML = contentTemp;
-    ootdlistScroll = true;
-
-}
-
-// 상품 정보 페이지
-function viewproductinfo(num) {
-    var apiImage = $('.apiimage' + num).attr("src");
-    var productName = productData[num];
-
-
-    $.ajax({
-        url: 'http://localhost:8080/ootd/naverapi',
-        type: 'GET',
-        data: {
-            word: productName
-        },
-        success: function (data) {
-
-            var productData = JSON.parse(data).items;
-            console.log(productData)
-
-            var proHtml = '';
-            proHtml += '<div class="ootdproduct"><img class="ootdProductImage" src="';
-            proHtml += apiImage
-            proHtml += '" width="80px"><br>' + productName + '</div><hr>';
-
-            for (i = 0; i < productData.length; i++) {
-
-                proHtml += '<div class="ootdnaverapiimage"><img class="apiimage" src="'
-                proHtml += productData[i].image
-                proHtml += '"></div><div class="ootdapiproductname"><b>'
-                proHtml += productData[i].mallName
-                proHtml += '</b><br>';
-                proHtml += productData[i].title
-                proHtml += '<br>'
-                proHtml += productData[i].lprice + '원<br>'
-                proHtml += '<a href="'
-                proHtml += productData[i].link
-                proHtml += '">구매하러가기</a></div><br>'
-            }
-
-
-            var ootdproductbody = document.querySelector('.ootdproductbody');
-            ootdproductbody.innerHTML = proHtml;
-
-        },
-        error: function (e) {
-            console.log('네이버 API 호출 에러', e);
-        }
-    });
-
-
-}
+    }
