@@ -1253,7 +1253,7 @@ function viewproductinfo(num) {
                 proHtml += productData[i].lprice + '원<br>'
                 proHtml += '<a href="'
                 proHtml += productData[i].link
-                proHtml += '">구매하러가기</a></div><br>'
+                proHtml += '">구매하러가기</a></div><br></div><div class="modal-footer"></div>'
             }
 
 
