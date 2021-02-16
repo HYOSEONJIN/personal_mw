@@ -77,6 +77,8 @@ public interface ootdInterfaceDao {
 	void deleteCommentData(int ootdidx);
 	void deleteLikeData(int ootdidx);
 	
+	// ootdidx값의 사진파일 명 가져오기
+	String deleteFileName(int ootdidx);
 
 
 

@@ -71,6 +71,9 @@ var apiProductInput = [];
 var fileData = '';
 var fileArr = [];
 
+//게시글정보
+var rs
+
 // 메인 출력
 function ootdMain() {
 
@@ -676,7 +679,9 @@ function viewPost(data) {
                 console.log(data);
                 console.log(data[0]);
 
-                var rs = data[0];
+                rs = data[0];
+
+                //게시물 주인에게만 보이는 수정/삭제 아이콘 :
                 if ($('#memidxsession').val() == rs.memidx) {
                     useful = '<img src="image/icon/usefulbutton.png" onclick="itemClick(event);" ></td>';
 
@@ -684,11 +689,21 @@ function viewPost(data) {
 
 
                 postviewhtml += '<div class="ootddrop" id="ootddrop" name="ootddrop">';
-                postviewhtml += '<div class="ootddropcontent" data-toggle="modal" data-target="#ootdModifyModal" data-what="hello" onclick="ootdPostModify(' + rs + ')">수정</div>';
+                postviewhtml += '<div class="ootddropcontent" data-toggle="modal" data-target="#ootdModifyModal" data-what="hello" onclick="ootdPostModify()">수정</div>';
                 postviewhtml += '<div class="ootddropcontent" onclick="ootdPostDelete(' + rs.ootdidx + ',' + rs.memidx + ')">삭제</div></div>';
 
 
-                postviewhtml += '<div class="modal fade" id="ootdModifyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"></div>';
+
+
+                postviewhtml += '<div class="modal fade" id="ootdModifyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+                postviewhtml += '<div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="exampleModalLabel">WEATHER WEAR - OOTD 수정하기</h5><div class="modal-body"><div class="ootdmodifybody">'
+
+
+
+                postviewhtml += '</div>'; /*modifybody*/
+                postviewhtml += '<div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="dataReset()">닫기</button><button type="button" class="btn btn-primary" data-dismiss="modal" id="close_modal" onclick="ootdmodify(' + rs.ootdidx + '); this.onclick=null;">수정</button></div>'
+                postviewhtml += '</div></div></div></div>';
+                postviewhtml += '</div>';
                 postviewhtml += '<canvas class="js-editorcanvas" style="display: none"></canvas>';
                 postviewhtml += '<canvas class="js-previewcanvas" style="display: none"></canvas>';
 
@@ -805,27 +820,6 @@ function ootdPostDelete(ootdidx, memidx) {
         if (rs.memidx == $('#memidxsession').val()) {
 
             if (confirm('정말로 삭제하시겠습니까?')) {
-
-
-            }
-        } else {
-            alert('글 작성자만 가능합니다.')
-        }
-    } else {
-        alert('로그인 후에 가능합니다.')
-    }
-
-}
-
-function ootdPostModify(rs) {
-    // 글번호, 글쓴이 idx
-
-    if ($('#memidxsession').val() != "") {
-
-        if (memidx == $('#memidxsession').val()) {
-
-            if (confirm('정말로 삭제하시겠습니까?')) {
-
                 $.ajax({
                     url: 'http://localhost:8080/ootd/postview/delete',
                     type: 'get',
@@ -841,14 +835,69 @@ function ootdPostModify(rs) {
                     }
 
                 });
+            } else {
+                alert('글 작성자만 가능합니다.')
             }
         } else {
-            alert('글 작성자만 가능합니다.')
+            alert('로그인 후에 가능합니다.')
         }
-    } else {
-        alert('로그인 후에 가능합니다.')
-    }
 
+    }
+}
+
+/*게시글수정창띄움*/
+function ootdPostModify(ind) {
+    // 글번호, 글쓴이 idx
+
+
+    console.log(rs)
+
+    var modifyhtml = '<label for="recipient-name" class="col-form-label">TODAY OOTD</label><br>';
+
+
+    modifyhtml += '<table class="ootdregTable"><tbody><tr><td width="100px">';
+    modifyhtml += '<div class="ootdfilebox"><label class="img-upload-label"><input type="file" class="ootdphoto img-upload" accept="image/jpeg,image/png,image/gif" id="ootdphoto" name="ootdphoto"></label></div></td><td><div class="form-group">';
+
+    modifyhtml += '<textarea id="ootdtext" name="ootdtext" required="">' + rs.ootdtext + '</textarea>'
+
+    modifyhtml += '</div></td></tr></tbody></table><div class="kakaoAPI"></div><div class="form-group"><div class="ootd_hs">';
+    modifyhtml += hashtagName;
+    modifyhtml += '</div></div>'
+    var ootdmodifybody = document.querySelector('.ootdmodifybody');
+    ootdmodifybody.innerHTML = modifyhtml
+
+
+
+
+    /*BASE64 미리보기*/
+
+    var ootdphoto = document.getElementById('ootdphoto')
+    var preview = document.querySelector('#preview')
+
+    /* FileReader 객체 생성 */
+    var reader = new FileReader();
+
+    /* reader 시작시 함수 구현 */
+    reader.onload = (function () {
+
+        image1 = document.createElement('img');
+        var vm = this;
+
+        return function (e) {
+            vm.image1.src = e.target.result
+            $('.img-upload-label').css({
+                "background-image": "url(" + e.target.result + ")"
+            })
+            kakaoCall();
+        }
+    })()
+    ootdphoto.addEventListener('change', function (e) {
+        var get_file = e.target.files;
+        if (get_file) {
+            reader.readAsDataURL(get_file[0]);
+        }
+    })
+    /*이미지를 베이스 64로 바꾸고 저장하지 않아도 썸네일로 보여줌 여기까지*/
 }
 
 
@@ -1309,6 +1358,101 @@ function viewproductinfo(num) {
             console.log('네이버 API 호출 에러', e);
         }
     });
+
+
+}
+
+
+function ootdmodify(ootdidx) {
+    //모달창끄기
+
+    var current_ajax_num = ajax_last_num;
+
+    var photoFile = $('#ootdphoto');
+    var file1 = photoFile[0].files[0];
+
+    console.log(photoFile[0].files.length == 0);
+
+
+
+
+    // hashtagJSON();
+
+    var formData = new FormData();
+
+    //내용
+    formData.append('ootdtext', $('#ootdtext').val());
+
+    //파일이 있으때만 수정
+    if (photoFile[0].files.length != 0) {
+        formData.append("ootdphoto", file1);
+        formData.append('xyarr', xyarr.toString());
+        for (i = 0; i < apiNum; i++) {
+            // 값에 ,이 들어가있으면 생략해줘야함 (처리) var result = test.replace( /가/gi, '나');
+            var result = $('.apitable' + i).val().replace(/,/gi, '');
+            console.log('변경결과', result);
+            apiProductInput.push(result);
+
+        }
+
+        console.log(apiProductInput);
+        formData.append('apiproductinfo', apiProductInput);
+    }
+
+    //해시태그
+    formData.append('ootdhashtag', hashCheck.toString());
+
+
+
+
+    //임시값
+    formData.append('ootdnic', $('#memnicsession').val());
+    formData.append('memidx', $('#memidxsession').val());
+
+    //글번호
+    formData.append('ootdidx', ootdidx);
+
+
+
+    $.ajax({
+
+        url: 'http://localhost:8080/ootd/modify',
+        type: 'POST',
+        data: formData,
+        enctype: 'multipart/form-data',
+        processData: false,
+        contentType: false,
+        cache: false,
+        beforeSend: function (request) {
+            ajax_last_num = ajax_last_num + 1;
+        },
+        success: function (data) {
+            if (current_ajax_num == ajax_last_num - 1) {
+
+
+
+                if (data == 1) {
+                    dataReset();
+                    alert("등록완료");
+                    ootdMain();
+
+
+                } else if (data == 2) {
+                    hashJSON = '';
+                    dataReset();
+                    alert('내용을 입력하세요');
+                } else {
+                    hashJSON = '';
+                    dataReset();
+                    alert("알수없는 에러가 발생했습니다. 다시시도해주세요");
+                    viewPost(ootdidx);
+
+                }
+
+            }
+        }
+
+    })
 
 
 }

@@ -2,6 +2,8 @@ package com.mw.ootd.Controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,10 +33,12 @@ public class ootdPostController {
 	/* 삭제 */	
 	@GetMapping("/delete")
 	public int ootdPostDel(
-			@RequestParam("ootdidx") int ootdidx){
+			@RequestParam("ootdidx") int ootdidx,
+			HttpServletRequest request	
+			){
 		
 		System.out.println("삭제"+ ootdidx);		
-		return postService.deletPost(ootdidx);
+		return postService.deletPost(ootdidx, request);
 		
 	}
 }

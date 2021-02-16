@@ -79,6 +79,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteLikeData">
 		DELETE FROM ootdlike WHERE ootdidx = #{ootdidx}
 	</delete>
+	
+	<!-- OOTDIDX에 따른 파일명 반환 -->
+	<select id="deleteFileName"
+			resultType="String">
+		SELECT ootdphotoname from ootd where ootdidx=#{ootdidx}
+	</select>
 
 	<!-- 좋아요 했는지 여부 -->
 	<select id="likeChk" resultType="int">
