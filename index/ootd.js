@@ -8,6 +8,8 @@ window.onload = function () {
 
 
 
+
+
 };
 
 $(document).ready(function () {
@@ -74,8 +76,15 @@ var fileArr = [];
 //게시글정보
 var rs
 
+
+var count = $('#rank-list li').length;
+var height = $('#rank-list li').height();
+
+
 // 메인 출력
 function ootdMain() {
+
+
 
 
 
@@ -89,6 +98,7 @@ function ootdMain() {
     //hashJSON = '';
     pageView(pageNum);
     addregButton();
+
 
 
     if ($('#memidxsession').val() == "") {
@@ -148,6 +158,19 @@ function ootdMain() {
     /*이미지를 베이스 64로 바꾸고 저장하지 않아도 썸네일로 보여줌 여기까지*/
 
 
+
+
+}
+
+function step(index) {
+    count = $('#rank-list li').length;
+    height = $('#rank-list li').height();
+
+    $('#rank-list ol').delay(1000).animate({
+        top: -height * index,
+    }, 500, function () {
+        step((index + 1) % count);
+    });
 }
 
 /*글쓰기*/
@@ -561,6 +584,7 @@ function pageView(idx) {
 
                 var listhtml = '<div class="ootdlistarea">';
 
+                listhtml += '<table><tr><td>무신사 브랜드 랭킹</td><td><dl id="rank-list"><dt>무신사 브랜드 랭킹 순위 1-10</dt><dd><ol></ol></dd></dl></td></tr></table>';
 
                 for (i = 0; i < data.length; i++) {
                     /*나중에멤버 현재 로그인된 idx받아줘야함, 현재 헤더안에 있는 값으로 하고 있음*/
@@ -581,6 +605,8 @@ function pageView(idx) {
                 $(".content").append(listhtml);
                 pageNum++;
                 console.log('삭제할 값 있음 function pageView', pageNum);
+
+                step(1);
 
                 // 무한스크롤 : 세로길이가 길 경우 처리
                 if ($(".body").height() < $(window).height() && scrollchk2) {
@@ -1362,7 +1388,7 @@ function viewproductinfo(num) {
 
 }
 
-
+/*게시글 수정 전송*/
 function ootdmodify(ootdidx) {
     //모달창끄기
 
@@ -1455,4 +1481,18 @@ function ootdmodify(ootdidx) {
     })
 
 
+}
+
+
+function callBrandRank(){
+    
+    $.ajax({
+        url: 'http://127.0.0.1:8000/brand',
+        success: function (data) {
+          console.log(data)
+        }
+        
+    });
+
+    
 }

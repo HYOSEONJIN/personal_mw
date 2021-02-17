@@ -8,9 +8,13 @@ target = request.urlopen(url)
 soup = bs(target, 'html.parser')
 
 brand = soup.select('.brandLogo img')
+rankup = soup.select('.rank')
 brandname = []
+brandrank = []
 
-print('----------------------------------------------------')
+#print(brand)
+#print(rankup)
+print('----------------------------시작------------------------')
 
 for alt in brand[:10] :
     #print(alt.get('alt'))
@@ -20,18 +24,43 @@ for alt in brand[:10] :
 print(brandname)
 print('----------------------------------------------------')
 
+
+for cla in rankup[:10] :
+    brandrank.append(cla.get('class'))
+
+print(brandrank)
+print('----------------------------------------------------')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import json
 jsonString = json.dumps(brandname, ensure_ascii=False)
 
-print(jsonString)
+#print(jsonString)
 
 
 from flask import Flask
 
 # 웹서버 생성
 app = Flask(__name__)
-print(app)
-print(__name__)
+#print(app)
+#print(__name__)
 
 #url
 @app.route('/brand')

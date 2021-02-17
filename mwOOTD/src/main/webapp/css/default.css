@@ -10,315 +10,291 @@
 
 /*한글*/
 /*font-family: 'Nanum Gothic', sans-serif;*/
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+@import
+	url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap')
+	;
 /*font-family: 'Noto Sans KR', sans-serif;*/
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
-
+@import
+	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap')
+	;
 
 /*영문*/
 @font-face {
-    font-family: 'Bebas Neue Book';
-    font-style: normal;
-    font-weight: normal;
-    src: local('Bebas Neue Book'), url('BebasNeue Book.woff') format('woff');
+	font-family: 'Bebas Neue Book';
+	font-style: normal;
+	font-weight: normal;
+	src: local('Bebas Neue Book'), url('BebasNeue Book.woff') format('woff');
 }
 
 * {
-    padding: 0;
-    margin: 0;
-    background-color: #f5f5f5;
-    color: #757575;
+	padding: 0;
+	margin: 0;
+	background-color: #f5f5f5;
+	color: #757575;
 }
-
 
 ::-webkit-scrollbar {
-    display: none;
-
+	display: none;
 }
 
-
 body {
-    padding: 0;
-    margin: 0;
-    font-family: 'Noto Sans KR', sans-serif;
+	padding: 0;
+	margin: 0;
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 header {
-    background-color: #64c2eb;
-    height: 90px;
-    float: left;
-    width: 100%;
-    position: fixed;
-    top: 0px;
-
+	background-color: #64c2eb;
+	height: 90px;
+	float: left;
+	width: 100%;
+	position: fixed;
+	top: 0px;
 }
 
 footer {
-    background-color: #ffffff;
-    height: 60px;
-    clear: both;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    font-family: 'Nanum Gothic', sans-serif;
-       z-index : 1000;  
-
+	background-color: #ffffff;
+	height: 60px;
+	clear: both;
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	font-family: 'Nanum Gothic', sans-serif;
+	z-index: 1000;
 }
 
-
-
 .logoimage {
-    margin-top: 10px;
-    margin-left: 20px;
-    background-color: #64c2eb;
+	margin-top: 10px;
+	margin-left: 20px;
+	background-color: #64c2eb;
 }
 
 .content {
-    margin-top: 100px;
-   
+	margin-top: 100px;
 }
 
 .footer_menu_table {
-    text-align: center;
-    margin: 5px auto;
-    background-color: #ffffff;
-    font-weight: bold;
-
+	text-align: center;
+	margin: 5px auto;
+	background-color: #ffffff;
+	font-weight: bold;
 }
 
 .footer_menu_table tr td {
-    width: 70px;
-    padding: 0 10px;
-    background-color: #ffffff;
-    font-size: 10px;
+	width: 70px;
+	padding: 0 10px;
+	background-color: #ffffff;
+	font-size: 10px;
 }
 
 .menuicons {
-    background-color: #ffffff;
+	background-color: #ffffff;
 }
 
 .bottomArea {
-    height: 120px;    
+	height: 120px;
 }
 
-.bottomArea img{
-	width : 100%;
+.bottomArea img {
+	width: 100%;
 	height: 100px;
 }
 
 /* ---------------------- OOTD CSS ---------------------- */
-
-
 .ootd_hashtag {
-    width: 33%;
-    overflow: hidden;
-    color: #ffffff;
-    float: left;
-    background-color: #757575;
-    border: 2px solid #ffffff;
-    padding: 10px 10px;
-    text-align: center;
+	width: 33%;
+	overflow: hidden;
+	color: #ffffff;
+	float: left;
+	background-color: #757575;
+	border: 2px solid #ffffff;
+	padding: 10px 10px;
+	text-align: center;
 }
 
 .ootd_hs {
-    padding-left: 5px;
-    overflow: hidden;
+	padding-left: 5px;
+	overflow: hidden;
 }
 
 #ootdtext {
-    border: 1px solid #757575;
-    width: 100%;
-    height: 100px;
-    overflow: scroll;
-    white-space: normal;
+	border: 1px solid #757575;
+	width: 100%;
+	height: 100px;
+	overflow: scroll;
+	white-space: normal;
 }
 
 .ootd_hasktag_true {
-    background-color: #30b0e7;
+	background-color: #30b0e7;
 }
 
 .ootd_hashtag_false {
-    background-color: #757575;
+	background-color: #757575;
 }
-
 
 /*ootd리스트 출력 CSS*/
-
 .ootdlistarea {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-    /* overflow: scroll; */
-    /*원래히든*/
-
+	width: 100%;
+	max-width: 800px;
+	margin: 0 auto;
+	/* overflow: scroll; */
+	/*원래히든*/
 }
 
-.ootdlistline{
-    width:100%;
-    background-color: red;
+.ootdlistline {
+	width: 100%;
+	background-color: red;
 }
-
 
 .ootdposttable {
-    margin-top: 20px;
-    width: 30%;
-    float: left;
-    margin-left: 2.5%;
-    border-spacing: -3px;
-    line-height: 14px;
-
+	margin-top: 20px;
+	width: 30%;
+	float: left;
+	margin-left: 2.5%;
+	border-spacing: -3px;
+	line-height: 14px;
 }
 
-
-.thumnailtr{
-    max-height: 240px;
-
+.thumnailtr {
+	max-height: 240px;
 }
 
 .postthumnail {
-    width: 100%;
-    height: width;
-    border-radius: 3px;
-    margin-bottom: 6px;
+	width: 100%;
+	height: width;
+	border-radius: 3px;
+	margin-bottom: 6px;
 }
 
 .ootdwriter {
-    color: #424242;
-    font-weight: bold;
-    font-size: 12px;
-
+	color: #424242;
+	font-weight: bold;
+	font-size: 12px;
 }
 
 .ootdlocation {
-    color: #757575;
-    font-size: 12px;
+	color: #757575;
+	font-size: 12px;
 }
 
 .ootdlistlike {
-    color: #ee7f7b;
-    font-size: 11px;
-    font-weight: bold;
+	color: #ee7f7b;
+	font-size: 11px;
+	font-weight: bold;
 }
 
 a1 {
-    letter-spacing: -1px;
-
+	letter-spacing: -1px;
 }
 
 .regFormButton {
-    background-image: url(http://localhost:8080/ootd/image/icon/write.png);
-    width: 50px;
-    height: 50px;
-    background-size: 30px;
-    background-repeat: no-repeat;
-    background-position: center;
-    border-radius: 100px;
-    border: 0px;
-    background-color: #64c2eb;
-    position: fixed;
-    bottom: 80px;
-    right: 15px;
+	background-image: url(http://localhost:8080/ootd/image/icon/write.png);
+	width: 50px;
+	height: 50px;
+	background-size: 30px;
+	background-repeat: no-repeat;
+	background-position: center;
+	border-radius: 100px;
+	border: 0px;
+	background-color: #64c2eb;
+	position: fixed;
+	bottom: 80px;
+	right: 15px;
 }
 
 /*POST보여주는 css*/
 .ootdpostviewtable {
-    width: 100%;
-
-
+	width: 100%;
 }
 
 .postviewarea {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-    overflow: scroll;
-
+	width: 100%;
+	max-width: 800px;
+	margin: 0 auto;
+	overflow: scroll;
 }
 
 .ootdpostphoto {
-    margin-top: 10px;
+	margin-top: 10px;
 }
 
 .ootdposttable_side {
-    padding: 0px;
-    width: 20px;
+	padding: 0px;
+	width: 20px;
 }
 
 .ootdbmk img {
-    float: right;
+	float: right;
 }
 
 .ootdpostviewlinethree td {
-    padding: 15px 0px;
+	padding: 15px 0px;
 }
 
 pv1 {
-    color: #64c2eb;
-    font-weight: 300;
-    font-size: 15px;
+	color: #64c2eb;
+	font-weight: 300;
+	font-size: 15px;
 }
 
 pv2 {
-    float: right;
-    font-size: 14px;
+	float: right;
+	font-size: 14px;
 }
 
 .needborder {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #757575;
-
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #757575;
 }
 
 .ootdcommenttd {
-    padding-top: 10px;
+	padding-top: 10px;
 }
 
 .ootddrop {
-    width: 50px;
-    display: none;
-    position: absolute;
-    background-color: aquamarine;
+	width: 50px;
+	display: none;
+	position: absolute;
+	background-color: aquamarine;
 }
 
 .ootddropcontent {
-    padding: 5px 10px;
-    border: 1px solid #ddd;
+	padding: 5px 10px;
+	border: 1px solid #ddd;
 }
 
 .preview img {
-    width: 50px;
+	width: 50px;
 }
 
-.ootdposthashtag{
-    padding-bottom: 10px;
-    padding-left: 20px;
+.ootdposthashtag {
+	padding-bottom: 10px;
+	padding-left: 20px;
 }
-
 
 /* ---------------------- OOTD CSS 끝 --------------------- */
 /*
 테스트CSS
 */
-
-
-
 .img-upload-label {
-    display: inline-block;
-    padding: .5em .75em;
-    width: 80px;
-    height: 80px;
-    color: #fff;
-    font-size: inherit;
-    line-height: normal;
-    vertical-align: middle;
-    background-image: url(http://localhost:8080/ootd/image/icon/fileuploadbutton.png);
-    background-size: 80px;
-    cursor: pointer;
-    border-radius: .25em;
-    -webkit-transition: background-color 0.2s;
-    transition: background-color 0.2s;
+	display: inline-block;
+	padding: .5em .75em;
+	width: 80px;
+	height: 80px;
+	color: #fff;
+	font-size: inherit;
+	line-height: normal;
+	vertical-align: middle;
+	background-image:
+		url(http://localhost:8080/ootd/image/icon/fileuploadbutton.png);
+	background-size: 80px;
+	cursor: pointer;
+	border-radius: .25em;
+	-webkit-transition: background-color 0.2s;
+	transition: background-color 0.2s;
 }
 
 /*
@@ -329,204 +305,218 @@ pv2 {
 .ootdfilebox label:active {
   background-color: #367c36;
 }*/
-
-
 .ootdfilebox input[type="file"] {
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    float: left;
+	position: absolute;
+	width: 80px;
+	height: 80px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	float: left;
 }
 
 .ootdfilebox {
-    width: 100px;
+	width: 100px;
 }
 
-
-
-.ootdregTable{
-    width: 100%;
+.ootdregTable {
+	width: 100%;
 }
 
-.kakaoAPI{
-    width: 100;
-    overflow: hidden;
-    text-align: center;
-    
+.kakaoAPI {
+	width: 100;
+	overflow: hidden;
+	text-align: center;
 }
 
-.ootdAPItable{
-    width: 50%;
-    float: left;
-    margin-bottom: 10px;
+.ootdAPItable {
+	width: 50%;
+	float: left;
+	margin-bottom: 10px;
 }
 
-.ootdAPItable td:nth-child(1){
-    width: 70px;
-    padding-left: 10px;
+.ootdAPItable td:nth-child(1) {
+	width: 70px;
+	padding-left: 10px;
 }
 
-.ootdAPItable input[type=text]{
-    margin-left: 10px;
-    border : 0px;
-    width: 80%;
-    border-bottom: 1px solid #424242;
+.ootdAPItable input[type=text] {
+	margin-left: 10px;
+	border: 0px;
+	width: 80%;
+	border-bottom: 1px solid #424242;
 }
 
-
-.ootdproductdiv img{
-    width: 20%;
-    max-width: 80px;
-    margin-right: 10px;
+.ootdproductdiv img {
+	width: 20%;
+	max-width: 80px;
+	margin-right: 10px;
 }
 
-
-.ootdproductdiv{
-	margin-left : 20px;
-    
+.ootdproductdiv {
+	margin-left: 20px;
 }
-
 
 .ootdcmtphoto {
-    float: left;
-    width: 10%;
+	float: left;
+	width: 10%;
 }
 
 .ootdcmttable {
-    width: 100%;
+	width: 100%;
 }
 
 .ootdcmttable img {
-    width:40px;
-    
+	width: 40px;
 }
 
 .ootdcmttable td:nth-child(1) {
-    width: 42px;
-    
+	width: 42px;
 }
 
-
 .ootdcmttable td:nth-child(2) {
-    padding-left: 10px;
-    font-weight: bold;
-    overflow: hidden;
+	padding-left: 10px;
+	font-weight: bold;
+	overflow: hidden;
 }
 
 .ootdcmttable td:nth-child(4) {
-    float : right;
-    font-size: 10px;
-    overflow: hidden;
+	float: right;
+	font-size: 10px;
+	overflow: hidden;
 }
 
-
-
-
 .ootdcmttext {
-    padding-left: 10px;
-    padding-bottom: 10px;
-    overflow : scroll;    
+	padding-left: 10px;
+	padding-bottom: 10px;
+	overflow: scroll;
 }
 
 .modal-body {
-    overflow: scroll;
-    max-height: 600px;
+	overflow: scroll;
+	max-height: 600px;
 }
 
-.ootdcomment{
+.ootdcomment {
 	padding-bottom: 10px;
-    margin-bottom: 10px;
-    border-bottom: 1px solid #ddd;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #ddd;
 }
 
-
-.ootdcmtinput{
-    width:80%;
-    height: 50px;
-    border: 1px solid #ddd;
-    float : left;
+.ootdcmtinput {
+	width: 80%;
+	height: 50px;
+	border: 1px solid #ddd;
+	float: left;
 }
 
-.ootdcmntsubmit{
-    border : 0px;
-    width:18%;
-    height: 50px;
-    background-color: #ddd;
-    border-radius: 5px;
+.ootdcmntsubmit {
+	border: 0px;
+	width: 18%;
+	height: 50px;
+	background-color: #ddd;
+	border-radius: 5px;
 }
 
-
-.ootdclose{
-    float: right;
-    overflow: hidden;
+.ootdclose {
+	float: right;
+	overflow: hidden;
 }
 
-a{
-    text-decoration: none;
-    color: #757575;
+a {
+	text-decoration: none;
+	color: #757575;
 }
 
-a:link, a:visited, a:active, a:hover{
-	 text-decoration: none;
-	 color: #757575;
+a:link, a:visited, a:active, a:hover {
+	text-decoration: none;
+	color: #757575;
 }
 
-button:link, button:visited, button:active, button:hover, button:focus{
-    border: none;
-    outline:none;     
+button:link, button:visited, button:active, button:hover, button:focus {
+	border: none;
+	outline: none;
 }
 
-
-
-
-.ootdmodifycmt{
-	margin-top : 5px;
-    width:100%;
-    height: 50px;
-    border: 1px solid #ddd;
-    float : left;     
-    margin-right : 10px;   
+.ootdmodifycmt {
+	margin-top: 5px;
+	width: 100%;
+	height: 50px;
+	border: 1px solid #ddd;
+	float: left;
+	margin-right: 10px;
 }
 
 .ootd_cmt_align_check {
-    color : #64c2eb;    
+	color: #64c2eb;
 }
 
 .ootdProductImage {
-    margin : 10px 0;
-    margin-left : 10px;
+	margin: 10px 0;
+	margin-left: 10px;
 }
 
 .ootdproduct {
-    text-align: center;
+	text-align: center;
 }
 
-
 .ootdnaverapiimage {
-    float: left;
-    overflow: hidden;
+	float: left;
+	overflow: hidden;
 }
 
 .ootdapiproductname {
-    width: 70%;
-    padding: 0 20px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-
+	width: 70%;
+	padding: 0 20px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
-.ootdnaverapiimage img{
-    width: 100%;
-    
+.ootdnaverapiimage img {
+	width: 100%;
 }
+
 .apiimage {
-	width : 100%;
-    width: 80px;
-    height: 80px;
+	width: 100%;
+	width: 80px;
+	height: 80px;
 }
 
+/*랭크*/
+#rank-list a {
+	color: black;
+	text-decoration: none;
+}
+
+#rank-list {
+	overflow: hidden;
+	width: 160px;
+	height: 20px;
+	margin: 0;
+	margin-left: 20px;
+}
+
+#rank-list dt {
+	display: none;
+}
+
+#rank-list dd {
+	position: relative;
+	margin: 0;
+}
+
+#rank-list ol {
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+#rank-list li {
+	height: 20px;
+	line-height: 20px;
+}

@@ -1,3 +1,4 @@
+/*
 
 
 body {
@@ -12,9 +13,10 @@ body {
     padding: 10px;
     background: #393;
 }
+*/
 
 #rank-list a {
-    color: #FFF;
+    color: black;
     text-decoration: none;
 }
 
