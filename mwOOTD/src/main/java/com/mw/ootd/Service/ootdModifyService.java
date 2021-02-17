@@ -47,7 +47,7 @@ public class ootdModifyService {
 		}
 
 		// 사진이 정상적인 파일인지 확인한다 [1. 사진있을 경우 저장방식 ]
-		if (ootd.getOotdphoto() != null & !ootd.getOotdphoto().isEmpty()) {
+		if (ootd.getOotdphoto() != null && !ootd.getOotdphoto().isEmpty()) {
 
 			String uploadPath = "/fileupload/ootdimage";
 			saveDirPath = request.getSession().getServletContext().getRealPath(uploadPath);
