@@ -9,11 +9,15 @@ soup = bs(target, 'html.parser')
 
 brand = soup.select('.brandLogo img')
 rankup = soup.select('.rank')
+result_list = soup.find_all('span', class_="rank")
+
 brandname = []
 brandrank = []
 rank_data = []
 
-print(rankup)
+for span in result_list :
+    print(span.text)
+
 
 print('----------------------------시작------------------------')
 
@@ -23,6 +27,7 @@ for alt in brand[:10] :
 
 
 print(brandname)
+print(brandname[0])
 print('----------------------------------------------------')
 
 
@@ -41,6 +46,7 @@ for i in range(10) :
         }
         
         )
+
 print(rank_data)
 print('----------------------------------------------------')
 

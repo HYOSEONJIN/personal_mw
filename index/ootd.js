@@ -166,7 +166,7 @@ function step(index) {
     count = $('#rank-list li').length;
     height = $('#rank-list li').height();
 
-    $('#rank-list ol').delay(1000).animate({
+    $('#rank-list ol').delay(2000).animate({
         top: -height * index,
     }, 500, function () {
         step((index + 1) % count);
@@ -584,8 +584,8 @@ function pageView(idx) {
 
                 var listhtml = '<div class="ootdlistarea">';
 
-                listhtml += '<table><tr><td>무신사 브랜드 랭킹</td><td><dl id="rank-list"><dt>무신사 브랜드 랭킹 순위 1-10</dt><dd><ol></ol></dd></dl></td></tr></table>';
-
+                listhtml += '<table><tr><td><dl id="rank-list"><dt>무신사 브랜드 랭킹 순위 1-10</dt><dd><ol class="ootdrankol"></ol></dd></dl></td></tr></table>';
+                callBrandRank();
                 for (i = 0; i < data.length; i++) {
                     /*나중에멤버 현재 로그인된 idx받아줘야함, 현재 헤더안에 있는 값으로 하고 있음*/
                     listhtml += '<div onclick="viewPost(' + data[i].ootdidx + '); this.onclick=null;">';
@@ -606,7 +606,9 @@ function pageView(idx) {
                 pageNum++;
                 console.log('삭제할 값 있음 function pageView', pageNum);
 
+
                 step(1);
+
 
                 // 무한스크롤 : 세로길이가 길 경우 처리
                 if ($(".body").height() < $(window).height() && scrollchk2) {
@@ -1484,15 +1486,47 @@ function ootdmodify(ootdidx) {
 }
 
 
-function callBrandRank(){
-    
+function callBrandRank() {
+
     $.ajax({
         url: 'http://127.0.0.1:8000/brand',
         success: function (data) {
-          console.log(data)
+            // console.log(data)
+            // console.log(typeof(data))
+
+
+            var brandrankJSON = JSON.parse(data)
+            console.log(brandrankJSON)
+            console.log(brandrankJSON[5].name) // 이름
+            console.log(brandrankJSON[0].rank.trim()) // 랭크
+            //console.log(brandrankJSON[5].rank)
+
+            ootdrankHTML = '';
+
+            for (var i = 0; i < brandrankJSON.length; i++) {
+
+                ootdrankHTML += '<li><a>' + (i + 1) + '&nbsp' + brandrankJSON[i].name.trim() + '&nbsp&nbsp&nbsp' + '</a><p2'+i +'>' + brandrankJSON[i].rank.trim() + '</p2'+i+'></li>'
+
+                if (brandrankJSON[i].rank.trim() != '-') {
+                    if (brandrankJSON[i].rank.trim().charAt(0) == '▲') {
+                        $('p2'+ i).addClass('rank_up_red');
+                    } else {
+                        $('p2'+ i).addClass('rank_up_blue');
+                    }
+                }
+
+            }
+
+
+            var ootdrankol = document.querySelector('.ootdrankol');
+            ootdrankol.innerHTML = ootdrankHTML;
+
+
+
+
         }
-        
+
     });
 
-    
+
 }

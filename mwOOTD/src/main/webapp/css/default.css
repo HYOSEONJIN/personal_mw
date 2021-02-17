@@ -492,7 +492,7 @@ button:link, button:visited, button:active, button:hover, button:focus {
 
 #rank-list {
 	overflow: hidden;
-	width: 160px;
+	width: 300px;
 	height: 20px;
 	margin: 0;
 	margin-left: 20px;
@@ -519,4 +519,16 @@ button:link, button:visited, button:active, button:hover, button:focus {
 #rank-list li {
 	height: 20px;
 	line-height: 20px;
+}
+
+p2{    
+    color : black;
+}
+
+p3{
+    color:red;    
+}
+
+p4{
+    color:blue;
 }
