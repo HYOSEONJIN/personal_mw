@@ -77,8 +77,13 @@ var fileArr = [];
 var rs
 
 
+
+// 랭킹관련 변수
 var count = $('#rank-list li').length;
 var height = $('#rank-list li').height();
+var rankchk = true;
+
+
 
 
 // 메인 출력
@@ -95,6 +100,7 @@ function ootdMain() {
     //scrollchk = true;
     scrollchk2 = true;
     ootdlistScroll = true;
+    rankchk = true;
     //hashJSON = '';
     pageView(pageNum);
     addregButton();
@@ -583,9 +589,11 @@ function pageView(idx) {
             if (data.length != 0) {
 
                 var listhtml = '<div class="ootdlistarea">';
-
-                listhtml += '<table><tr><td><dl id="rank-list"><dt>무신사 브랜드 랭킹 순위 1-10</dt><dd><ol class="ootdrankol"></ol></dd></dl></td></tr></table>';
-                callBrandRank();
+                if (rankchk) {
+                    listhtml += '<table><tr><p5>실시간 무신사 브랜드 랭킹</p5></tr><tr><td><dl id="rank-list"><dt>무신사 브랜드 랭킹 순위 1-10</dt><dd><ol class="ootdrankol"></ol></dd></dl></td></tr></table>';
+                    callBrandRank();
+                    rankchk = false;
+                }
                 for (i = 0; i < data.length; i++) {
                     /*나중에멤버 현재 로그인된 idx받아줘야함, 현재 헤더안에 있는 값으로 하고 있음*/
                     listhtml += '<div onclick="viewPost(' + data[i].ootdidx + '); this.onclick=null;">';
@@ -1486,6 +1494,7 @@ function ootdmodify(ootdidx) {
 }
 
 
+// 파이썬 크롤링 하는 부분 musinsarank.py
 function callBrandRank() {
 
     $.ajax({
@@ -1505,15 +1514,17 @@ function callBrandRank() {
 
             for (var i = 0; i < brandrankJSON.length; i++) {
 
-                ootdrankHTML += '<li><a>' + (i + 1) + '&nbsp' + brandrankJSON[i].name.trim() + '&nbsp&nbsp&nbsp' + '</a><p2'+i +'>' + brandrankJSON[i].rank.trim() + '</p2'+i+'></li>'
+                ootdrankHTML += '<li><a>' + (i + 1) + '&nbsp' + brandrankJSON[i].name.trim() + '&nbsp&nbsp&nbsp' + '</a>'
 
-                if (brandrankJSON[i].rank.trim() != '-') {
-                    if (brandrankJSON[i].rank.trim().charAt(0) == '▲') {
-                        $('p2'+ i).addClass('rank_up_red');
-                    } else {
-                        $('p2'+ i).addClass('rank_up_blue');
-                    }
+
+                if (brandrankJSON[i].rank.trim() == '-') {
+                    ootdrankHTML += '<p2>' + brandrankJSON[i].rank.trim() + '</p2></li>'
+                } else if (brandrankJSON[i].rank.trim().charAt(0) == '▲') {
+                    ootdrankHTML += '<p3>' + brandrankJSON[i].rank.trim() + '</p3></li>'
+                } else if (brandrankJSON[i].rank.trim().charAt(0) == '▼') {
+                    ootdrankHTML += '<p4>' + brandrankJSON[i].rank.trim() + '</p4></li>'
                 }
+
 
             }
 

@@ -563,10 +563,19 @@ button:link, button:visited, button:active, button:hover, button:focus{
     line-height: 20px;
 }
 
-.rank_up_red{
-    color : red;
+p2{    
+    color : black;
 }
 
-.rank_down_blue{
-    color : blue;
+p3{
+    color:red;    
+}
+
+p4{
+    color:blue;
+}
+
+p5{
+    margin-left: 10px;
+    font-size: 12px
 }
