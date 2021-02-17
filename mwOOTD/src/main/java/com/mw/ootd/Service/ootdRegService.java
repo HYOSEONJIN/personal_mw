@@ -43,7 +43,7 @@ public class ootdRegService {
 		}
 
 		// 사진이 정상적인 파일인지 확인하기
-		if (ootd.getOotdphoto() != null & !ootd.getOotdphoto().isEmpty()) {
+		if (ootd.getOotdphoto() != null && !ootd.getOotdphoto().isEmpty()) {
 
 			String uploadPath = "/fileupload/ootdimage";
 			saveDirPath = request.getSession().getServletContext().getRealPath(uploadPath);
