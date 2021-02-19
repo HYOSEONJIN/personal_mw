@@ -3,6 +3,7 @@ package com.mw.ootd.Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +21,7 @@ public class ootdLikeController {
 	
 	
 	// 좋아요 여부 체크
+	@CrossOrigin
 	@GetMapping("/chk")
 	public ootdlike likechk(
 			@RequestParam("ootdidx") int ootdidx,
@@ -30,6 +32,7 @@ public class ootdLikeController {
 	}
 	
 	// 좋아요 on/off
+	@CrossOrigin
 	@GetMapping("/onoff")
 	public ootdlike likeOnOff(
 			@RequestParam("chk") int chk,

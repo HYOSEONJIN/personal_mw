@@ -48,7 +48,7 @@ public class ootdRegService {
 			String uploadPath = "/fileupload/ootdimage";
 			saveDirPath = request.getSession().getServletContext().getRealPath(uploadPath);
 			// 새로운 파일이름 만들어주기
-			ootdphotoname = ootd.getOotdnic() + System.currentTimeMillis();
+			ootdphotoname = String.valueOf(System.nanoTime());
 			newFile = new File(saveDirPath, ootdphotoname);
 
 		} else {

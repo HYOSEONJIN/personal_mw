@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +24,7 @@ public class ootdPostController {
 	
 	//포스팅 idx에 맞는 게시물의 정보 한개 보내주기
 	@GetMapping
+	@CrossOrigin
 	public List<ootdBoard> Postview(
 			@RequestParam("ootdidx") int ootdidx){
 		
@@ -32,6 +34,7 @@ public class ootdPostController {
 	
 	/* 삭제 */	
 	@GetMapping("/delete")
+	@CrossOrigin
 	public int ootdPostDel(
 			@RequestParam("ootdidx") int ootdidx,
 			HttpServletRequest request	

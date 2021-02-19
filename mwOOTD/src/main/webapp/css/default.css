@@ -539,3 +539,17 @@ p5{
     font-size: 12px
 }
 
+
+.ootdselect{
+	width : 100%;
+	height: 30px;
+	position : inherit;
+	text-align: right;
+}
+.ootdsearch{
+	width : 100px;
+ 	margin-right : 10px;
+ 	margin-top : 8px;
+ 	border: 1px solid #757575;
+}
+

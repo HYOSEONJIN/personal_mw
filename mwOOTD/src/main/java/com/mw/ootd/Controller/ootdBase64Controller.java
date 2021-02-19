@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/base64")
 public class ootdBase64Controller {
 
+	@CrossOrigin
 	@GetMapping
 	public String toBase64(@RequestParam("ootdphotoname") String ootdphotoname) {
 		String base64 = null;

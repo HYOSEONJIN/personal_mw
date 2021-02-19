@@ -17,14 +17,10 @@ public class ootdBoard {
    String ootdloc;
    String ootdweather;
    MultipartFile ootdphoto;
-   String ootdphotoname;
-   String ootdthumnail;
+   String ootdphotoname; 
    String ootdtext;
-   int ootdlikecnt;
-   int ootdbookcnt;
+   int ootdlikecnt;  
    int ootdcmtcnt;
-   int ootdviewcnt;
-   String ootdip;
    String ootdhashtag;
    String xyarr;
    String apiproductinfo;
@@ -70,12 +66,7 @@ public String getOotdphotoname() {
 public void setOotdphotoname(String ootdphotoname) {
 	this.ootdphotoname = ootdphotoname;
 }
-public String getOotdthumnail() {
-	return ootdthumnail;
-}
-public void setOotdthumnail(String ootdthumnail) {
-	this.ootdthumnail = ootdthumnail;
-}
+
 public String getOotdtext() {
 	return ootdtext;
 }
@@ -88,29 +79,11 @@ public int getOotdlikecnt() {
 public void setOotdlikecnt(int ootdlikecnt) {
 	this.ootdlikecnt = ootdlikecnt;
 }
-public int getOotdbookcnt() {
-	return ootdbookcnt;
-}
-public void setOotdbookcnt(int ootdbookcnt) {
-	this.ootdbookcnt = ootdbookcnt;
-}
 public int getOotdcmtcnt() {
 	return ootdcmtcnt;
 }
 public void setOotdcmtcnt(int ootdcmtcnt) {
 	this.ootdcmtcnt = ootdcmtcnt;
-}
-public int getOotdviewcnt() {
-	return ootdviewcnt;
-}
-public void setOotdviewcnt(int ootdviewcnt) {
-	this.ootdviewcnt = ootdviewcnt;
-}
-public String getOotdip() {
-	return ootdip;
-}
-public void setOotdip(String ootdip) {
-	this.ootdip = ootdip;
 }
 public String getOotdhashtag() {
 	return ootdhashtag;

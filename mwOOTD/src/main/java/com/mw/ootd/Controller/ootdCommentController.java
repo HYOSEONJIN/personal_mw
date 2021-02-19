@@ -1,6 +1,7 @@
 package com.mw.ootd.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,7 @@ public class ootdCommentController {
 	private ootdCommentService cmtService;
 	
 	//등록 - 현재 댓글의 갯수를 반환해준다
+	@CrossOrigin
 	@PostMapping("/reg")
 	public int cmtReg(
 			@ModelAttribute("ootdcmt") ootdComment ootdcmt) {
@@ -34,6 +36,7 @@ public class ootdCommentController {
 	
 	
 	//코멘트 리스트 출력
+	@CrossOrigin
 	@GetMapping("/list")
 	public List<ootdComment> ootdCmtList(
 			@RequestParam("ootdidx") int ootdidx,
@@ -43,6 +46,7 @@ public class ootdCommentController {
 	}
 	
 	// 코멘트 삭제 - 현재 댓글의 갯수를 반환해준다
+	@CrossOrigin
 	@GetMapping("/delete")
 	public int delCmt(
 			@RequestParam("ootdcmtidx") int ootdcmtidx,
@@ -54,6 +58,7 @@ public class ootdCommentController {
 	}
 	
 	// 코멘트 수정
+	@CrossOrigin
 	@PostMapping("/modify")
 	public int cmtModify(
 			@RequestParam("ootdcmtidx") int ootdcmtidx,

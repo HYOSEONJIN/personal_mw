@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,12 +29,14 @@ public class ootdListController {
 	
 	
 	/* 전체 게시글 리스트 형식으로 보내주기 */
+	@CrossOrigin
 	@GetMapping
 	public List<ootdBoard> oodtMain()  {
 		return listService.getootdList();	
 	}
 
 	/* 페이징 */
+	@CrossOrigin
 	@GetMapping("/paging")
 	public List<ootdBoard> ootdPageList(
 			@RequestParam("pageNum") int pageNum){
@@ -46,6 +49,7 @@ public class ootdListController {
 	}
 	
 	/* 삭제 */	
+	@CrossOrigin
 	@GetMapping("/delete")
 	public List<ootdBoard> ootdPostDel(
 			@RequestParam("pageNum") int pageNum){

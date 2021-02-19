@@ -35,7 +35,6 @@ $(document).ready(function () {
 
 
 
-var amazonURL = 'http://ec2-13-125-232-157.ap-northeast-2.compute.amazonaws.com'
 
 // 무한스크롤 변수
 var scrollchk2 = true; // 다른페이지에서 무한스크롤안되게 체크
@@ -227,7 +226,7 @@ function addregButton() {
 function hashtagList() {
 
     $.ajax({
-        url: amazonURL+':8080/ootd/hashlist',
+        url: 'http://localhost:8080/ootd/hashlist',
         type: 'GET',
         success: function (data) {
 
@@ -440,7 +439,7 @@ function reg() {
 
         $.ajax({
 
-            url: amazonURL + ':8080/ootd/reg',
+            url: 'http://localhost:8080/ootd/reg',
             type: 'POST',
             data: formData,
             enctype: 'multipart/form-data',
@@ -551,7 +550,7 @@ function dataReset() {
     hashFalse();
     $('.img-upload-label').css({
 
-        "background-image": 'url('+amazonURL +'8080/ootd/image/icon/fileuploadbutton.png)'
+        "background-image": "url(http://localhost:8080/ootd/image/icon/fileuploadbutton.png)"
 
     })
 }
@@ -585,7 +584,7 @@ function pageView(idx) {
 
 
     $.ajax({
-        url: amazonURL +':8080/ootd/list/paging',
+        url: 'http://localhost:8080/ootd/list/paging',
         type: 'get',
         data: {
             pageNum: idx
@@ -612,7 +611,7 @@ function pageView(idx) {
                     /*나중에멤버 현재 로그인된 idx받아줘야함, 현재 헤더안에 있는 값으로 하고 있음*/
                     listhtml += '<div onclick="viewPost(' + data[i].ootdidx + '); this.onclick=null;">';
                     listhtml += '<table class="ootdposttable">';
-                    listhtml += '<tr><td><img src="'+amazonURL +':8080/ootd/fileupload/ootdimage/THUMB_';
+                    listhtml += '<tr><td><img src="http://localhost:8080/ootd/fileupload/ootdimage/THUMB_';
                     listhtml += data[i].ootdphotoname;
                     listhtml += '" class="postthumnail"></td></tr>';
                     listhtml += '<tr><td><a1 class="ootdwriter">' + data[i].ootdnic + '</a1></td></tr>';
@@ -680,7 +679,7 @@ function viewPost(data) {
     console.log(idx)
 
     $.ajax({
-        url: amazonURL +':8080/ootd/like/chk',
+        url: 'http://localhost:8080/ootd/like/chk',
         type: 'get',
         data: {
             ootdidx: data,
@@ -719,7 +718,7 @@ function viewPost(data) {
 
         $(".bottomArea").remove();
         $.ajax({
-            url: amazonURL +':8080/ootd/postview',
+            url: 'http://localhost:8080/ootd/postview',
             type: 'get',
             data: {
                 ootdidx: data
@@ -769,7 +768,7 @@ function viewPost(data) {
                 postviewhtml += useful
                 //postviewhtml += '<img src="image/icon/usefulbutton.png" onclick="itemClick(event);" ></td>';
                 postviewhtml += '</tr><tr><td colspan="7">';
-                postviewhtml += '<img class="ootdpostphoto" src="'+amazonURL +':8080/ootd/fileupload/ootdimage/';
+                postviewhtml += '<img class="ootdpostphoto" src="http://localhost:8080/ootd/fileupload/ootdimage/';
                 postviewhtml += rs.ootdphotoname
                 postviewhtml += '" width="100%"></td></tr><tr class="ootdpostviewlinethree"><td></td><td colspan="2"><pv1>';
                 postviewhtml += rs.ootdnic
@@ -871,7 +870,7 @@ function ootdPostDelete(ootdidx, memidx) {
 
             if (confirm('정말로 삭제하시겠습니까?')) {
                 $.ajax({
-                    url: amazonURL + ':8080/ootd/postview/delete',
+                    url: 'http://localhost:8080/ootd/postview/delete',
                     type: 'get',
                     data: {
                         ootdidx: ootdidx
@@ -958,7 +957,7 @@ function ootdlike(chk, ootdidx, memidx) {
 
 
     $.ajax({
-        url: amazonURL +':8080/ootd/like/onoff',
+        url: 'http://localhost:8080/ootd/like/onoff',
         type: 'get',
         data: {
             chk: chk,
@@ -1009,7 +1008,7 @@ function callProduct(imgname, xyarr, apiproductinfo) {
     apiNum = 0;
 
     /* Here is the codefor converting "image source to "Base64 ".****/
-    let url = amazonURL + ':8080/ootd/fileupload/ootdimage/'
+    let url = 'http://localhost:8080/ootd/fileupload/ootdimage/'
     url += imgname;
 
 
@@ -1160,7 +1159,7 @@ function ootdCmtReg(ootdidx) {
     formData.append('ootdcmtnic', $('#memnicsession').val());
 
     $.ajax({
-        url: amazonURL +':8080/ootd/cmt/reg',
+        url: 'http://localhost:8080/ootd/cmt/reg',
         type: 'POST',
         data: formData,
         enctype: 'multipart/form-data',
@@ -1216,7 +1215,7 @@ function viewCommentList(ootdidx, num) {
 
 
     $.ajax({
-        url: amazonURL + ':8080/ootd/cmt/list',
+        url: 'http://localhost:8080/ootd/cmt/list',
         type: 'GET',
         data: {
             ootdidx: ootdidx,
@@ -1266,7 +1265,7 @@ function ootdDeleteCmt(ootdcmtidx, memidx, ootdidx) {
         if (memidx == loginmemidx) {
 
             $.ajax({
-                url: amazonURL + ':8080/ootd/cmt/delete',
+                url: 'http://localhost:8080/ootd/cmt/delete',
                 type: 'GET',
                 data: {
                     ootdcmtidx: ootdcmtidx,
@@ -1329,7 +1328,7 @@ function ootdModifyCmt(ootdcmtidx, ootdidx) {
     console.log(modifycmttext)
 
     $.ajax({
-        url: amazonURL + ':8080/ootd/cmt/modify',
+        url: 'http://localhost:8080/ootd/cmt/modify',
         type: 'post',
         data: {
             ootdcmtidx: ootdcmtidx,
@@ -1369,7 +1368,7 @@ function viewproductinfo(num) {
 
 
     $.ajax({
-        url: amazonURL +':8080/ootd/naverapi',
+        url: 'http://localhost:8080/ootd/naverapi',
         type: 'GET',
         data: {
             word: productName
@@ -1466,7 +1465,7 @@ function ootdmodify(ootdidx) {
 
     $.ajax({
 
-        url: amazonURL +':8080/ootd/modify',
+        url: 'http://localhost:8080/ootd/modify',
         type: 'POST',
         data: formData,
         enctype: 'multipart/form-data',
@@ -1512,7 +1511,7 @@ function ootdmodify(ootdidx) {
 function callBrandRank() {
 
     $.ajax({
-        url: 'http://ip-172-31-32-85.ap-northeast-2.compute.internal:8000/brand',
+        url: 'http://127.0.0.1:8000/brand',
         success: function (data) {
             // console.log(data)
             // console.log(typeof(data))
@@ -1588,7 +1587,7 @@ function searchHash(val) {
     console.log(val)
 
     $.ajax({
-        url: 'http://ip-172-31-32-85.ap-northeast-2.compute.internal:8000/hashsearch',
+        url: 'http://127.0.0.1:8000/hashsearch',
         type: 'GET',
         data: {
             hash : val
