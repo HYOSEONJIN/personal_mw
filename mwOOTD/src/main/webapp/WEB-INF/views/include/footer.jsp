@@ -20,7 +20,7 @@
 			</tr>
 			<tr>
 				<td>HOME</td>
-				<td><a href="${ootd_list}">OOTD</a></td>
+				<td>OOTD</a></td>
 				<td>CLOSET</td>
 				<td>MARKET</td>
 				<td>MY</td>
