@@ -1513,7 +1513,7 @@ function ootdmodify(ootdidx) {
 function callBrandRank() {
 
     $.ajax({
-        url: 'http://ip-172-31-32-85.ap-northeast-2.compute.internal:8000/brand',
+        url: 'http://127.0.0.1:8000/brand',
         success: function (data) {
             // console.log(data)
             // console.log(typeof(data))
