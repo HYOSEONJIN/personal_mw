@@ -86,6 +86,9 @@ public interface ootdInterfaceDao {
 	// 수정시 사진이 없을 경우
 	int updateNoPhoto(ootdBoard ootd);
 
+	// OOTD 게시물 중 좋아요가 가장 높은 3위
+	List<ootdBoard> LikeTopThree();
+
 
 
 

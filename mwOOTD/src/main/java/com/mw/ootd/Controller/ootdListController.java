@@ -24,7 +24,7 @@ import com.mw.ootd.Service.ootdListService;
 public class ootdListController {
 	
 	@Autowired
-	ootdListService listService;
+	private ootdListService listService;
 
 	
 	

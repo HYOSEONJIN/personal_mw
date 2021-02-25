@@ -43,7 +43,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE ootd
 		SET
 		ootdphotoname = #{ootdphotoname},
-		ootdtext = #{ootdtext},
+		ootdtext
+		= #{ootdtext},
 		xyarr = #{xyarr},
 		apiproductinfo = #{apiproductinfo},
 		ootdhashtag = #{ootdhashtag}
@@ -57,7 +58,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE ootd
 		SET
 		ootdtext = #{ootdtext},
-		ootdhashtag = #{ootdhashtag}
+		ootdhashtag =
+		#{ootdhashtag}
 		WHERE
 		ootdidx = #{ootdidx}
 	</update>
@@ -207,4 +209,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ootdcmtidx =
 		#{param2}
 	</update>
+
+	<!-- 좋아요 3위 글 반환 -->
+	<select id="LikeTopThree"
+		resultType="com.mw.ootd.Domain.ootdBoard">
+		select * from ootd order by ootdlikecnt desc limit 3;
+	</select>
 </mapper>
