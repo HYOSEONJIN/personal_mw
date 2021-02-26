@@ -160,4 +160,4 @@ def hashSearch() :
 
     
 if __name__ == '__main__':
-     app.run(debug=True, port=8000)
+     app.run(debug=True, port=8000, host='ec2-13-125-232-157.ap-northeast-2.compute.amazonaws.com')

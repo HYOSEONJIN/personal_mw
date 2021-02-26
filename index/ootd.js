@@ -1513,7 +1513,7 @@ function ootdmodify(ootdidx) {
 function callBrandRank() {
 
     $.ajax({
-        url: 'http://127.0.0.1:8000/brand',
+        url: amazonURL + ':8000/brand',
         success: function (data) {
             // console.log(data)
             // console.log(typeof(data))
@@ -1589,7 +1589,7 @@ function searchHash(val) {
     console.log(val)
 
     $.ajax({
-        url: 'http://127.0.0.1:8000/hashsearch',
+        url: amazonURL + ':8000/hashsearch',
         type: 'GET',
         data: {
             hash: val
@@ -1653,7 +1653,7 @@ function myLikeList(memidx) {
             }
 
 
-            var content = document.querySelector('.content');
+            var content = document.querySelector('.content');   
             contentTemp = content.innerHTML;
 
             content.innerHTML = mylikelist;
