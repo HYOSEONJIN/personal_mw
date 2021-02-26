@@ -1642,14 +1642,14 @@ function myLikeList(memidx) {
             var mylikelist = '';
             for (i = 0; i < data.length; i++) {
 
-                mylikelist += '<div onclick="viewPost(' + searchJSON[i].ootdidx + '); this.onclick=null;">';
+                mylikelist += '<div onclick="viewPost(' + data[i].ootdidx + '); this.onclick=null;">';
                 mylikelist += '<table class="ootdposttable">';
-                mylikelist += '<tr><td><img src="' + amazonURL + ':8080/ootd/fileupload/ootdimage/THUMB_';
-                mylikelist += searchJSON[i].ootdphotoname;
+                mylikelist += '<tr><td><img src="http://ec2-13-125-232-157.ap-northeast-2.compute.amazonaws.com:8080/ootd/fileupload/ootdimage/THUMB_';
+                mylikelist += data[i].ootdphotoname;
                 mylikelist += '" class="postthumnail"></td></tr>';
-                mylikelist += '<tr><td><a1 class="ootdwriter">' + searchJSON[i].ootdnic + '</a1></td></tr>';
-                mylikelist += '<tr><td><a1 class="ootdlocation">' + searchJSON[i].ootdloc + '</a1></td></tr>';
-                mylikelist += '<tr><td><a1 class="ootdlistlike">♥ ' + searchJSON[i].ootdlikecnt + '</a1></td></tr></table></div>';
+                mylikelist += '<tr><td><a1 class="ootdwriter">' + data[i].ootdnic + '</a1></td></tr>';
+                mylikelist += '<tr><td><a1 class="ootdlocation">' + data[i].ootdloc + '</a1></td></tr>';
+                mylikelist += '<tr><td><a1 class="ootdlistlike">♥ ' + data[i].ootdlikecnt + '</a1></td></tr></table></div>';
             }
 
 
