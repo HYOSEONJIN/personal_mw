@@ -86,6 +86,18 @@ def brandName():
     return jsonString
 
 
+def tupleTodict(tp) :
+    print('들어온 튜플', tp)
+    search_data.append({
+        'ootdidx' : tp[0],
+        'ootdphotoname' : tp[1],
+        'ootdnic' : tp[2],
+        'ootdloc' : tp[3],
+        'ootdlikecnt' : tp[4]
+    })
+    print(search_data)
+
+
 
 #url
 @app.route('/hashsearch', methods =['GET'])
@@ -94,7 +106,9 @@ def hashSearch() :
     #hashtag_name =  request.args.get(hash) 
     print('해시태그네임', hashtag)
 
-
+    ootdidx = []
+    
+    return_data = []
 
     project_db = pymysql.connect(
     user='aia',
@@ -107,11 +121,14 @@ def hashSearch() :
 
     #hashtag_name = '걸크러쉬'
     sql = "SELECT ootdidx, ootdphotoname, ootdnic, ootdloc, ootdlikecnt FROM ootd where ootdhashtag like \'%{}%\'" .format(hashtag)
-    print(sql)
+    print('113번째줄', sql)
     cursor1.execute(sql) 
+    search_data.clear()
 
 
-    ootdidx = []
+
+
+
     while True :
  
         row = cursor1.fetchone()
@@ -121,10 +138,11 @@ def hashSearch() :
 
         tupleTodict(row)
         ootdidx.append(row[0])
-
-        
+    
+    
+    print('현재써치데이터', search_data)
     jsonString = json.dumps(search_data, ensure_ascii=False)
-    print(jsonString)
+    print('만들어진제이슨결과', jsonString)
     
     project_db.close()
 
@@ -132,15 +150,9 @@ def hashSearch() :
 
     return jsonString
 
-def tupleTodict(tp) :
-    print(tp)
-    search_data.append({
-        'ootdidx' : tp[0],
-        'ootdphotoname' : tp[1],
-        'ootdnic' : tp[2],
-        'ootdloc' : tp[3],
-        'ootdlikecnt' : tp[4]
-    })
+
+
+
 
 
     

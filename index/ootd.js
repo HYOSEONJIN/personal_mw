@@ -227,7 +227,7 @@ function addregButton() {
 function hashtagList() {
 
     $.ajax({
-        url: amazonURL+':8080/ootd/hashlist',
+        url: amazonURL + ':8080/ootd/hashlist',
         type: 'GET',
         success: function (data) {
 
@@ -551,7 +551,7 @@ function dataReset() {
     hashFalse();
     $('.img-upload-label').css({
 
-        "background-image": 'url('+amazonURL +'8080/ootd/image/icon/fileuploadbutton.png)'
+        "background-image": 'url(' + amazonURL + '8080/ootd/image/icon/fileuploadbutton.png)'
 
     })
 }
@@ -585,7 +585,7 @@ function pageView(idx) {
 
 
     $.ajax({
-        url: amazonURL +':8080/ootd/list/paging',
+        url: amazonURL + ':8080/ootd/list/paging',
         type: 'get',
         data: {
             pageNum: idx
@@ -598,21 +598,21 @@ function pageView(idx) {
                 var listhtml = '<div class="ootdlistarea">';
                 if (rankchk) {
                     listhtml += '<table><tr><p5>실시간 무신사 브랜드 랭킹</p5></tr><tr><td><dl id="rank-list"><dt>무신사 브랜드 랭킹 순위 1-10</dt><dd><ol class="ootdrankol"></ol></dd></dl></td></tr></table>';
-                    
+
                     callBrandRank();
                     //hashOption();
                     rankchk = false;
-                    
+
                     listhtml += addHashOption;
                 }
 
-                
+
 
                 for (i = 0; i < data.length; i++) {
                     /*나중에멤버 현재 로그인된 idx받아줘야함, 현재 헤더안에 있는 값으로 하고 있음*/
                     listhtml += '<div onclick="viewPost(' + data[i].ootdidx + '); this.onclick=null;">';
                     listhtml += '<table class="ootdposttable">';
-                    listhtml += '<tr><td><img src="'+amazonURL +':8080/ootd/fileupload/ootdimage/THUMB_';
+                    listhtml += '<tr><td><img src="' + amazonURL + ':8080/ootd/fileupload/ootdimage/THUMB_';
                     listhtml += data[i].ootdphotoname;
                     listhtml += '" class="postthumnail"></td></tr>';
                     listhtml += '<tr><td><a1 class="ootdwriter">' + data[i].ootdnic + '</a1></td></tr>';
@@ -622,7 +622,7 @@ function pageView(idx) {
 
                 }
                 $(".bottomArea").remove();
-                listhtml += '<div class="bottomArea"><img src="/ootd/image/background.PNG" width="90"></div></div>';
+                listhtml += '<div><div class="bottomArea"><img src="/ootd/image/background.PNG" width="90"></div></div>';
 
                 $(".content").append(listhtml);
                 pageNum++;
@@ -680,7 +680,7 @@ function viewPost(data) {
     console.log(idx)
 
     $.ajax({
-        url: amazonURL +':8080/ootd/like/chk',
+        url: amazonURL + ':8080/ootd/like/chk',
         type: 'get',
         data: {
             ootdidx: data,
@@ -719,7 +719,7 @@ function viewPost(data) {
 
         $(".bottomArea").remove();
         $.ajax({
-            url: amazonURL +':8080/ootd/postview',
+            url: amazonURL + ':8080/ootd/postview',
             type: 'get',
             data: {
                 ootdidx: data
@@ -769,7 +769,7 @@ function viewPost(data) {
                 postviewhtml += useful
                 //postviewhtml += '<img src="image/icon/usefulbutton.png" onclick="itemClick(event);" ></td>';
                 postviewhtml += '</tr><tr><td colspan="7">';
-                postviewhtml += '<img class="ootdpostphoto" src="'+amazonURL +':8080/ootd/fileupload/ootdimage/';
+                postviewhtml += '<img class="ootdpostphoto" src="' + amazonURL + ':8080/ootd/fileupload/ootdimage/';
                 postviewhtml += rs.ootdphotoname
                 postviewhtml += '" width="100%"></td></tr><tr class="ootdpostviewlinethree"><td></td><td colspan="2"><pv1>';
                 postviewhtml += rs.ootdnic
@@ -958,7 +958,7 @@ function ootdlike(chk, ootdidx, memidx) {
 
 
     $.ajax({
-        url: amazonURL +':8080/ootd/like/onoff',
+        url: amazonURL + ':8080/ootd/like/onoff',
         type: 'get',
         data: {
             chk: chk,
@@ -1160,7 +1160,7 @@ function ootdCmtReg(ootdidx) {
     formData.append('ootdcmtnic', $('#memnicsession').val());
 
     $.ajax({
-        url: amazonURL +':8080/ootd/cmt/reg',
+        url: amazonURL + ':8080/ootd/cmt/reg',
         type: 'POST',
         data: formData,
         enctype: 'multipart/form-data',
@@ -1369,7 +1369,7 @@ function viewproductinfo(num) {
 
 
     $.ajax({
-        url: amazonURL +':8080/ootd/naverapi',
+        url: amazonURL + ':8080/ootd/naverapi',
         type: 'GET',
         data: {
             word: productName
@@ -1466,7 +1466,7 @@ function ootdmodify(ootdidx) {
 
     $.ajax({
 
-        url: amazonURL +':8080/ootd/modify',
+        url: amazonURL + ':8080/ootd/modify',
         type: 'POST',
         data: formData,
         enctype: 'multipart/form-data',
@@ -1508,11 +1508,12 @@ function ootdmodify(ootdidx) {
 }
 
 
+
 // 파이썬 크롤링 하는 부분 musinsarank.py
 function callBrandRank() {
 
     $.ajax({
-        url: 'http://ip-172-31-32-85.ap-northeast-2.compute.internal:8000/brand',
+        url: 'http://127.0.0.1:8000/brand',
         success: function (data) {
             // console.log(data)
             // console.log(typeof(data))
@@ -1561,16 +1562,16 @@ function hashOption() {
 
 
     console.log(hashtagList);
-    hashopthinHTML = '<table class="ootdselect"><tr><td><select class="ootdsearch" onchange="searchHash(this.value)">';
-    hashopthinHTML += '<option value="default">  -   </option>'
+    hashoptionHTML = '<table class="ootdselect"><tr><td><select class="ootdsearch" onchange="searchHash(this.value)">';
+    hashoptionHTML += '<option value="default">  -   </option>'
 
     for (i = 0; i < hashtagList.length; i++) {
-        hashopthinHTML += '<option value="' + hashtagList[i].hash + '">' + hashtagList[i].hash + '</option>'
+        hashoptionHTML += '<option value="' + hashtagList[i].hash + '">' + hashtagList[i].hash + '</option>'
     }
 
-    hashopthinHTML += '<select></td><tr></table>'
+    hashoptionHTML += '<select></td><tr></table><div class="searchresultdiv">'
 
-    addHashOption = hashopthinHTML;
+    addHashOption = hashoptionHTML;
 
 
 
@@ -1579,25 +1580,48 @@ function hashOption() {
 
 // 파이썬으로 mysql 연결해보는 부분
 function searchHash(val) {
-    
-    if(val=='default'){
+
+    if (val == 'default') {
         ootdMain();
         return false;
     }
-    
+
     console.log(val)
 
     $.ajax({
-        url: 'http://ip-172-31-32-85.ap-northeast-2.compute.internal:8000/hashsearch',
+        url: 'http://127.0.0.1:8000/hashsearch',
         type: 'GET',
         data: {
-            hash : val
+            hash: val
         },
-        success: function(data) {
+        success: function (data) {
             var serachJSON = JSON.parse(data)
             console.log(serachJSON)
+        
+
+            var searchlist = '<h5>&nbsp&nbsp해시태그 '+ val +' 검색 결과<h5>';
+            
+       
+            for (i = 0; i < serachJSON.length; i++) {
+                
+                searchlist += '<div onclick="viewPost(' + serachJSON[i].ootdidx + '); this.onclick=null;">';
+                searchlist += '<table class="ootdposttable">';
+                searchlist += '<tr><td><img src="' + amazonURL + ':8080/ootd/fileupload/ootdimage/THUMB_';
+                searchlist += serachJSON[i].ootdphotoname;
+                searchlist += '" class="postthumnail"></td></tr>';
+                searchlist += '<tr><td><a1 class="ootdwriter">' + serachJSON[i].ootdnic + '</a1></td></tr>';
+                searchlist += '<tr><td><a1 class="ootdlocation">' + serachJSON[i].ootdloc + '</a1></td></tr>';
+                searchlist += '<tr><td><a1 class="ootdlistlike">♥ ' + serachJSON[i].ootdlikecnt + '</a1></td></tr></table></div>';
+
+
+            }
+
+            var searchresultdiv = document.querySelector('.searchresultdiv');
+            searchresultdiv.innerHTML = searchlist;
+
+            var content = document.querySelector('.content');
+            contentTemp = content.innerHTML;
         }
 
     })
 }
-   
