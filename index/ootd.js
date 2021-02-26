@@ -1595,23 +1595,23 @@ function searchHash(val) {
             hash: val
         },
         success: function (data) {
-            var serachJSON = JSON.parse(data)
-            console.log(serachJSON)
-        
+            var searchJSON = JSON.parse(data)
+            console.log(searchJSON)
 
-            var searchlist = '<h5>&nbsp&nbsp해시태그 '+ val +' 검색 결과<h5>';
-            
-       
-            for (i = 0; i < serachJSON.length; i++) {
-                
-                searchlist += '<div onclick="viewPost(' + serachJSON[i].ootdidx + '); this.onclick=null;">';
+
+            var searchlist = '<h5>&nbsp&nbsp해시태그 ' + val + ' 검색 결과<h5>';
+
+
+            for (i = 0; i < searchJSON.length; i++) {
+
+                searchlist += '<div onclick="viewPost(' + searchJSON[i].ootdidx + '); this.onclick=null;">';
                 searchlist += '<table class="ootdposttable">';
                 searchlist += '<tr><td><img src="' + amazonURL + ':8080/ootd/fileupload/ootdimage/THUMB_';
-                searchlist += serachJSON[i].ootdphotoname;
+                searchlist += searchJSON[i].ootdphotoname;
                 searchlist += '" class="postthumnail"></td></tr>';
-                searchlist += '<tr><td><a1 class="ootdwriter">' + serachJSON[i].ootdnic + '</a1></td></tr>';
-                searchlist += '<tr><td><a1 class="ootdlocation">' + serachJSON[i].ootdloc + '</a1></td></tr>';
-                searchlist += '<tr><td><a1 class="ootdlistlike">♥ ' + serachJSON[i].ootdlikecnt + '</a1></td></tr></table></div>';
+                searchlist += '<tr><td><a1 class="ootdwriter">' + searchJSON[i].ootdnic + '</a1></td></tr>';
+                searchlist += '<tr><td><a1 class="ootdlocation">' + searchJSON[i].ootdloc + '</a1></td></tr>';
+                searchlist += '<tr><td><a1 class="ootdlistlike">♥ ' + searchJSON[i].ootdlikecnt + '</a1></td></tr></table></div>';
 
 
             }
@@ -1621,6 +1621,44 @@ function searchHash(val) {
 
             var content = document.querySelector('.content');
             contentTemp = content.innerHTML;
+        }
+
+    })
+}
+
+
+// 내가 좋아한 글 리스트 출력 > 우리님 페이지 제공
+function myLikeList(memidx) {
+
+    $.ajax({
+        url: 'http://ec2-13-125-232-157.ap-northeast-2.compute.amazonaws.com:8080/ootd/req/likeListbyIdx',
+        type: 'GET',
+        data: {
+            memidx: memidx
+        },
+        success: function (data) {
+            console.log(data)
+
+            var mylikelist = '';
+            for (i = 0; i < data.length; i++) {
+
+                mylikelist += '<div onclick="viewPost(' + searchJSON[i].ootdidx + '); this.onclick=null;">';
+                mylikelist += '<table class="ootdposttable">';
+                mylikelist += '<tr><td><img src="' + amazonURL + ':8080/ootd/fileupload/ootdimage/THUMB_';
+                mylikelist += searchJSON[i].ootdphotoname;
+                mylikelist += '" class="postthumnail"></td></tr>';
+                mylikelist += '<tr><td><a1 class="ootdwriter">' + searchJSON[i].ootdnic + '</a1></td></tr>';
+                mylikelist += '<tr><td><a1 class="ootdlocation">' + searchJSON[i].ootdloc + '</a1></td></tr>';
+                mylikelist += '<tr><td><a1 class="ootdlistlike">♥ ' + searchJSON[i].ootdlikecnt + '</a1></td></tr></table></div>';
+            }
+
+
+            var content = document.querySelector('.content');
+            contentTemp = content.innerHTML;
+
+            content.innerHTML = mylikelist;
+
+
         }
 
     })

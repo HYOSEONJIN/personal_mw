@@ -20,6 +20,7 @@ public class ootdRequestApiService {
 	private SqlSessionTemplate template;
 	
 
+	// 조아요 탑쓰리
 	public List<ootdBoard> LikeTopThree(){
 		
 		List<ootdBoard> ootdLikeTop = null;
@@ -35,5 +36,21 @@ public class ootdRequestApiService {
 		
 	
 		return ootdLikeTop;
+	}
+
+	// idx가 좋아한 게시물
+	public List<ootdBoard> likeListbyIdx(int memidx) {
+		
+		List<ootdBoard> idxLikelist = null;
+		try {
+		dao = template.getMapper(ootdInterfaceDao.class);
+		
+		idxLikelist = dao.likeListbyIdx(memidx);
+		
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return idxLikelist;
 	}
 }

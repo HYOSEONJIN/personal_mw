@@ -89,6 +89,9 @@ public interface ootdInterfaceDao {
 	// OOTD 게시물 중 좋아요가 가장 높은 3위
 	List<ootdBoard> LikeTopThree();
 
+	// idx가 좋아한 게시물의 번호
+	List<ootdBoard> likeListbyIdx(int memidx);
+
 
 
 

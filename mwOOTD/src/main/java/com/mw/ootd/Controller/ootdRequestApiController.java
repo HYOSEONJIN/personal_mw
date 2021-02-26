@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mw.ootd.Domain.ootdBoard;
@@ -28,8 +29,14 @@ public class ootdRequestApiController {
 		return reqService.LikeTopThree();		
 	}
 	
-	// 특정 IDX가 쓴 글
-//	@CrossOrigin
-//	@GetMapping("/listbyidx")
+	// idx가 좋아요 한 글 리스트
+	@CrossOrigin
+	@GetMapping("/likeListbyIdx")
+	public List<ootdBoard> likeListbyIdx(
+			@RequestParam("memidx") int memidx){		
+		
+		return reqService.likeListbyIdx(memidx);		
+	}
+	
 //	
 }
