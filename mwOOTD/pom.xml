@@ -247,6 +247,13 @@
 			<version>4.2</version>
 		</dependency>
 
+		<!-- S3 라이브러리 -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk</artifactId>
+			<version>1.9.2</version>
+		</dependency>
+
 
 
 	</dependencies>

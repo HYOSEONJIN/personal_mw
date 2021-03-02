@@ -81,8 +81,8 @@ var rs
 
 
 // 랭킹관련 변수
-var count = $('#rank-list li').length;
-var height = $('#rank-list li').height();
+var count = 10
+var height = 20
 var rankchk = true;
 
 
@@ -171,12 +171,16 @@ function ootdMain() {
 }
 
 function step(index) {
-    count = $('#rank-list li').length;
-    height = $('#rank-list li').height();
 
+    count = 10
+    height = 20
+
+
+	console.log(index, count, height)
     $('#rank-list ol').delay(2000).animate({
         top: -height * index,
     }, 500, function () {
+    	console.log('계산결과', (index + 1) % count)
         step((index + 1) % count);
     });
 }
@@ -771,7 +775,7 @@ function viewPost(data) {
                 postviewhtml += '</tr><tr><td colspan="7">';
                 postviewhtml += '<img class="ootdpostphoto" src="' + amazonURL + ':8080/ootd/fileupload/ootdimage/';
                 postviewhtml += rs.ootdphotoname
-                postviewhtml += '" width="100%"></td></tr><tr class="ootdpostviewlinethree"><td></td><td colspan="2"><pv1>';
+                postviewhtml += '" width="100%"></td></tr><tr class="ootdpostviewlinethree"><td></td><td colspan="2"><pv1 onclick="getGbookList('+rs.ootdidx+')">';
                 postviewhtml += rs.ootdnic
                 postviewhtml += '</pv1></td><td colspan="2"><pv2>';
                 postviewhtml += likeCnt

@@ -58,7 +58,7 @@ public class ootdRegService {
 
 		}
 
-		// 파일저장하기
+		// 파일저장하기 > s3 변경
 		try {
 			ootd.getOotdphoto().transferTo(newFile);
 
@@ -126,6 +126,7 @@ public class ootdRegService {
 		String thumbName = filePath + "/THUMB_" + fileName;
 		File thumbFile = new File(thumbName);
 		//ImageIO.write(destImg, "PNG", thumbFile);
+		//저장>s3
 		ImageIO.write(destImg, fileExt.toUpperCase(), thumbFile);
 	}
 }
