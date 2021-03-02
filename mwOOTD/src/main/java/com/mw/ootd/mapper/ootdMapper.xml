@@ -29,10 +29,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 		( memidx, ootdnic, ootdphotoname,
 		ootdtext,ootdhashtag, xyarr,
-		apiproductinfo)
+		apiproductinfo,ootdloc)
 		VALUES
 		(#{memidx},#{ootdnic},#{ootdphotoname},#{ootdtext},#{ootdhashtag},
-		#{xyarr}, #{apiproductinfo})
+		#{xyarr}, #{apiproductinfo},#{ootdloc})
 
 	</insert>
 

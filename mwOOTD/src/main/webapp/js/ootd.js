@@ -436,15 +436,20 @@ function reg() {
         console.log(apiProductInput);
         formData.append('apiproductinfo', apiProductInput);
 
-        //임시값
+        // 헤더 히든 밸류
         formData.append('ootdnic', $('#memnicsession').val());
         formData.append('memidx', $('#memidxsession').val());
+        
+        var nowLoc = "서울 종로구"
+        var ootdLoc = nowLoc;
+        formData.append('ootdloc', ootdLoc);
 
 
 
         $.ajax({
 
-            url: amazonURL + ':8080/ootd/reg',
+//            url: local + ':8080/ootd/reg',
+            url : 'http://localhost:8080/ootd/reg',
             type: 'POST',
             data: formData,
             enctype: 'multipart/form-data',
