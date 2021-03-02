@@ -35,6 +35,7 @@ $(document).ready(function () {
 
 
 
+var amazonURL = 'http://ec2-13-125-232-157.ap-northeast-2.compute.amazonaws.com'
 
 // 무한스크롤 변수
 var scrollchk2 = true; // 다른페이지에서 무한스크롤안되게 체크
@@ -80,8 +81,8 @@ var rs
 
 
 // 랭킹관련 변수
-var count = $('#rank-list li').length;
-var height = $('#rank-list li').height();
+var count = 10
+var height = 20
 var rankchk = true;
 
 
@@ -170,12 +171,16 @@ function ootdMain() {
 }
 
 function step(index) {
-    count = $('#rank-list li').length;
-    height = $('#rank-list li').height();
 
+    count = 10
+    height = 20
+
+
+	console.log(index, count, height)
     $('#rank-list ol').delay(2000).animate({
         top: -height * index,
     }, 500, function () {
+    	console.log('계산결과', (index + 1) % count)
         step((index + 1) % count);
     });
 }
@@ -226,7 +231,7 @@ function addregButton() {
 function hashtagList() {
 
     $.ajax({
-        url: 'http://localhost:8080/ootd/hashlist',
+        url: amazonURL + ':8080/ootd/hashlist',
         type: 'GET',
         success: function (data) {
 
@@ -431,15 +436,20 @@ function reg() {
         console.log(apiProductInput);
         formData.append('apiproductinfo', apiProductInput);
 
-        //임시값
+        // 헤더 히든 밸류
         formData.append('ootdnic', $('#memnicsession').val());
         formData.append('memidx', $('#memidxsession').val());
+        
+        var nowLoc = "서울 종로구"
+        var ootdLoc = nowLoc;
+        formData.append('ootdloc', ootdLoc);
 
 
 
         $.ajax({
 
-            url: 'http://localhost:8080/ootd/reg',
+//            url: local + ':8080/ootd/reg',
+            url : 'http://localhost:8080/ootd/reg',
             type: 'POST',
             data: formData,
             enctype: 'multipart/form-data',
@@ -550,7 +560,7 @@ function dataReset() {
     hashFalse();
     $('.img-upload-label').css({
 
-        "background-image": "url(http://localhost:8080/ootd/image/icon/fileuploadbutton.png)"
+        "background-image": 'url(' + amazonURL + '8080/ootd/image/icon/fileuploadbutton.png)'
 
     })
 }
@@ -584,7 +594,7 @@ function pageView(idx) {
 
 
     $.ajax({
-        url: 'http://localhost:8080/ootd/list/paging',
+        url: amazonURL + ':8080/ootd/list/paging',
         type: 'get',
         data: {
             pageNum: idx
@@ -597,21 +607,21 @@ function pageView(idx) {
                 var listhtml = '<div class="ootdlistarea">';
                 if (rankchk) {
                     listhtml += '<table><tr><p5>실시간 무신사 브랜드 랭킹</p5></tr><tr><td><dl id="rank-list"><dt>무신사 브랜드 랭킹 순위 1-10</dt><dd><ol class="ootdrankol"></ol></dd></dl></td></tr></table>';
-                    
+
                     callBrandRank();
                     //hashOption();
                     rankchk = false;
-                    
+
                     listhtml += addHashOption;
                 }
 
-                
+
 
                 for (i = 0; i < data.length; i++) {
                     /*나중에멤버 현재 로그인된 idx받아줘야함, 현재 헤더안에 있는 값으로 하고 있음*/
                     listhtml += '<div onclick="viewPost(' + data[i].ootdidx + '); this.onclick=null;">';
                     listhtml += '<table class="ootdposttable">';
-                    listhtml += '<tr><td><img src="http://localhost:8080/ootd/fileupload/ootdimage/THUMB_';
+                    listhtml += '<tr><td><img src="' + amazonURL + ':8080/ootd/fileupload/ootdimage/THUMB_';
                     listhtml += data[i].ootdphotoname;
                     listhtml += '" class="postthumnail"></td></tr>';
                     listhtml += '<tr><td><a1 class="ootdwriter">' + data[i].ootdnic + '</a1></td></tr>';
@@ -621,7 +631,7 @@ function pageView(idx) {
 
                 }
                 $(".bottomArea").remove();
-                listhtml += '<div class="bottomArea"><img src="/ootd/image/background.PNG" width="90"></div></div>';
+                listhtml += '<div><div class="bottomArea"><img src="/ootd/image/background.PNG" width="90"></div></div>';
 
                 $(".content").append(listhtml);
                 pageNum++;
@@ -679,7 +689,7 @@ function viewPost(data) {
     console.log(idx)
 
     $.ajax({
-        url: 'http://localhost:8080/ootd/like/chk',
+        url: amazonURL + ':8080/ootd/like/chk',
         type: 'get',
         data: {
             ootdidx: data,
@@ -718,7 +728,7 @@ function viewPost(data) {
 
         $(".bottomArea").remove();
         $.ajax({
-            url: 'http://localhost:8080/ootd/postview',
+            url: amazonURL + ':8080/ootd/postview',
             type: 'get',
             data: {
                 ootdidx: data
@@ -768,9 +778,9 @@ function viewPost(data) {
                 postviewhtml += useful
                 //postviewhtml += '<img src="image/icon/usefulbutton.png" onclick="itemClick(event);" ></td>';
                 postviewhtml += '</tr><tr><td colspan="7">';
-                postviewhtml += '<img class="ootdpostphoto" src="http://localhost:8080/ootd/fileupload/ootdimage/';
+                postviewhtml += '<img class="ootdpostphoto" src="' + amazonURL + ':8080/ootd/fileupload/ootdimage/';
                 postviewhtml += rs.ootdphotoname
-                postviewhtml += '" width="100%"></td></tr><tr class="ootdpostviewlinethree"><td></td><td colspan="2"><pv1>';
+                postviewhtml += '" width="100%"></td></tr><tr class="ootdpostviewlinethree"><td></td><td colspan="2"><pv1 onclick="getGbookList('+rs.ootdidx+')">';
                 postviewhtml += rs.ootdnic
                 postviewhtml += '</pv1></td><td colspan="2"><pv2>';
                 postviewhtml += likeCnt
@@ -870,7 +880,7 @@ function ootdPostDelete(ootdidx, memidx) {
 
             if (confirm('정말로 삭제하시겠습니까?')) {
                 $.ajax({
-                    url: 'http://localhost:8080/ootd/postview/delete',
+                    url: amazonURL + ':8080/ootd/postview/delete',
                     type: 'get',
                     data: {
                         ootdidx: ootdidx
@@ -957,7 +967,7 @@ function ootdlike(chk, ootdidx, memidx) {
 
 
     $.ajax({
-        url: 'http://localhost:8080/ootd/like/onoff',
+        url: amazonURL + ':8080/ootd/like/onoff',
         type: 'get',
         data: {
             chk: chk,
@@ -1008,7 +1018,7 @@ function callProduct(imgname, xyarr, apiproductinfo) {
     apiNum = 0;
 
     /* Here is the codefor converting "image source to "Base64 ".****/
-    let url = 'http://localhost:8080/ootd/fileupload/ootdimage/'
+    let url = amazonURL + ':8080/ootd/fileupload/ootdimage/'
     url += imgname;
 
 
@@ -1159,7 +1169,7 @@ function ootdCmtReg(ootdidx) {
     formData.append('ootdcmtnic', $('#memnicsession').val());
 
     $.ajax({
-        url: 'http://localhost:8080/ootd/cmt/reg',
+        url: amazonURL + ':8080/ootd/cmt/reg',
         type: 'POST',
         data: formData,
         enctype: 'multipart/form-data',
@@ -1215,7 +1225,7 @@ function viewCommentList(ootdidx, num) {
 
 
     $.ajax({
-        url: 'http://localhost:8080/ootd/cmt/list',
+        url: amazonURL + ':8080/ootd/cmt/list',
         type: 'GET',
         data: {
             ootdidx: ootdidx,
@@ -1265,7 +1275,7 @@ function ootdDeleteCmt(ootdcmtidx, memidx, ootdidx) {
         if (memidx == loginmemidx) {
 
             $.ajax({
-                url: 'http://localhost:8080/ootd/cmt/delete',
+                url: amazonURL + ':8080/ootd/cmt/delete',
                 type: 'GET',
                 data: {
                     ootdcmtidx: ootdcmtidx,
@@ -1328,7 +1338,7 @@ function ootdModifyCmt(ootdcmtidx, ootdidx) {
     console.log(modifycmttext)
 
     $.ajax({
-        url: 'http://localhost:8080/ootd/cmt/modify',
+        url: amazonURL + ':8080/ootd/cmt/modify',
         type: 'post',
         data: {
             ootdcmtidx: ootdcmtidx,
@@ -1368,7 +1378,7 @@ function viewproductinfo(num) {
 
 
     $.ajax({
-        url: 'http://localhost:8080/ootd/naverapi',
+        url: amazonURL + ':8080/ootd/naverapi',
         type: 'GET',
         data: {
             word: productName
@@ -1465,7 +1475,7 @@ function ootdmodify(ootdidx) {
 
     $.ajax({
 
-        url: 'http://localhost:8080/ootd/modify',
+        url: amazonURL + ':8080/ootd/modify',
         type: 'POST',
         data: formData,
         enctype: 'multipart/form-data',
@@ -1507,11 +1517,12 @@ function ootdmodify(ootdidx) {
 }
 
 
+
 // 파이썬 크롤링 하는 부분 musinsarank.py
 function callBrandRank() {
 
     $.ajax({
-        url: 'http://127.0.0.1:8000/brand',
+        url: amazonURL + ':8000/brand',
         success: function (data) {
             // console.log(data)
             // console.log(typeof(data))
@@ -1560,16 +1571,16 @@ function hashOption() {
 
 
     console.log(hashtagList);
-    hashopthinHTML = '<table class="ootdselect"><tr><td><select class="ootdsearch" onchange="searchHash(this.value)">';
-    hashopthinHTML += '<option value="default">  -   </option>'
+    hashoptionHTML = '<table class="ootdselect"><tr><td><select class="ootdsearch" onchange="searchHash(this.value)">';
+    hashoptionHTML += '<option value="default">  -   </option>'
 
     for (i = 0; i < hashtagList.length; i++) {
-        hashopthinHTML += '<option value="' + hashtagList[i].hash + '">' + hashtagList[i].hash + '</option>'
+        hashoptionHTML += '<option value="' + hashtagList[i].hash + '">' + hashtagList[i].hash + '</option>'
     }
 
-    hashopthinHTML += '<select></td><tr></table>'
+    hashoptionHTML += '<select></td><tr></table><div class="searchresultdiv">'
 
-    addHashOption = hashopthinHTML;
+    addHashOption = hashoptionHTML;
 
 
 
@@ -1578,25 +1589,86 @@ function hashOption() {
 
 // 파이썬으로 mysql 연결해보는 부분
 function searchHash(val) {
-    
-    if(val=='default'){
+
+    if (val == 'default') {
         ootdMain();
         return false;
     }
-    
+
     console.log(val)
 
     $.ajax({
-        url: 'http://127.0.0.1:8000/hashsearch',
+        url: amazonURL + ':8000/hashsearch',
         type: 'GET',
         data: {
-            hash : val
+            hash: val
         },
-        success: function(data) {
-            var serachJSON = JSON.parse(data)
-            console.log(serachJSON)
+        success: function (data) {
+            var searchJSON = JSON.parse(data)
+            console.log(searchJSON)
+
+
+            var searchlist = '<h5>&nbsp&nbsp해시태그 ' + val + ' 검색 결과<h5>';
+
+
+            for (i = 0; i < searchJSON.length; i++) {
+
+                searchlist += '<div onclick="viewPost(' + searchJSON[i].ootdidx + '); this.onclick=null;">';
+                searchlist += '<table class="ootdposttable">';
+                searchlist += '<tr><td><img src="' + amazonURL + ':8080/ootd/fileupload/ootdimage/THUMB_';
+                searchlist += searchJSON[i].ootdphotoname;
+                searchlist += '" class="postthumnail"></td></tr>';
+                searchlist += '<tr><td><a1 class="ootdwriter">' + searchJSON[i].ootdnic + '</a1></td></tr>';
+                searchlist += '<tr><td><a1 class="ootdlocation">' + searchJSON[i].ootdloc + '</a1></td></tr>';
+                searchlist += '<tr><td><a1 class="ootdlistlike">♥ ' + searchJSON[i].ootdlikecnt + '</a1></td></tr></table></div>';
+
+
+            }
+
+            var searchresultdiv = document.querySelector('.searchresultdiv');
+            searchresultdiv.innerHTML = searchlist;
+
+            var content = document.querySelector('.content');
+            contentTemp = content.innerHTML;
         }
 
     })
 }
-   
+
+
+// 내가 좋아한 글 리스트 출력 > 우리님 페이지 제공
+function myLikeList(memidx) {
+
+    $.ajax({
+        url: 'http://ec2-13-125-232-157.ap-northeast-2.compute.amazonaws.com:8080/ootd/req/likeListbyIdx',
+        type: 'GET',
+        data: {
+            memidx: memidx
+        },
+        success: function (data) {
+            console.log(data)
+
+            var mylikelist = '';
+            for (i = 0; i < data.length; i++) {
+
+                mylikelist += '<div onclick="viewPost(' + data[i].ootdidx + '); this.onclick=null;">';
+                mylikelist += '<table class="ootdposttable">';
+                mylikelist += '<tr><td><img src="http://ec2-13-125-232-157.ap-northeast-2.compute.amazonaws.com:8080/ootd/fileupload/ootdimage/THUMB_';
+                mylikelist += data[i].ootdphotoname;
+                mylikelist += '" class="postthumnail"></td></tr>';
+                mylikelist += '<tr><td><a1 class="ootdwriter">' + data[i].ootdnic + '</a1></td></tr>';
+                mylikelist += '<tr><td><a1 class="ootdlocation">' + data[i].ootdloc + '</a1></td></tr>';
+                mylikelist += '<tr><td><a1 class="ootdlistlike">♥ ' + data[i].ootdlikecnt + '</a1></td></tr></table></div>';
+            }
+
+
+            var content = document.querySelector('.content');   
+            contentTemp = content.innerHTML;
+
+            content.innerHTML = mylikelist;
+
+
+        }
+
+    })
+}
