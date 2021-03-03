@@ -451,7 +451,7 @@ function reg() {
 
         $.ajax({
 
-	        url: local + '/reg',
+	        url: httpsOOTDURL + '/reg',
             type: 'POST',
             data: formData,
             enctype: 'multipart/form-data',
