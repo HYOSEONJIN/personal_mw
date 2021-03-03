@@ -1,3 +1,4 @@
+// 개인 O 
 window.onload = function () {
 
     hashtagList();
@@ -176,11 +177,11 @@ function step(index) {
     height = 20
 
 
-	console.log(index, count, height)
+   console.log(index, count, height)
     $('#rank-list ol').delay(2000).animate({
         top: -height * index,
     }, 500, function () {
-    	console.log('계산결과', (index + 1) % count)
+       console.log('계산결과', (index + 1) % count)
         step((index + 1) % count);
     });
 }
@@ -436,20 +437,17 @@ function reg() {
         console.log(apiProductInput);
         formData.append('apiproductinfo', apiProductInput);
 
-        // 헤더 히든 밸류
+        //임시값
         formData.append('ootdnic', $('#memnicsession').val());
         formData.append('memidx', $('#memidxsession').val());
-        
-        var nowLoc = "서울 종로구"
-        var ootdLoc = nowLoc;
+
+		var ootdLoc = "서울 종로구";
         formData.append('ootdloc', ootdLoc);
-
-
+    
 
         $.ajax({
 
-//            url: local + ':8080/ootd/reg',
-            url : 'http://localhost:8080/ootd/reg',
+            url: amazonURL + ':8080/ootd/reg',
             type: 'POST',
             data: formData,
             enctype: 'multipart/form-data',
@@ -698,6 +696,7 @@ function viewPost(data) {
         success: function (result) {
             // 로그인 했다면
             if ($('#memidxsession').val() != "") {
+            console.log($('#memidxsession').val())
 
 
                 if (result.likeChk > 0) {
@@ -1167,6 +1166,11 @@ function ootdCmtReg(ootdidx) {
     formData.append('ootdidx', ootdidx);
     console.log('memnicsession값있음 나중에 삭제')
     formData.append('ootdcmtnic', $('#memnicsession').val());
+    
+      
+        var ootdLoc = "서울 종로구";
+        formData.append('ootdloc', ootdLoc);
+    
 
     $.ajax({
         url: amazonURL + ':8080/ootd/cmt/reg',

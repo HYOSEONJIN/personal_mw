@@ -1,3 +1,5 @@
+//공유 JS
+
 window.onload = function () {
 
     hashtagList();
@@ -35,7 +37,8 @@ $(document).ready(function () {
 
 
 
-var amazonURL = 'http://ec2-13-125-232-157.ap-northeast-2.compute.amazonaws.com'
+//var amazonURL = 'http://ec2-13-125-232-157.ap-northeast-2.compute.amazonaws.com'
+var httpsOOTDURL = 'https://www.mayootd.tk/ootd/'
 
 // 무한스크롤 변수
 var scrollchk2 = true; // 다른페이지에서 무한스크롤안되게 체크
@@ -231,7 +234,7 @@ function addregButton() {
 function hashtagList() {
 
     $.ajax({
-        url: amazonURL + ':8080/ootd/hashlist',
+        url: httpsOOTDURL + '/hashlist',
         type: 'GET',
         success: function (data) {
 
@@ -440,7 +443,7 @@ function reg() {
         formData.append('ootdnic', $('#memnicsession').val());
         formData.append('memidx', $('#memidxsession').val());
         
-        var nowLoc = "서울 종로구"
+  
         var ootdLoc = nowLoc;
         formData.append('ootdloc', ootdLoc);
 
@@ -448,8 +451,7 @@ function reg() {
 
         $.ajax({
 
-//            url: local + ':8080/ootd/reg',
-            url : 'http://localhost:8080/ootd/reg',
+	        url: local + '/reg',
             type: 'POST',
             data: formData,
             enctype: 'multipart/form-data',
@@ -560,7 +562,7 @@ function dataReset() {
     hashFalse();
     $('.img-upload-label').css({
 
-        "background-image": 'url(' + amazonURL + '8080/ootd/image/icon/fileuploadbutton.png)'
+        "background-image": 'url(' + httpsOOTDURL + '/image/icon/fileuploadbutton.png)'
 
     })
 }
@@ -594,7 +596,7 @@ function pageView(idx) {
 
 
     $.ajax({
-        url: amazonURL + ':8080/ootd/list/paging',
+        url: httpsOOTDURL + '/list/paging',
         type: 'get',
         data: {
             pageNum: idx
@@ -621,7 +623,7 @@ function pageView(idx) {
                     /*나중에멤버 현재 로그인된 idx받아줘야함, 현재 헤더안에 있는 값으로 하고 있음*/
                     listhtml += '<div onclick="viewPost(' + data[i].ootdidx + '); this.onclick=null;">';
                     listhtml += '<table class="ootdposttable">';
-                    listhtml += '<tr><td><img src="' + amazonURL + ':8080/ootd/fileupload/ootdimage/THUMB_';
+                    listhtml += '<tr><td><img src="' + httpsOOTDURL + '/fileupload/ootdimage/THUMB_';
                     listhtml += data[i].ootdphotoname;
                     listhtml += '" class="postthumnail"></td></tr>';
                     listhtml += '<tr><td><a1 class="ootdwriter">' + data[i].ootdnic + '</a1></td></tr>';
@@ -689,7 +691,7 @@ function viewPost(data) {
     console.log(idx)
 
     $.ajax({
-        url: amazonURL + ':8080/ootd/like/chk',
+        url: httpsOOTDURL + '/like/chk',
         type: 'get',
         data: {
             ootdidx: data,
@@ -728,7 +730,7 @@ function viewPost(data) {
 
         $(".bottomArea").remove();
         $.ajax({
-            url: amazonURL + ':8080/ootd/postview',
+            url: httpsOOTDURL + '/postview',
             type: 'get',
             data: {
                 ootdidx: data
@@ -778,7 +780,7 @@ function viewPost(data) {
                 postviewhtml += useful
                 //postviewhtml += '<img src="image/icon/usefulbutton.png" onclick="itemClick(event);" ></td>';
                 postviewhtml += '</tr><tr><td colspan="7">';
-                postviewhtml += '<img class="ootdpostphoto" src="' + amazonURL + ':8080/ootd/fileupload/ootdimage/';
+                postviewhtml += '<img class="ootdpostphoto" src="' + httpsOOTDURL + '/fileupload/ootdimage/';
                 postviewhtml += rs.ootdphotoname
                 postviewhtml += '" width="100%"></td></tr><tr class="ootdpostviewlinethree"><td></td><td colspan="2"><pv1 onclick="getGbookList('+rs.ootdidx+')">';
                 postviewhtml += rs.ootdnic
@@ -880,7 +882,7 @@ function ootdPostDelete(ootdidx, memidx) {
 
             if (confirm('정말로 삭제하시겠습니까?')) {
                 $.ajax({
-                    url: amazonURL + ':8080/ootd/postview/delete',
+                    url: httpsOOTDURL + '/postview/delete',
                     type: 'get',
                     data: {
                         ootdidx: ootdidx
@@ -967,7 +969,7 @@ function ootdlike(chk, ootdidx, memidx) {
 
 
     $.ajax({
-        url: amazonURL + ':8080/ootd/like/onoff',
+        url: httpsOOTDURL + '/like/onoff',
         type: 'get',
         data: {
             chk: chk,
@@ -1018,7 +1020,7 @@ function callProduct(imgname, xyarr, apiproductinfo) {
     apiNum = 0;
 
     /* Here is the codefor converting "image source to "Base64 ".****/
-    let url = amazonURL + ':8080/ootd/fileupload/ootdimage/'
+    let url = httpsOOTDURL + '/fileupload/ootdimage/'
     url += imgname;
 
 
@@ -1169,7 +1171,7 @@ function ootdCmtReg(ootdidx) {
     formData.append('ootdcmtnic', $('#memnicsession').val());
 
     $.ajax({
-        url: amazonURL + ':8080/ootd/cmt/reg',
+        url: httpsOOTDURL + '/cmt/reg',
         type: 'POST',
         data: formData,
         enctype: 'multipart/form-data',
@@ -1225,7 +1227,7 @@ function viewCommentList(ootdidx, num) {
 
 
     $.ajax({
-        url: amazonURL + ':8080/ootd/cmt/list',
+        url: httpsOOTDURL + '/cmt/list',
         type: 'GET',
         data: {
             ootdidx: ootdidx,
@@ -1275,7 +1277,7 @@ function ootdDeleteCmt(ootdcmtidx, memidx, ootdidx) {
         if (memidx == loginmemidx) {
 
             $.ajax({
-                url: amazonURL + ':8080/ootd/cmt/delete',
+                url: httpsOOTDURL + '/cmt/delete',
                 type: 'GET',
                 data: {
                     ootdcmtidx: ootdcmtidx,
@@ -1338,7 +1340,7 @@ function ootdModifyCmt(ootdcmtidx, ootdidx) {
     console.log(modifycmttext)
 
     $.ajax({
-        url: amazonURL + ':8080/ootd/cmt/modify',
+        url: httpsOOTDURL + '/cmt/modify',
         type: 'post',
         data: {
             ootdcmtidx: ootdcmtidx,
@@ -1378,7 +1380,7 @@ function viewproductinfo(num) {
 
 
     $.ajax({
-        url: amazonURL + ':8080/ootd/naverapi',
+        url: httpsOOTDURL + '/naverapi',
         type: 'GET',
         data: {
             word: productName
@@ -1475,7 +1477,7 @@ function ootdmodify(ootdidx) {
 
     $.ajax({
 
-        url: amazonURL + ':8080/ootd/modify',
+        url: httpsOOTDURL + '/modify',
         type: 'POST',
         data: formData,
         enctype: 'multipart/form-data',
@@ -1522,7 +1524,7 @@ function ootdmodify(ootdidx) {
 function callBrandRank() {
 
     $.ajax({
-        url: amazonURL + ':8000/brand',
+        url: 'https://ootdpython.tk/brand',
         success: function (data) {
             // console.log(data)
             // console.log(typeof(data))
@@ -1598,7 +1600,7 @@ function searchHash(val) {
     console.log(val)
 
     $.ajax({
-        url: amazonURL + ':8000/hashsearch',
+        url: 'https://ootdpython.tk/hashsearch',
         type: 'GET',
         data: {
             hash: val
@@ -1615,7 +1617,7 @@ function searchHash(val) {
 
                 searchlist += '<div onclick="viewPost(' + searchJSON[i].ootdidx + '); this.onclick=null;">';
                 searchlist += '<table class="ootdposttable">';
-                searchlist += '<tr><td><img src="' + amazonURL + ':8080/ootd/fileupload/ootdimage/THUMB_';
+                searchlist += '<tr><td><img src="' + httpsOOTDURL + '/fileupload/ootdimage/THUMB_';
                 searchlist += searchJSON[i].ootdphotoname;
                 searchlist += '" class="postthumnail"></td></tr>';
                 searchlist += '<tr><td><a1 class="ootdwriter">' + searchJSON[i].ootdnic + '</a1></td></tr>';
@@ -1640,7 +1642,7 @@ function searchHash(val) {
 function myLikeList(memidx) {
 
     $.ajax({
-        url: 'http://ec2-13-125-232-157.ap-northeast-2.compute.amazonaws.com:8080/ootd/req/likeListbyIdx',
+        url: 'https://www.mayootd.tk/ootd/req/likeListbyIdx',
         type: 'GET',
         data: {
             memidx: memidx
@@ -1653,7 +1655,7 @@ function myLikeList(memidx) {
 
                 mylikelist += '<div onclick="viewPost(' + data[i].ootdidx + '); this.onclick=null;">';
                 mylikelist += '<table class="ootdposttable">';
-                mylikelist += '<tr><td><img src="http://ec2-13-125-232-157.ap-northeast-2.compute.amazonaws.com:8080/ootd/fileupload/ootdimage/THUMB_';
+                mylikelist += '<tr><td><img src="https://www.mayootd.tk/ootd/fileupload/ootdimage/THUMB_';
                 mylikelist += data[i].ootdphotoname;
                 mylikelist += '" class="postthumnail"></td></tr>';
                 mylikelist += '<tr><td><a1 class="ootdwriter">' + data[i].ootdnic + '</a1></td></tr>';
