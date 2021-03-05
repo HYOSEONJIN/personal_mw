@@ -179,11 +179,11 @@ function step(index) {
     height = 20
 
 
-	console.log(index, count, height)
+	//console.log(index, count, height)
     $('#rank-list ol').delay(2000).animate({
         top: -height * index,
     }, 500, function () {
-    	console.log('계산결과', (index + 1) % count)
+    	//console.log('계산결과', (index + 1) % count)
         step((index + 1) % count);
     });
 }
