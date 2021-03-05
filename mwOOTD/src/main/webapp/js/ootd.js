@@ -48,7 +48,7 @@ var contentTemp = ''; // 페이지 뒤로가기위해 저장해주는 변수
 var hashtagName = ''; // 해시태그 div 생성해주는 for문에 사용
 var hashCheck = []; // hash태그 체크 여부 저장해주는 배열
 var hashAmount = 0; // 해시태그 갯수 체크
-var hashtagList // 해시태그 목록 저장
+var hashtagListArray // 해시태그 목록 저장
 var addHashOption = ''; // 해시태그 옵션
 
 var ajax_last_num = 0;
@@ -239,7 +239,7 @@ function hashtagList() {
         success: function (data) {
 
             //셀렉트문 생성을 위해 리스트 저장
-            hashtagList = data;
+            hashtagListArray = data;
 
             for (var i = 1; i < 10; i++) {
                 var tag = data[i - 1];
@@ -444,8 +444,11 @@ function reg() {
         formData.append('memidx', $('#memidxsession').val());
         
   
+        // 정은씨부분  (위치/날씨)
         var ootdLoc = nowLoc;
         formData.append('ootdloc', ootdLoc);
+        var ootdweather = JSON.stringify(nowWth);
+        formData.append('ootdweather', ootdweather);
 
 
 
@@ -633,7 +636,7 @@ function pageView(idx) {
 
                 }
                 $(".bottomArea").remove();
-                listhtml += '<div><div class="bottomArea"><img src="/ootd/image/background.PNG" width="90"></div></div>';
+                listhtml += '<div><div class="bottomArea"><img src="https://www.mayootd.tk/ootd/image/background.PNG" width="90"></div></div>';
 
                 $(".content").append(listhtml);
                 pageNum++;
@@ -782,7 +785,7 @@ function viewPost(data) {
                 postviewhtml += '</tr><tr><td colspan="7">';
                 postviewhtml += '<img class="ootdpostphoto" src="' + httpsOOTDURL + '/fileupload/ootdimage/';
                 postviewhtml += rs.ootdphotoname
-                postviewhtml += '" width="100%"></td></tr><tr class="ootdpostviewlinethree"><td></td><td colspan="2"><pv1 onclick="getGbookList('+rs.ootdidx+')">';
+                postviewhtml += '" width="100%"></td></tr><tr class="ootdpostviewlinethree"><td></td><td colspan="2"><pv1 onclick="getGbookList('+rs.memidx+')">';
                 postviewhtml += rs.ootdnic
                 postviewhtml += '</pv1></td><td colspan="2"><pv2>';
                 postviewhtml += likeCnt
@@ -818,7 +821,7 @@ function viewPost(data) {
                 postviewhtml += '</td><td></td><td class="ootdposttable_side"></td></tr></table>';
                 postviewhtml += '<canvas class="js-editorcanvas" style="display: none"></canvas>';
                 postviewhtml += '<canvas class="js-previewcanvas" style="display: none"></canvas>';
-                postviewhtml += '<div class="bottomArea"><img src="/ootd/image/background.PNG" width="90"></div>';
+                postviewhtml += '<div class="bottomArea"><img src="https://www.mayootd.tk/ootd/image/background.PNG" width="90"></div>';
 
                 postviewhtml += ' <div class="modal fade" id="ootdcmtmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header">';
 
@@ -1572,12 +1575,12 @@ function callBrandRank() {
 function hashOption() {
 
 
-    console.log(hashtagList);
+    console.log(hashtagListArray);
     hashoptionHTML = '<table class="ootdselect"><tr><td><select class="ootdsearch" onchange="searchHash(this.value)">';
     hashoptionHTML += '<option value="default">  -   </option>'
 
-    for (i = 0; i < hashtagList.length; i++) {
-        hashoptionHTML += '<option value="' + hashtagList[i].hash + '">' + hashtagList[i].hash + '</option>'
+    for (i = 0; i < hashtagListArray.length; i++) {
+        hashoptionHTML += '<option value="' + hashtagListArray[i].hash + '">' + hashtagListArray[i].hash + '</option>'
     }
 
     hashoptionHTML += '<select></td><tr></table><div class="searchresultdiv">'
